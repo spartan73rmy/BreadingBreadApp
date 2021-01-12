@@ -1,12 +1,12 @@
+import '../BLOC/Login/bloc/login_bloc.dart';
 import '../CommonWidgets/inputField.dart';
 import '../CommonWidgets/loadingScreen.dart';
 import '../CommonWidgets/passField.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Login extends StatefulWidget {
-  final String title;
-
-  Login(this.title, {Key key}) : super(key: key);
+  Login({Key key}) : super(key: key);
 
   @override
   _LoginState createState() => _LoginState();
@@ -14,7 +14,6 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  bool _isLoading = false;
   bool _obscureText = true;
   TextEditingController _userNameController, _passwordController;
   String _emailError, _passwordError;
@@ -24,32 +23,6 @@ class _LoginState extends State<Login> {
     super.initState();
     _userNameController = new TextEditingController();
     _passwordController = new TextEditingController();
-  }
-
-  Widget _loginScreen() {
-    return new Container(
-      child: new ListView(
-        padding: const EdgeInsets.only(top: 100.0, left: 16.0, right: 16.0),
-        children: <Widget>[
-          new Icon(Icons.weekend),
-          new InputField("Usuario", _userNameController, _emailError,
-              TextInputType.emailAddress),
-          new PasswordField(
-            passwordController: _passwordController,
-            obscureText: _obscureText,
-            passwordError: _passwordError,
-            togglePassword: _togglePassword,
-          ),
-          // new LoginButton(text: "Log In", onPressed: _authenticateUser),
-        ],
-      ),
-    );
-  }
-
-  _togglePassword() {
-    setState(() {
-      _obscureText = !_obscureText;
-    });
   }
 
   @override
@@ -67,6 +40,41 @@ class _LoginState extends State<Login> {
           )
         ]),
         key: _scaffoldKey,
-        body: _isLoading ? LoadingScreen() : _loginScreen());
+        body: BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
+          if (state is LoadingLogin) return LoadingScreen();
+          if (state is Error) return AlertDialog(title: Text("Error"));
+          if (state is SuccessLogin)
+            return Container(); //TODO add redirect or something
+          return Padding(
+              padding:
+                  const EdgeInsets.only(top: 100.0, left: 16.0, right: 16.0),
+              child: Form(
+                  child: Column(
+                children: <Widget>[
+                  Icon(Icons.weekend),
+                  InputField("Usuario", _userNameController, _emailError,
+                      TextInputType.emailAddress),
+                  PasswordField(
+                    passwordController: _passwordController,
+                    obscureText: _obscureText,
+                    passwordError: _passwordError,
+                    togglePassword: _togglePassword,
+                  ),
+                  RaisedButton(
+                      child: Text("Iniciar Sesion"),
+                      onPressed: () => {_doLogin()})
+                ],
+              )));
+        }));
+  }
+
+  _doLogin() {
+    BlocProvider.of<LoginBloc>(context).add(DoLogin("Admin", "123"));
+  }
+
+  _togglePassword() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
   }
 }

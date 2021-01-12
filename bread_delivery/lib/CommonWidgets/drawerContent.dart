@@ -37,7 +37,7 @@ class _DrawerContentState extends State<DrawerContent> {
     Navigator.of(context).popUntil((route) => route.isFirst);
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => Login("Pan")),
+      MaterialPageRoute(builder: (context) => Login()),
     );
     _hideLoading();
   }

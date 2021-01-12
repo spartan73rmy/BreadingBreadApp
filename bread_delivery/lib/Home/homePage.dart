@@ -121,14 +121,6 @@ class _HomePageState extends State<HomePage> {
     // });
   }
 
-  toLogIn() {
-    Navigator.of(context).popUntil((route) => route.isFirst);
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => Login("FitoReport")),
-    );
-  }
-
   isConnected() async {
     bool l = await ping.ping();
     setState(() {

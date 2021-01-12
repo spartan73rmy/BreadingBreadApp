@@ -1,26 +1,37 @@
 import 'dart:io';
+import 'package:dio/adapter.dart';
+
 import '../Local/auth.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DioClient {
-  final String baseUrl = "https://localhost:5001/api/";
+  // final String baseUrl = "https://localhost:5001/api/";
+  final String baseUrl = "https://192.168.0.100:5001/api/";
   final String urlCuenta = "Cuenta/RefreshCredentials";
   SharedPreferences _storage;
   Dio _dio;
-  String accessToken;
+  String accessToken =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiQWRtaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsIm5iZiI6MTYxMDQxNzMzNSwiZXhwIjoxNjEwNDIwOTM1LCJpc3MiOiJCcmVhZGluZ0JyZWFkIiwiYXVkIjoiRXZlcnlvbmUifQ.DsEbrZpcBWnfWam2afP7C1worx01FET6pkXEsSPym78";
   final List<Interceptor> interceptors = new List<Interceptor>();
 
   DioClient() {
     _dio = Dio();
+    (_dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (HttpClient client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+      return client;
+    };
+
     _dio
       ..options.baseUrl = baseUrl
       ..options.connectTimeout = 5000
       ..options.receiveTimeout = 3000
       ..httpClientAdapter
       ..options.headers = {
-        'Content-Type': 'application/json; charset=UTF-8',
+        'Content-Type': 'application/json;',
         'Authorization': 'Bearer ' + accessToken
       };
     _dio.interceptors.clear();
