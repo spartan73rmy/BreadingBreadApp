@@ -11,12 +11,6 @@ class PathsInitial extends PathsState {}
 
 class PathsLoading extends PathsState {}
 
-class PathsLoaded extends PathsState {
-  final List<Path> paths;
-
-  PathsLoaded(this.paths);
-}
-
 class PathsError extends PathsState {
   final MyException e;
 
@@ -28,4 +22,10 @@ class PathsError extends PathsState {
   PathsError(this.e);
 }
 
-//TODO add more states for add and edit
+class PathsLoaded extends PathsState {
+  final List<Path> paths;
+
+  PathsLoaded(this.paths);
+}
+
+class PathOperationCompleted extends PathsState {}

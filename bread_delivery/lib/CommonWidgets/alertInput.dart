@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 Future<String> alertInputDiag(
-    BuildContext context, String tittle, String text, String error,
+    BuildContext context, String tittle, String hint, String text, String error,
     {TextInputType keyboard: TextInputType.number,
     Icon icon: const Icon(Icons.opacity)}) {
   TextEditingController _controller = new TextEditingController();
@@ -36,8 +36,8 @@ Future<String> alertInputDiag(
                                 return null;
                               },
                               decoration: InputDecoration(
-                                  labelText: text,
-                                  hintText: text,
+                                  labelText: hint,
+                                  hintText: hint,
                                   icon: icon,
                                   labelStyle: TextStyle(
                                       decorationStyle:

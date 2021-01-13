@@ -20,7 +20,12 @@ class AddPath extends PathsEvent {
 class EditPath extends PathsEvent {
   final String name;
   final int id;
-  final bool selected;
 
-  EditPath(this.name, this.id, this.selected) : super([name, id, selected]);
+  EditPath(this.id, this.name) : super([name, id]);
+}
+
+class DeletePath extends PathsEvent {
+  final int id;
+
+  DeletePath(this.id) : super([id]);
 }

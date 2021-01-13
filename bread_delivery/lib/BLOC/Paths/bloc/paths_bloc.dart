@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:bread_delivery/Entities/path.dart';
-import '../../../Services/Http/networkError.dart';
-import '../../../Services/Path/pathRepository.dart';
+import 'package:bread_delivery/Services/Http/networkError.dart';
+import 'package:bread_delivery/Services/Path/pathRepository.dart';
 import 'package:equatable/equatable.dart';
 
 part 'paths_event.dart';
@@ -25,6 +25,38 @@ class PathsBloc extends Bloc<PathsEvent, PathsState> {
           yield PathsLoaded(paths);
         }
         yield PathsLoaded(List<Path>());
+      } catch (e) {
+        if (e is MyException && e != null) yield PathsError(e);
+        yield PathsLoaded(List<Path>());
+      }
+    }
+
+    if (event is AddPath) {
+      yield PathsLoading();
+      try {
+        await logic.addPath(event.name);
+        yield PathAded();
+      } catch (e) {
+        if (e is MyException && e != null) yield PathsError(e);
+        yield PathsLoaded(List<Path>());
+      }
+    }
+    if (event is EditPath) {
+      yield PathsLoading();
+      try {
+        await logic.editPath(event.id, event.name);
+        yield PathAded();
+      } catch (e) {
+        if (e is MyException && e != null) yield PathsError(e);
+        yield PathsLoaded(List<Path>());
+      }
+    }
+
+    if (event is DeletePath) {
+      yield PathsLoading();
+      try {
+        await logic.deletePath(event.id);
+        yield PathAded();
       } catch (e) {
         if (e is MyException && e != null) yield PathsError(e);
         yield PathsLoaded(List<Path>());

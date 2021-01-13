@@ -15,18 +15,7 @@ class PathsPage extends StatefulWidget {
 class _PathsPageState extends State<PathsPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(widget.title), actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.alt_route_rounded),
-          onPressed: () {},
-        )
-      ]),
-      body: Container(
-          child: BlocProvider(
-        create: (_) => PathsBloc(PathRepository()),
-        child: PathList(),
-      )),
-    );
+    return BlocProvider(
+        create: (_) => PathsBloc(PathRepository()), child: PathList());
   }
 }
