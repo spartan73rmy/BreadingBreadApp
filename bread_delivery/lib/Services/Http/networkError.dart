@@ -1,35 +1,56 @@
-class NetworkError {
-  static Future<MyException> handleResponse(int statusCode) async {
+import 'package:dio/dio.dart';
+
+class NetworkError extends DioError {
+  static MyException handleResponse(DioError error) {
+    dynamic response = error.response;
+    if (response == null)
+      return MyException(
+          "Sin internet", "Revice que este conectado a internet");
+
+    int statusCode = response.statusCode;
+
+    if (statusCode == 200) return null;
+
     switch (statusCode) {
+      case 0:
+        return MyException("Sin Internet", "Revice su coneccion a internet");
       case 400:
       case 401:
       case 403:
-        return MyException("No se encuentra autorizado, inicie sesion");
+        return MyException(
+            response.statusCode, "No se encuentra autorizado, inicie sesion");
         break;
       case 404:
-        return MyException("No se encuentra el elemento");
+        return MyException(response.statusCode, "No se encuentra el elemento");
         break;
       case 409:
-        return MyException("Conflicto en la red");
+        return MyException(response.statusCode, "Conflicto en la red");
         break;
       case 408:
-        return MyException(
+        return MyException(response.statusCode,
             "Coneccion de internet lenta, tiempo limite excedido");
         break;
       case 500:
-        return MyException("Error en el servidor, consulte al administrador");
+        return MyException(response.statusCode,
+            "Error en el servidor, consulte al administrador");
         break;
       case 503:
-        return MyException(
+        return MyException(response.statusCode,
             "El servicio no esta disponible, consulte al administrador");
         break;
       default:
-        return MyException("Error desconocido, codigo $statusCode");
+        return MyException(
+            response.statusCode, "Error desconocido, codigo $statusCode");
     }
   }
 }
 
-class MyException {
-  String error;
-  MyException(this.error);
+class MyException extends DioError {
+  dynamic error;
+  String message;
+  MyException(this.error, this.message);
+  @override
+  String toString() {
+    return message?.toString();
+  }
 }

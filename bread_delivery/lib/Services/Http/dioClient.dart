@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:bread_delivery/Services/Http/networkError.dart';
 import 'package:dio/adapter.dart';
 
 import '../Local/auth.dart';
@@ -8,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class DioClient {
   // final String baseUrl = "https://localhost:5001/api/";
-  final String baseUrl = "https://192.168.0.100:5001/api/";
+  final String baseUrl = "https://192.168.0.102:5001/api/";
   final String urlCuenta = "Cuenta/RefreshCredentials";
   SharedPreferences _storage;
   Dio _dio;
@@ -31,7 +32,7 @@ class DioClient {
       ..options.receiveTimeout = 3000
       ..httpClientAdapter
       ..options.headers = {
-        'Content-Type': 'application/json;',
+        'Content-Type': 'application/json; UTF-8',
         'Authorization': 'Bearer ' + accessToken
       };
     _dio.interceptors.clear();
@@ -100,10 +101,11 @@ class DioClient {
         onReceiveProgress: onReceiveProgress,
       );
       return response.data;
-    } on FormatException catch (_) {
-      throw FormatException("El Formato no es JSON");
+    } on FormatException catch (e) {
+      throw NetworkError.handleResponse(
+          DioError(response: Response(statusCode: 0), error: e.message));
     } catch (e) {
-      throw e;
+      throw NetworkError.handleResponse(e);
     }
   }
 

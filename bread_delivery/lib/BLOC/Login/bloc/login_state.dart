@@ -17,4 +17,12 @@ class SuccessLogin extends LoginState {
   SuccessLogin(this.token);
 }
 
-class ErrorLogin extends LoginState {}
+class ErrorLogin extends LoginState {
+  final MyException e;
+  @override
+  String toString() {
+    return e.toString();
+  }
+
+  ErrorLogin(this.e);
+}

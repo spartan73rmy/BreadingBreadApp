@@ -3,15 +3,14 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import '../../../Entities/token.dart';
 import '../../../Services/Cuenta/accountRepository.dart';
+import '../../../Services/Http/networkError.dart';
 part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  LoginBloc() : super(InitialLogin());
+  final LoginLogic logic;
 
-  final AccountRepository _repo = AccountRepository();
-
-  LoginBloc get init => LoginBloc();
+  LoginBloc(this.logic) : super(InitialLogin());
 
   @override
   Stream<LoginState> mapEventToState(
@@ -20,13 +19,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (event is DoLogin) {
       yield LoadingLogin();
       try {
-        var token = await _repo.login(event.userName, event.password);
-        if (token == null) {
-          yield ErrorLogin();
-        }
-        yield SuccessLogin(token);
-      } catch (_) {
-        yield ErrorLogin();
+        var token = await logic.login(event.userName, event.password);
+        //TODO add user info to shared preferences
+        print(token);
+        if (token != null) yield SuccessLogin(token);
+        yield InitialLogin();
+      } catch (e) {
+        yield ErrorLogin(e);
       }
     }
   }

@@ -1,3 +1,4 @@
+import '../CommonWidgets/snackBar.dart';
 import '../BLOC/Login/bloc/login_bloc.dart';
 import '../CommonWidgets/inputField.dart';
 import '../CommonWidgets/loadingScreen.dart';
@@ -32,44 +33,54 @@ class _LoginState extends State<Login> {
           IconButton(
             icon: Icon(Icons.account_box),
             onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => Register()),
-              // );
+              Navigator.pushNamed(
+                context,
+                '/Home',
+              );
             },
           )
         ]),
         key: _scaffoldKey,
-        body: BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
-          if (state is LoadingLogin) return LoadingScreen();
-          if (state is Error) return AlertDialog(title: Text("Error"));
-          if (state is SuccessLogin)
-            return Container(); //TODO add redirect or something
-          return Padding(
-              padding:
-                  const EdgeInsets.only(top: 100.0, left: 16.0, right: 16.0),
-              child: Form(
-                  child: Column(
-                children: <Widget>[
-                  Icon(Icons.weekend),
-                  InputField("Usuario", _userNameController, _emailError,
-                      TextInputType.emailAddress),
-                  PasswordField(
-                    passwordController: _passwordController,
-                    obscureText: _obscureText,
-                    passwordError: _passwordError,
-                    togglePassword: _togglePassword,
-                  ),
-                  RaisedButton(
-                      child: Text("Iniciar Sesion"),
-                      onPressed: () => {_doLogin()})
-                ],
-              )));
-        }));
+        body: BlocListener<LoginBloc, LoginState>(
+          listener: (context, state) => {
+            if (state is ErrorLogin)
+              snackBar(context, state.toString())
+            else if (state is SuccessLogin)
+              Navigator.pushReplacementNamed(
+                context,
+                '/Home',
+              )
+          },
+          child: BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
+            if (state is LoadingLogin) return LoadingScreen();
+            return Padding(
+                padding:
+                    const EdgeInsets.only(top: 100.0, left: 16.0, right: 16.0),
+                child: Form(
+                    child: Column(
+                  children: <Widget>[
+                    Icon(Icons.weekend),
+                    InputField("Usuario", _userNameController, _emailError,
+                        TextInputType.emailAddress),
+                    PasswordField(
+                      passwordController: _passwordController,
+                      obscureText: _obscureText,
+                      passwordError: _passwordError,
+                      togglePassword: _togglePassword,
+                    ),
+                    RaisedButton(
+                        child: Text("Iniciar Sesion"),
+                        onPressed: () => {_doLogin()})
+                  ],
+                )));
+          }),
+        ));
   }
 
   _doLogin() {
-    BlocProvider.of<LoginBloc>(context).add(DoLogin("Admin", "123"));
+    BlocProvider.of<LoginBloc>(context).add(
+      DoLogin(_userNameController.text, _userNameController.text),
+    );
   }
 
   _togglePassword() {

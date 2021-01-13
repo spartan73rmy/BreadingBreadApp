@@ -1,6 +1,4 @@
 import '../Login/login.dart';
-
-import '../CommonWidgets/loadingScreen.dart';
 import 'package:flutter/material.dart';
 
 class DrawerContent extends StatefulWidget {
@@ -12,26 +10,12 @@ class DrawerContent extends StatefulWidget {
 }
 
 class _DrawerContentState extends State<DrawerContent> {
-  bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
     return drawerContent(context);
   }
 
-  _showLoading() {
-    setState(() {
-      _isLoading = true;
-    });
-  }
-
-  _hideLoading() {
-    setState(() {
-      _isLoading = false;
-    });
-  }
-
   Future<void> logOut() async {
-    _showLoading();
     // _sharedPreferences = await _prefs;
     // await Auth.logoutUser(_sharedPreferences);
     Navigator.of(context).popUntil((route) => route.isFirst);
@@ -39,34 +23,25 @@ class _DrawerContentState extends State<DrawerContent> {
       context,
       MaterialPageRoute(builder: (context) => Login()),
     );
-    _hideLoading();
   }
 
   Drawer drawerContent(BuildContext context) {
-    if (_isLoading) {
-      return Drawer(child: LoadingScreen());
-    }
-    return Drawer(
-        child: Column(
-      children: <Widget>[
+    return Drawer(child: Column(children: _options(context, widget.isAdmin)));
+  }
+
+  dynamic _options(BuildContext context, bool isAdmin) {
+    if (isAdmin)
+      return <Widget>[
         DrawerHeader(
-          decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
-          ),
-          child: Text(
-            'Hola\nJose Alberto Espinoza Morelos',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 24,
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
             ),
-          ),
-        ),
+            child: Text('Hola\nJose Alberto Espinoza Morelos',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ))),
         ListTile(
-          leading: Icon(Icons.account_circle),
-          title: Text('Perfil'),
-        ),
-        ListTile(
-          enabled: widget.isAdmin,
           leading: Icon(Icons.supervised_user_circle),
           title: Text('Usuarios'),
           subtitle: Text.rich(
@@ -75,16 +50,56 @@ class _DrawerContentState extends State<DrawerContent> {
                 style:
                     TextStyle(color: Color(Colors.black.value), fontSize: 15)),
           ),
-          onTap: () {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => ListUsers()),
-            // );
-          },
+          onTap: () {},
         ),
         ListTile(
-          leading: Icon(Icons.settings),
-          title: Text('Configuracion'),
+          leading: Icon(Icons.alt_route_rounded),
+          title: Text('Rutas'),
+          onTap: () async {},
+        ),
+        ListTile(
+          leading: Icon(Icons.store),
+          title: Text('Tiendas'),
+          onTap: () async {},
+        ),
+        ListTile(
+          leading: Icon(Icons.breakfast_dining),
+          title: Text('Producto'),
+          onTap: () async {},
+        ),
+        ListTile(
+          leading: Icon(Icons.satellite),
+          title: Text('Ventas'),
+        ),
+        Expanded(
+            child: Align(
+          alignment: Alignment.bottomCenter,
+          child: ListTile(
+            leading: Icon(Icons.close),
+            title: Text('Cerrar Sesion'),
+            onTap: () async {},
+          ),
+        ))
+      ];
+    else
+      return <Widget>[
+        DrawerHeader(
+            decoration: BoxDecoration(
+                // color: Theme.of(context).primaryColor,
+                ),
+            child: Text('Hola\nUsuario Normal',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ))),
+        ListTile(
+          leading: Icon(Icons.alt_route_rounded),
+          title: Text('Ruta'),
+          onTap: () async {},
+        ),
+        ListTile(
+          leading: Icon(Icons.qr_code),
+          title: Text('Leer QR'),
           onTap: () async {},
         ),
         Expanded(
@@ -93,12 +108,9 @@ class _DrawerContentState extends State<DrawerContent> {
           child: ListTile(
             leading: Icon(Icons.close),
             title: Text('Cerrar Sesion'),
-            onTap: () async {
-              await logOut();
-            },
+            onTap: () async {},
           ),
         ))
-      ],
-    ));
+      ];
   }
 }
