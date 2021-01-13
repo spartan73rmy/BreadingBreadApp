@@ -1,4 +1,4 @@
-import '../Login/login.dart';
+import 'package:bread_delivery/Views/Login/login.dart';
 import 'package:flutter/material.dart';
 
 class DrawerContent extends StatefulWidget {
@@ -55,7 +55,12 @@ class _DrawerContentState extends State<DrawerContent> {
         ListTile(
           leading: Icon(Icons.alt_route_rounded),
           title: Text('Rutas'),
-          onTap: () async {},
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              '/Path',
+            );
+          },
         ),
         ListTile(
           leading: Icon(Icons.store),

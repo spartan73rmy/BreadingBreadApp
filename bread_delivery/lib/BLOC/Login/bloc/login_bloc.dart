@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import '../../../Entities/userToken.dart';
+import '../../../Services/Local/auth.dart';
 import 'package:equatable/equatable.dart';
-import '../../../Entities/token.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../Services/Cuenta/accountRepository.dart';
 import '../../../Services/Http/networkError.dart';
 part 'login_event.dart';
@@ -20,12 +22,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       yield LoadingLogin();
       try {
         var token = await logic.login(event.userName, event.password);
-        //TODO add user info to shared preferences
-        print(token);
-        if (token != null) yield SuccessLogin(token);
+        if (token is UserToken && token != null) {
+          Auth.setUserToket(await SharedPreferences.getInstance(), token);
+          yield SuccessLogin(token);
+        }
         yield InitialLogin();
       } catch (e) {
-        yield ErrorLogin(e);
+        if (e is MyException && e != null) yield ErrorLogin(e);
+        yield InitialLogin();
       }
     }
   }

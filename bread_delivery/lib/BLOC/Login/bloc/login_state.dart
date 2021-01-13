@@ -12,7 +12,7 @@ class InitialLogin extends LoginState {}
 class LoadingLogin extends LoginState {}
 
 class SuccessLogin extends LoginState {
-  final Token token;
+  final UserToken token;
 
   SuccessLogin(this.token);
 }

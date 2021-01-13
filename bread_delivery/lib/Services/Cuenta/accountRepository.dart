@@ -1,12 +1,12 @@
 import 'dart:convert';
-
+import '../../Entities/userToken.dart';
 import '../../Entities/loginUser.dart';
 import '../../Services/Http/networkError.dart';
 import '../../Entities/token.dart';
 import '../../Services/Http/dioClient.dart';
 
 abstract class LoginLogic {
-  Future<Token> login(String userName, String password);
+  Future<UserToken> login(String userName, String password);
   Future<void> logOut(Token token);
 }
 
@@ -15,12 +15,12 @@ class AccountRepository extends LoginLogic {
   DioClient http = DioClient();
 
   @override
-  Future<Token> login(String userName, String password) async {
+  Future<UserToken> login(String userName, String password) async {
     final credentials = LoginUser(userName, password);
     try {
-      final response = await http.post(url + "/Ingresar",
+      final response = await http.post(url + "Ingresar",
           data: jsonEncode(credentials.toJson()));
-      return Token.fromJson(response);
+      return UserToken.fromJson(response);
     } catch (e) {
       throw NetworkError.handleResponse(e);
     }

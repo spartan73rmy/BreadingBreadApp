@@ -1,12 +1,19 @@
-class Token {
+class UserToken {
+  User user;
   String token;
   String refreshToken;
   int userType;
   String expirationDate;
 
-  Token({this.token, this.refreshToken, this.userType, this.expirationDate});
+  UserToken(
+      {this.user,
+      this.token,
+      this.refreshToken,
+      this.userType,
+      this.expirationDate});
 
-  Token.fromJson(Map<String, dynamic> json) {
+  UserToken.fromJson(Map<String, dynamic> json) {
+    user = json['user'] != null ? new User.fromJson(json['user']) : null;
     token = json['token'];
     refreshToken = json['refreshToken'];
     userType = json['userType'];
@@ -15,6 +22,9 @@ class Token {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.user != null) {
+      data['user'] = this.user.toJson();
+    }
     data['token'] = this.token;
     data['refreshToken'] = this.refreshToken;
     data['userType'] = this.userType;
@@ -23,21 +33,27 @@ class Token {
   }
 }
 
-class RefreshToken {
+class User {
+  int idUser;
+  String userName;
+  int userType;
   String refreshToken;
-  String token;
 
-  RefreshToken({this.refreshToken, this.token});
+  User({this.idUser, this.userName, this.userType, this.refreshToken});
 
-  RefreshToken.fromJson(Map<String, dynamic> json) {
+  User.fromJson(Map<String, dynamic> json) {
+    idUser = json['idUser'];
+    userName = json['userName'];
+    userType = json['userType'];
     refreshToken = json['refreshToken'];
-    token = json['token'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['idUser'] = this.idUser;
+    data['userName'] = this.userName;
+    data['userType'] = this.userType;
     data['refreshToken'] = this.refreshToken;
-    data['token'] = this.token;
     return data;
   }
 }

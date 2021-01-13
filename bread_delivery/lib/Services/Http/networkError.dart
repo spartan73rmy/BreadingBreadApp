@@ -15,6 +15,8 @@ class NetworkError extends DioError {
       case 0:
         return MyException("Sin Internet", "Revice su coneccion a internet");
       case 400:
+        return MyException(
+            "Peticion Invalida", "Error en la peticion al servidor");
       case 401:
       case 403:
         return MyException(

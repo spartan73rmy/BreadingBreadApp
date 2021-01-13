@@ -1,3 +1,6 @@
+import 'package:bread_delivery/Entities/token.dart';
+import 'package:bread_delivery/Entities/userToken.dart';
+
 import '../../Entities/userType.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -43,14 +46,19 @@ class Auth {
     prefs.setString(Auth.roleKey, null);
   }
 
-  static insertDetails(SharedPreferences prefs, var response) {
-    prefs.setString(authTokenKey, response['token']);
-    prefs.setString(refToken, response['refreshToken']);
-    prefs.setString(expDate, response['expirationDate']);
+  static setUserToket(SharedPreferences prefs, UserToken token) {
+    prefs.setString(authTokenKey, token.token);
+    prefs.setString(refToken, token.refreshToken);
+    prefs.setString(expDate, token.expirationDate);
 
-    var user = response['user'];
-    prefs.setInt(userIdKey, user['idUsuario']);
-    prefs.setString(nameKey, user['nombreUsuario']);
-    prefs.setInt(roleKey, user['tipoUsuario']);
+    prefs.setInt(userIdKey, token.user.idUser);
+    prefs.setString(nameKey, token.user.userName);
+    prefs.setInt(roleKey, token.user.userType);
+  }
+
+  static refreshToken(SharedPreferences prefs, Token token) {
+    prefs.setString(authTokenKey, token.token);
+    prefs.setString(refToken, token.refreshToken);
+    prefs.setString(expDate, token.expirationDate);
   }
 }

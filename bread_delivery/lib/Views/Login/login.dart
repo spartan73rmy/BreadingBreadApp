@@ -1,8 +1,8 @@
-import '../CommonWidgets/snackBar.dart';
-import '../BLOC/Login/bloc/login_bloc.dart';
-import '../CommonWidgets/inputField.dart';
-import '../CommonWidgets/loadingScreen.dart';
-import '../CommonWidgets/passField.dart';
+import 'package:bread_delivery/BLOC/Login/bloc/login_bloc.dart';
+import 'package:bread_delivery/CommonWidgets/inputField.dart';
+import 'package:bread_delivery/CommonWidgets/loadingScreen.dart';
+import 'package:bread_delivery/CommonWidgets/passField.dart';
+import 'package:bread_delivery/CommonWidgets/snackBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,7 +28,7 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
         appBar: AppBar(actions: <Widget>[
           IconButton(
             icon: Icon(Icons.account_box),
@@ -79,7 +79,7 @@ class _LoginState extends State<Login> {
 
   _doLogin() {
     BlocProvider.of<LoginBloc>(context).add(
-      DoLogin(_userNameController.text, _userNameController.text),
+      DoLogin(_userNameController.text, _passwordController.text),
     );
   }
 

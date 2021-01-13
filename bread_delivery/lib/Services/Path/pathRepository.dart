@@ -1,7 +1,11 @@
 import 'package:bread_delivery/Entities/path.dart';
 import '../../Services/Http/dioClient.dart';
 
-class PathRepository {
+abstract class PathsLogic {
+  Future<List<Path>> fetchPathsList();
+}
+
+class PathRepository extends PathsLogic {
   static const String url = "Path/GetList";
   DioClient http = DioClient();
 

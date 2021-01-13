@@ -1,49 +1,32 @@
 import 'dart:io';
-import 'package:bread_delivery/Services/Http/networkError.dart';
 import 'package:dio/adapter.dart';
-
-import '../Local/auth.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../Entities/token.dart';
+import '../../Services/Http/networkError.dart';
+import '../Local/auth.dart';
 
 class DioClient {
-  // final String baseUrl = "https://localhost:5001/api/";
-  final String baseUrl = "https://192.168.0.102:5001/api/";
+  // final String baseUrl = "https://localhost:5001/api/"; //Emulator
+  final String baseUrl = "https://192.168.0.116:5001/api/"; //WLAN
   final String urlCuenta = "Cuenta/RefreshCredentials";
   SharedPreferences _storage;
+  String accessToken;
+
   Dio _dio;
-  String accessToken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiQWRtaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsIm5iZiI6MTYxMDQxNzMzNSwiZXhwIjoxNjEwNDIwOTM1LCJpc3MiOiJCcmVhZGluZ0JyZWFkIiwiYXVkIjoiRXZlcnlvbmUifQ.DsEbrZpcBWnfWam2afP7C1worx01FET6pkXEsSPym78";
   final List<Interceptor> interceptors = new List<Interceptor>();
 
   DioClient() {
     _dio = Dio();
-    (_dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-        (HttpClient client) {
-      client.badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
-      return client;
-    };
 
     _dio
       ..options.baseUrl = baseUrl
       ..options.connectTimeout = 5000
       ..options.receiveTimeout = 3000
-      ..httpClientAdapter
-      ..options.headers = {
-        'Content-Type': 'application/json; UTF-8',
-        'Authorization': 'Bearer ' + accessToken
-      };
-    _dio.interceptors.clear();
-    _dio.interceptors.add(InterceptorsWrapper(onError: (error) async {
-      if (error.response?.statusCode == 403 ||
-          error.response?.statusCode == 401) {
-        await refreshToken();
-        return _retry(error.request);
-      }
-      return error.response;
-    }));
+      ..httpClientAdapter;
+    addInterceptors();
+    setCertificateAvoid();
 
     if (kDebugMode) {
       _dio.interceptors.add(LogInterceptor(
@@ -109,16 +92,69 @@ class DioClient {
     }
   }
 
+  void requestInterceptor() async {
+    accessToken = Auth.getToken(await SharedPreferences.getInstance());
+    accessToken = 'Bearer ' + accessToken;
+    _dio.options.headers.clear();
+
+    if (accessToken == null) {
+      _dio.options.headers.addAll({
+        'Content-Type': 'application/json; UTF-8',
+      });
+    } else {
+      _dio.options.headers.addAll({
+        'Content-Type': 'application/json; UTF-8',
+        'Authorization': accessToken
+      });
+    }
+  }
+
+  void unauthenticateHandlerInterceptor() {
+    _dio.interceptors.add(InterceptorsWrapper(onError: (error) async {
+      if (error.response?.statusCode == 403 ||
+          error.response?.statusCode == 401) {
+        await refreshToken();
+        return _retry(error.request);
+      }
+      return error.response;
+    }));
+  }
+
+  void errorHandlerInterceptor() {
+    _dio.interceptors.add(InterceptorsWrapper(onError: (error) async {
+      return NetworkError.handleResponse(error);
+    }));
+  }
+
+  void addInterceptors() async {
+    _dio.interceptors.clear();
+    requestInterceptor();
+    unauthenticateHandlerInterceptor();
+    errorHandlerInterceptor();
+  }
+
+  void setCertificateAvoid() {
+    (_dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (HttpClient client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+      return client;
+    };
+  }
+
   Future<void> refreshToken() async {
     _storage = await SharedPreferences.getInstance();
     final refreshToken = Auth.getRefToken(_storage);
     final token = Auth.getToken(_storage);
-
+    print(refreshToken);
+    print(token);
     final response = await this._dio.post('Cuenta/RefreshCredentials',
-        data: {'refreshToken': refreshToken, 'token': token});
+        data: RefreshToken(refreshToken: refreshToken, token: token).toJson());
 
     if (response.statusCode == 200) {
-      this.accessToken = response.data['token'];
+      var token = Token.fromJson(response.data);
+      Auth.refreshToken(await SharedPreferences.getInstance(), token);
+      accessToken = token.token;
     }
   }
 
