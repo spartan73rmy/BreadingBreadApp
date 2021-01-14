@@ -35,7 +35,7 @@ class PathsBloc extends Bloc<PathsEvent, PathsState> {
       yield PathsLoading();
       try {
         await logic.addPath(event.name);
-        yield PathAded();
+        yield PathOperationCompleted();
       } catch (e) {
         if (e is MyException && e != null) yield PathsError(e);
         yield PathsLoaded(List<Path>());
@@ -45,7 +45,7 @@ class PathsBloc extends Bloc<PathsEvent, PathsState> {
       yield PathsLoading();
       try {
         await logic.editPath(event.id, event.name);
-        yield PathAded();
+        yield PathOperationCompleted();
       } catch (e) {
         if (e is MyException && e != null) yield PathsError(e);
         yield PathsLoaded(List<Path>());
@@ -56,7 +56,7 @@ class PathsBloc extends Bloc<PathsEvent, PathsState> {
       yield PathsLoading();
       try {
         await logic.deletePath(event.id);
-        yield PathAded();
+        yield PathOperationCompleted();
       } catch (e) {
         if (e is MyException && e != null) yield PathsError(e);
         yield PathsLoaded(List<Path>());
