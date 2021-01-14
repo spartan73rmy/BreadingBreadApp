@@ -36,7 +36,7 @@ class _LoginState extends State<Login> {
             onPressed: () {
               Navigator.pushNamed(
                 context,
-                '/Home',
+                '/Register',
               );
             },
           )
@@ -54,22 +54,45 @@ class _LoginState extends State<Login> {
             if (state is LoadingLogin) return LoadingScreen();
             return Padding(
                 padding:
-                    const EdgeInsets.only(top: 100.0, left: 16.0, right: 16.0),
+                    const EdgeInsets.only(top: 0.0, left: 16.0, right: 16.0),
                 child: Form(
                     child: Column(
                   children: <Widget>[
-                    Icon(Icons.weekend),
-                    InputField("Usuario", _userNameController, _emailError,
-                        TextInputType.emailAddress),
-                    PasswordField(
-                      passwordController: _passwordController,
-                      obscureText: _obscureText,
-                      passwordError: _passwordError,
-                      togglePassword: _togglePassword,
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                      child: Icon(Icons.vpn_key,
+                          size: 200, color: Colors.blueGrey),
                     ),
-                    RaisedButton(
-                        child: Text("Iniciar Sesion"),
-                        onPressed: () => {_doLogin()})
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
+                      child: Text(
+                        "Inicio de Sesion",
+                        style: TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black54),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+                      child: InputField("Usuario", _userNameController,
+                          _emailError, TextInputType.emailAddress),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
+                      child: PasswordField(
+                        passwordController: _passwordController,
+                        obscureText: _obscureText,
+                        passwordError: _passwordError,
+                        togglePassword: _togglePassword,
+                      ),
+                    ),
+                    FloatingActionButton.extended(
+                        icon: Icon(Icons.supervised_user_circle_sharp),
+                        backgroundColor: Color(Colors.blueAccent.value),
+                        label: Text("Iniciar Sesion",
+                            style: TextStyle(fontSize: 20)),
+                        onPressed: () => {_doLogin()}),
                   ],
                 )));
           }),

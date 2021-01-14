@@ -1,11 +1,11 @@
 import 'package:bread_delivery/Entities/userCreate.dart';
-import 'package:bread_delivery/Views/CommonUser/register.dart';
 import 'package:flutter/material.dart';
 
 import 'aproveUser.dart';
 
 class UserList extends StatefulWidget {
-  UserList({Key key}) : super(key: key);
+  final String title;
+  UserList(this.title, {Key key}) : super(key: key);
 
   @override
   _UserListState createState() => _UserListState();
@@ -24,12 +24,10 @@ class _UserListState extends State<UserList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Usuarios')),
+        appBar: AppBar(title: Text(widget.title)),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (_) => Register()))
-                .then((_) {
+            Navigator.of(context).pushNamed("/Register").then((_) {
               _fetchUsers();
             });
           },

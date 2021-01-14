@@ -6,7 +6,8 @@ import 'package:bread_delivery/Entities/userType.dart';
 import 'package:flutter/material.dart';
 
 class Register extends StatefulWidget {
-  Register({Key key}) : super(key: key);
+  final String title;
+  Register(this.title, {Key key}) : super(key: key);
 
   @override
   _RegisterState createState() => _RegisterState();
@@ -21,12 +22,8 @@ class _RegisterState extends State<Register> {
       _nombreController,
       _aPaternoController,
       _aMaternoController;
-  String _emailError,
-      _passwordError,
-      _userError,
-      _nombreError,
-      _aPaternoError,
-      _aMaternoError;
+
+  String _passwordError, _userError, _nombreError;
   String _selectedPermission;
 
   @override
@@ -42,72 +39,86 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-        appBar: AppBar(
-          title: Text('Registrar'),
-          actions: <Widget>[],
-        ),
-        body: _isLoading ? LoadingScreen() : registerScreen());
-  }
-
-  Widget registerScreen() {
-    return new Container(
-      child: new ListView(
-        padding:
-            const EdgeInsets.only(top: 2, left: 16.0, right: 16.0, bottom: 30),
-        children: <Widget>[
-          new InputField("Nombre", _nombreController, _nombreError,
-              TextInputType.emailAddress),
-          new InputField("Apellido Paterno", _aPaternoController,
-              _aPaternoError, TextInputType.emailAddress),
-          new InputField("Apellido Materno", _aMaternoController,
-              _aMaternoError, TextInputType.emailAddress),
-          new InputField("Usuario", _userNameController, _userError,
-              TextInputType.emailAddress),
-          new InputField("E-mail", _emailController, _emailError,
-              TextInputType.emailAddress),
-          new PasswordField(
-            passwordController: _passwordController,
-            obscureText: _obscureText,
-            passwordError: _passwordError,
-            togglePassword: _togglePassword,
-          ),
-          DropdownButton(
-            hint: _selectedPermission == null
-                ? Text('Selecciona una opcion')
-                : Text(
-                    _selectedPermission,
-                    style: TextStyle(color: Colors.black),
-                  ),
-            isExpanded: true,
-            iconSize: 30.0,
-            style: TextStyle(color: Colors.blue),
-            items: [UserType.admin, UserType.user].map(
-              (val) {
-                return DropdownMenuItem<String>(
-                  value: val,
-                  child: Text(val),
-                );
-              },
-            ).toList(),
-            onChanged: (val) {
-              setState(
-                () {
-                  _selectedPermission = val;
-                },
-              );
-            },
-          ),
-          FloatingActionButton.extended(
-            icon: Icon(Icons.add),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+        actions: <Widget>[],
+      ),
+      body: _isLoading ? LoadingScreen() : registerScreen(),
+      floatingActionButton: Align(
+        alignment: Alignment.bottomCenter,
+        child: FloatingActionButton.extended(
+            icon: Icon(Icons.supervised_user_circle),
             backgroundColor: Theme.of(context).primaryColor,
             onPressed: () async {
               if (_isValid()) {
                 await saveData();
               }
             },
-            label: Text("Registrar"),
-          )
+            label: Text("Registrar")),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+  }
+
+  Widget registerScreen() {
+    return Container(
+      child: ListView(
+        padding: const EdgeInsets.all(25.0),
+        children: <Widget>[
+          Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
+              child: Icon(Icons.supervised_user_circle, size: 200)),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+            child: InputField("Nombre Completo", _nombreController,
+                _nombreError, TextInputType.emailAddress),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+            child: InputField("Usuario", _userNameController, _userError,
+                TextInputType.emailAddress),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+            child: PasswordField(
+              passwordController: _passwordController,
+              obscureText: _obscureText,
+              passwordError: _passwordError,
+              togglePassword: _togglePassword,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 40),
+            child: DropdownButton(
+              hint: _selectedPermission == null
+                  ? Text('Selecciona una opcion')
+                  : Text(
+                      _selectedPermission,
+                      style: TextStyle(color: Colors.black),
+                    ),
+              isExpanded: true,
+              iconSize: 30.0,
+              style: TextStyle(color: Colors.blue),
+              items: [UserType.admin, UserType.user].map(
+                (val) {
+                  return DropdownMenuItem<String>(
+                    value: val,
+                    child: Text(val),
+                  );
+                },
+              ).toList(),
+              onChanged: (val) {
+                setState(
+                  () {
+                    _selectedPermission = val;
+                  },
+                );
+              },
+            ),
+          ),
+          Text(
+              "Una vez te registres pide a tu administrador su aprobacion para poder usar la aplicacion")
         ],
       ),
     );
@@ -135,30 +146,14 @@ class _RegisterState extends State<Register> {
         _passwordError = "Minimo 6 caracteres";
       });
     }
-    if (_emailController.text.isEmpty) {
-      valid = false;
-      setState(() {
-        _emailError = "Introduce un correo electronico";
-      });
-    }
+
     if (_nombreController.text.isEmpty) {
       valid = false;
       setState(() {
         _nombreError = "Introduce tu nombre";
       });
     }
-    if (_aPaternoController.text.isEmpty) {
-      valid = false;
-      setState(() {
-        _aPaternoError = "Introduce tu apellido paterno";
-      });
-    }
-    if (_aMaternoController.text.isEmpty) {
-      valid = false;
-      setState(() {
-        _aMaternoError = "Introduce tu apellido materno";
-      });
-    }
+
     return valid;
   }
 
