@@ -22,8 +22,17 @@ class _PathListState extends State<PathList> {
       new GlobalKey<RefreshIndicatorState>();
   bool isAdmin;
 
+  _isAdmin() {
+    if (isAdmin == null) {
+      setState(() {
+        isAdmin = widget.isAdmin;
+      });
+    }
+  }
+
   @override
   void initState() {
+    _isAdmin();
     super.initState();
     _getData();
   }

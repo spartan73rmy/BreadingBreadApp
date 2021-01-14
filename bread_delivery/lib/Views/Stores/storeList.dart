@@ -4,37 +4,39 @@ import 'package:bread_delivery/CommonWidgets/deleteDialog.dart';
 import 'package:bread_delivery/CommonWidgets/loadingScreen.dart';
 import 'package:bread_delivery/CommonWidgets/snackBar.dart';
 import 'package:bread_delivery/Entities/Store.dart';
+import 'package:bread_delivery/Entities/storeViewParams.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'storeCard.dart';
 
 class StoreList extends StatefulWidget {
-  final bool isAdmin;
-  StoreList(this.isAdmin);
+  final StoreViewParams params;
+  StoreList(this.params);
 
   @override
   _StoreListState createState() => _StoreListState();
 }
 
 class _StoreListState extends State<StoreList> {
-  int idPath = 1;
+  int idPath;
+  bool isAdmin;
   Future<List<Stores>> data;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
-  bool isAdmin;
 
-  _isAdmin() {
-    if (isAdmin == null) {
+  _initData() {
+    if (isAdmin == null || idPath == null) {
       setState(() {
-        isAdmin = widget.isAdmin;
+        isAdmin = widget.params.isAdmin;
+        idPath = widget.params.idPath;
       });
     }
   }
 
   @override
   void initState() {
-    _isAdmin();
     super.initState();
+    _initData();
     _getData();
   }
 

@@ -14,8 +14,8 @@ class _DrawerContentState extends State<DrawerContent> {
 
   @override
   void initState() {
-    super.initState();
     _isAdmin();
+    super.initState();
   }
 
   @override
@@ -105,9 +105,9 @@ class _DrawerContentState extends State<DrawerContent> {
       return <Widget>[
         DrawerHeader(
             decoration: BoxDecoration(
-                // color: Theme.of(context).primaryColor,
-                ),
-            child: Text('Hola\nUsuario Normal',
+              color: Theme.of(context).primaryColor,
+            ),
+            child: Text('Hola\nNombre de usuario completo',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 24,

@@ -48,7 +48,7 @@ class _LoginState extends State<Login> {
               snackBar(context, state.toString())
             else if (state is SuccessLogin)
               Navigator.pushReplacementNamed(context, '/Home',
-                  arguments: state.token.userType == UserType.adminT)
+                  arguments: state.token.user.userType == UserType.adminT)
           },
           child: BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
             if (state is LoadingLogin) return LoadingScreen();

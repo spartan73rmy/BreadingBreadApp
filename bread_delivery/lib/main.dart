@@ -1,4 +1,5 @@
 import 'package:bread_delivery/BLOC/Login/bloc/login_bloc.dart';
+import 'package:bread_delivery/Entities/storeViewParams.dart';
 import 'package:bread_delivery/Services/Cuenta/accountRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,9 +43,9 @@ class MyApp extends StatelessWidget {
                   builder: (context) => PathsPage("Rutas", isAdmin));
               break;
             case '/Store':
-              bool isAdmin = settings.arguments;
+              StoreViewParams params = settings.arguments;
               return MaterialPageRoute(
-                  builder: (context) => StoresPage("Rutas", isAdmin));
+                  builder: (context) => StoresPage("Rutas", params));
               break;
           }
           return MaterialPageRoute(builder: (context) => Login());
