@@ -2,21 +2,30 @@ import 'package:bread_delivery/CommonWidgets/drawerContent.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage(this.title, {Key key}) : super(key: key);
   final String title;
+  final bool isAdmin;
+  HomePage(this.title, this.isAdmin, {Key key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  bool isAdmin = true;
-
+  bool isAdmin;
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  _isAdmin() {
+    if (isAdmin == null) {
+      setState(() {
+        isAdmin = widget.isAdmin;
+      });
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    _isAdmin();
   }
 
   @override

@@ -32,21 +32,19 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(builder: (context) => Login());
               break;
             case '/Home':
-              return MaterialPageRoute(builder: (context) => HomePage("Pan"));
+              bool isAdmin = settings.arguments;
+              return MaterialPageRoute(
+                  builder: (context) => HomePage("Pan", isAdmin));
               break;
             case '/Path':
               bool isAdmin = settings.arguments;
               return MaterialPageRoute(
-                  builder: (context) => PathsPage(
-                        "Rutas",
-                      ));
+                  builder: (context) => PathsPage("Rutas", isAdmin));
               break;
             case '/Store':
               bool isAdmin = settings.arguments;
               return MaterialPageRoute(
-                  builder: (context) => StoresPage(
-                        "Rutas",
-                      ));
+                  builder: (context) => StoresPage("Rutas", isAdmin));
               break;
           }
           return MaterialPageRoute(builder: (context) => Login());

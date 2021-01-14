@@ -6,8 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PathsPage extends StatefulWidget {
   final String title;
-
-  const PathsPage(this.title, {Key key}) : super(key: key);
+  final bool isAdmin;
+  const PathsPage(this.title, this.isAdmin, {Key key}) : super(key: key);
   @override
   _PathsPageState createState() => _PathsPageState();
 }
@@ -16,6 +16,7 @@ class _PathsPageState extends State<PathsPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (_) => PathsBloc(PathRepository()), child: PathList());
+        create: (_) => PathsBloc(PathRepository()),
+        child: PathList(widget.isAdmin));
   }
 }

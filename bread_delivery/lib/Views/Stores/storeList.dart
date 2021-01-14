@@ -4,14 +4,13 @@ import 'package:bread_delivery/CommonWidgets/deleteDialog.dart';
 import 'package:bread_delivery/CommonWidgets/loadingScreen.dart';
 import 'package:bread_delivery/CommonWidgets/snackBar.dart';
 import 'package:bread_delivery/Entities/Store.dart';
-import 'package:bread_delivery/Services/Local/auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'storeCard.dart';
 
 class StoreList extends StatefulWidget {
-  StoreList();
+  final bool isAdmin;
+  StoreList(this.isAdmin);
 
   @override
   _StoreListState createState() => _StoreListState();
@@ -24,11 +23,10 @@ class _StoreListState extends State<StoreList> {
       new GlobalKey<RefreshIndicatorState>();
   bool isAdmin;
 
-  _isAdmin() async {
+  _isAdmin() {
     if (isAdmin == null) {
-      SharedPreferences store = await SharedPreferences.getInstance();
       setState(() {
-        isAdmin = Auth.isAdmin(store);
+        isAdmin = widget.isAdmin;
       });
     }
   }

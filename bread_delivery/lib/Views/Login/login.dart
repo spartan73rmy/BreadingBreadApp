@@ -3,6 +3,7 @@ import 'package:bread_delivery/CommonWidgets/inputField.dart';
 import 'package:bread_delivery/CommonWidgets/loadingScreen.dart';
 import 'package:bread_delivery/CommonWidgets/passField.dart';
 import 'package:bread_delivery/CommonWidgets/snackBar.dart';
+import 'package:bread_delivery/Entities/userType.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -46,10 +47,8 @@ class _LoginState extends State<Login> {
             if (state is ErrorLogin)
               snackBar(context, state.toString())
             else if (state is SuccessLogin)
-              Navigator.pushReplacementNamed(
-                context,
-                '/Home',
-              )
+              Navigator.pushReplacementNamed(context, '/Home',
+                  arguments: state.token.userType == UserType.adminT)
           },
           child: BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
             if (state is LoadingLogin) return LoadingScreen();

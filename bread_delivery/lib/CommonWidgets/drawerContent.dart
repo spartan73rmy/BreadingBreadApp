@@ -10,9 +10,25 @@ class DrawerContent extends StatefulWidget {
 }
 
 class _DrawerContentState extends State<DrawerContent> {
+  bool isAdmin;
+
+  @override
+  void initState() {
+    super.initState();
+    _isAdmin();
+  }
+
   @override
   Widget build(BuildContext context) {
     return drawerContent(context);
+  }
+
+  _isAdmin() {
+    if (isAdmin == null) {
+      setState(() {
+        isAdmin = widget.isAdmin;
+      });
+    }
   }
 
   Future<void> logOut() async {
@@ -56,10 +72,7 @@ class _DrawerContentState extends State<DrawerContent> {
           leading: Icon(Icons.alt_route_rounded),
           title: Text('Rutas'),
           onTap: () {
-            Navigator.pushNamed(
-              context,
-              '/Path',
-            );
+            Navigator.pushNamed(context, '/Path', arguments: isAdmin);
           },
         ),
         ListTile(

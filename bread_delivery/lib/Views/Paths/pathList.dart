@@ -4,14 +4,13 @@ import 'package:bread_delivery/CommonWidgets/deleteDialog.dart';
 import 'package:bread_delivery/CommonWidgets/loadingScreen.dart';
 import 'package:bread_delivery/CommonWidgets/snackBar.dart';
 import 'package:bread_delivery/Entities/path.dart';
-import 'package:bread_delivery/Services/Local/auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'pathCard.dart';
 
 class PathList extends StatefulWidget {
-  PathList();
+  final bool isAdmin;
+  PathList(this.isAdmin);
 
   @override
   _PathListState createState() => _PathListState();
@@ -23,18 +22,8 @@ class _PathListState extends State<PathList> {
       new GlobalKey<RefreshIndicatorState>();
   bool isAdmin;
 
-  _isAdmin() async {
-    if (isAdmin == null) {
-      SharedPreferences store = await SharedPreferences.getInstance();
-      setState(() {
-        isAdmin = Auth.isAdmin(store);
-      });
-    }
-  }
-
   @override
   void initState() {
-    _isAdmin();
     super.initState();
     _getData();
   }
