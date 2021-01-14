@@ -15,8 +15,8 @@ class StoreRepository extends StoresLogic {
   DioClient http = DioClient();
 
   Future<List<Store>> fetchStoresList(int idPath) async {
-    final response =
-        await http.get(url + "GetList", queryParameters: {'idPath': idPath});
+    final response = await http
+        .get(url + "GetListByPath", queryParameters: {'idPath': idPath});
     return Stores.fromJson(response).stores;
   }
 

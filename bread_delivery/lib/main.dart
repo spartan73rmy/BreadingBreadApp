@@ -2,28 +2,54 @@ import 'package:bread_delivery/BLOC/Login/bloc/login_bloc.dart';
 import 'package:bread_delivery/Services/Cuenta/accountRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'Router/routes.dart';
+import 'Views/Home/homePage.dart';
 import 'Views/Login/login.dart';
+import 'Views/Paths/pathPage.dart';
+import 'Views/Stores/storesPage.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  // This widget is the root of application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Bread',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: BlocProvider(
-        create: (_) => LoginBloc(AccountRepository()),
-        child: Login(),
-      ),
-      routes: Routes.routes,
-    );
+        title: 'Bread',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: BlocProvider(
+          create: (_) => LoginBloc(AccountRepository()),
+          child: Login(),
+        ),
+        //Configure router
+        onGenerateRoute: (RouteSettings settings) {
+          switch (settings.name) {
+            case '/Login':
+              return MaterialPageRoute(builder: (context) => Login());
+              break;
+            case '/Home':
+              return MaterialPageRoute(builder: (context) => HomePage("Pan"));
+              break;
+            case '/Path':
+              bool isAdmin = settings.arguments;
+              return MaterialPageRoute(
+                  builder: (context) => PathsPage(
+                        "Rutas",
+                      ));
+              break;
+            case '/Store':
+              bool isAdmin = settings.arguments;
+              return MaterialPageRoute(
+                  builder: (context) => StoresPage(
+                        "Rutas",
+                      ));
+              break;
+          }
+          return MaterialPageRoute(builder: (context) => Login());
+        });
   }
 }
