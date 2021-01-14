@@ -65,7 +65,9 @@ class _DrawerContentState extends State<DrawerContent> {
         ListTile(
           leading: Icon(Icons.store),
           title: Text('Tiendas'),
-          onTap: () async {},
+          onTap: () async {
+            Navigator.pushNamed(context, '/Store', arguments: isAdmin);
+          },
         ),
         ListTile(
           leading: Icon(Icons.breakfast_dining),

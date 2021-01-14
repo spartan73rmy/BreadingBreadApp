@@ -1,6 +1,6 @@
 import 'dart:convert';
 import '../../Entities/userToken.dart';
-import '../../Entities/loginUser.dart';
+import '../../Entities/userLogin.dart';
 import '../../Services/Http/networkError.dart';
 import '../../Entities/token.dart';
 import '../../Services/Http/dioClient.dart';
