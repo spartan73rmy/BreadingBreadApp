@@ -28,8 +28,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         }
         yield InitialLogin();
       } catch (e) {
-        if (e is MyException && e != null) yield ErrorLogin(e);
-        yield InitialLogin();
+        if (e is MyException && e != null) {
+          yield ErrorLogin(e);
+        } else {
+          yield InitialLogin();
+        }
       }
     }
   }

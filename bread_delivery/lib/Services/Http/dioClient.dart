@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:bread_delivery/Services/Http/validationErrorHandler.dart';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -9,7 +10,7 @@ import '../Local/auth.dart';
 
 class DioClient {
   // final String baseUrl = "https://localhost:5001/api/"; //Emulator
-  final String baseUrl = "https://192.168.0.128:5001/api/"; //WLAN
+  final String baseUrl = "https://192.168.0.101:5001/api/"; //WLAN
   final String urlCuenta = "Cuenta/RefreshCredentials";
   SharedPreferences _storage;
   String accessToken;
@@ -54,13 +55,15 @@ class DioClient {
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress,
       );
+
+      ValidationErrorHandler.validate(response);
       return response.data;
     } on SocketException catch (e) {
       throw SocketException(e.toString());
     } on FormatException catch (_) {
       throw FormatException("El formato no es JSON");
     } catch (e) {
-      throw e;
+      NetworkError.handleResponse(e);
     }
   }
 
@@ -83,18 +86,18 @@ class DioClient {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
+
+      ValidationErrorHandler.validate(response);
       return response.data;
     } on FormatException catch (e) {
-      throw NetworkError.handleResponse(
-          DioError(response: Response(statusCode: 0), error: e.message));
+      print(e);
     } catch (e) {
-      throw NetworkError.handleResponse(e);
+      NetworkError.handleResponse(e);
     }
   }
 
   void requestInterceptor() async {
     accessToken = Auth.getToken(await SharedPreferences.getInstance());
-    accessToken = 'Bearer ' + accessToken;
     _dio.options.headers.clear();
 
     if (accessToken == null) {
@@ -102,6 +105,7 @@ class DioClient {
         'Content-Type': 'application/json; UTF-8',
       });
     } else {
+      accessToken = 'Bearer ' + accessToken;
       _dio.options.headers.addAll({
         'Content-Type': 'application/json; UTF-8',
         'Authorization': accessToken
@@ -122,6 +126,7 @@ class DioClient {
 
   void errorHandlerInterceptor() {
     _dio.interceptors.add(InterceptorsWrapper(onError: (error) async {
+      print(error);
       return NetworkError.handleResponse(error);
     }));
   }
@@ -129,8 +134,11 @@ class DioClient {
   void addInterceptors() async {
     _dio.interceptors.clear();
     requestInterceptor();
-    unauthenticateHandlerInterceptor();
     errorHandlerInterceptor();
+    if (accessToken != null) {
+      //Can be refreshed
+      unauthenticateHandlerInterceptor();
+    }
   }
 
   void setCertificateAvoid() {
@@ -146,8 +154,6 @@ class DioClient {
     _storage = await SharedPreferences.getInstance();
     final refreshToken = Auth.getRefToken(_storage);
     final token = Auth.getToken(_storage);
-    print(refreshToken);
-    print(token);
     final response = await this._dio.post('Cuenta/RefreshCredentials',
         data: RefreshToken(refreshToken: refreshToken, token: token).toJson());
 

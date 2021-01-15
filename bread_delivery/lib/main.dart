@@ -1,7 +1,7 @@
 import 'package:bread_delivery/BLOC/Login/bloc/login_bloc.dart';
 import 'package:bread_delivery/Entities/storeViewParams.dart';
 import 'package:bread_delivery/Services/Cuenta/accountRepository.dart';
-import 'package:bread_delivery/Views/CommonUser/register.dart';
+import 'package:bread_delivery/Views/CommonUser/registerPage.dart';
 import 'package:bread_delivery/Views/CommonUser/usersPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -50,14 +50,16 @@ class MyApp extends StatelessWidget {
                   builder: (context) => StoresPage("Rutas", params));
               break;
             case '/Register':
-              StoreViewParams params = settings.arguments;
               return MaterialPageRoute(
-                  builder: (context) => Register("Registro"));
+                  builder: (context) => RegisterUserPage("Registro"));
               break;
             case '/User':
-              StoreViewParams params = settings.arguments;
               return MaterialPageRoute(
-                  builder: (context) => UserPage("Registro"));
+                  builder: (context) => UserPage("Usuarios"));
+              break;
+            case '/Qr':
+              return MaterialPageRoute(
+                  builder: (context) => UserPage("Usuarios"));
               break;
           }
           return MaterialPageRoute(builder: (context) => Login());

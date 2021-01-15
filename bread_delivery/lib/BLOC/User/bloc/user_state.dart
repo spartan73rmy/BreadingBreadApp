@@ -9,7 +9,7 @@ abstract class UserState extends Equatable {
 
 class UserInitial extends UserState {}
 
-class UserLoading extends UserState {}
+class UsersLoading extends UserState {}
 
 class UserError extends UserState {
   final MyException e;
@@ -22,10 +22,21 @@ class UserError extends UserState {
   UserError(this.e);
 }
 
-class PathsLoaded extends UserState {
-  final List<UserCreate> users;
+class UserErrorV extends UserState {
+  final ErrorV e;
 
-  PathsLoaded(this.users);
+  @override
+  String toString() {
+    return e.toString();
+  }
+
+  UserErrorV(this.e);
+}
+
+class UsersLoaded extends UserState {
+  final List<User> users;
+
+  UsersLoaded(this.users);
 }
 
 class UserOperationCompleted extends UserState {}

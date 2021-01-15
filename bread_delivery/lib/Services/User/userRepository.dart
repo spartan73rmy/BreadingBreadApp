@@ -1,11 +1,12 @@
 import 'dart:convert';
+import 'package:bread_delivery/Entities/user.dart';
 import 'package:bread_delivery/Entities/userCreate.dart';
 import 'package:bread_delivery/Services/Http/networkError.dart';
 import '../Http/dioClient.dart';
 
 abstract class UserLogic {
-  Future<List<UserCreate>> fetchUsersList();
-  Future<void> addUser(UserCreate user);
+  Future<List<User>> fetchUsersList();
+  Future<dynamic> addUser(UserCreate user);
   Future<void> editUser(UserCreate user);
   Future<void> deleteUser(int id);
 }
@@ -16,19 +17,15 @@ class UserRepository extends UserLogic {
 
   DioClient http = DioClient();
 
-  Future<List<UserCreate>> fetchUsersList() async {
+  Future<List<User>> fetchUsersList() async {
     final response = await http.get(url + "GetList");
-    return List<UserCreate>();
+    return Users.fromJson(response).usuarios;
   }
 
   @override
-  Future<void> addUser(UserCreate user) async {
-    try {
-      await http.post(urlCuenta + "CreateUser",
-          data: jsonEncode(user.toJson()));
-    } catch (e) {
-      throw NetworkError.handleResponse(e);
-    }
+  Future<dynamic> addUser(UserCreate user) async {
+    return await http.post(urlCuenta + "CreateUser",
+        data: jsonEncode(user.toJson()));
   }
 
   @override

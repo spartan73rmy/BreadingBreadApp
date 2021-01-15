@@ -12,9 +12,9 @@ class GetUsers extends UserEvent {
 }
 
 class AddUser extends UserEvent {
-  final String name;
+  final UserCreate user;
 
-  AddUser(this.name) : super([name]);
+  AddUser(this.user) : super([user]);
 }
 
 class EditUser extends UserEvent {
@@ -28,4 +28,8 @@ class DeleteUser extends UserEvent {
   final int id;
 
   DeleteUser(this.id) : super([id]);
+}
+
+class ApproveUser extends UserEvent {
+  ApproveUser() : super([]);
 }

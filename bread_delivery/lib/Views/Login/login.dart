@@ -61,7 +61,7 @@ class _LoginState extends State<Login> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
                       child: Icon(Icons.vpn_key,
-                          size: 200, color: Colors.blueGrey),
+                          size: 150, color: Colors.blueGrey),
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),

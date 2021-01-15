@@ -66,7 +66,9 @@ class _DrawerContentState extends State<DrawerContent> {
                 style:
                     TextStyle(color: Color(Colors.black.value), fontSize: 15)),
           ),
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(context, '/User');
+          },
         ),
         ListTile(
           leading: Icon(Icons.alt_route_rounded),

@@ -1,29 +1,30 @@
+import 'package:bread_delivery/Services/Http/validationErrorHandler.dart';
 import 'package:dio/dio.dart';
 
 class NetworkError extends DioError {
-  static MyException handleResponse(DioError error) {
-    dynamic response = error.response;
+  static MyException handleResponse(dynamic error) {
+    //Errors handled just catch in Bloc
+    if (error is ErrorV) throw error;
+    if (error is MyException) throw error;
+    dynamic response = error?.response;
     if (response == null)
       return MyException(
           "Sin internet", "Revice que este conectado a internet");
 
-    int statusCode = response.statusCode;
+    int statusCode = response?.statusCode;
 
     if (statusCode == 200) return null;
 
     switch (statusCode) {
-      case 0:
-        return MyException("Sin Internet", "Revice su coneccion a internet");
       case 400:
-        return MyException(
-            "Peticion Invalida", "Error en la peticion al servidor");
       case 401:
       case 403:
-        return MyException(
-            response.statusCode, "No se encuentra autorizado, inicie sesion");
+        return MyException(response.statusCode,
+            "No se encuentra autorizado o no tiene permiso");
         break;
       case 404:
-        return MyException(response.statusCode, "No se encuentra el elemento");
+        return MyException(
+            response.statusCode, "No se encuentra, intente otra vez");
         break;
       case 409:
         return MyException(response.statusCode, "Conflicto en la red");
@@ -34,15 +35,15 @@ class NetworkError extends DioError {
         break;
       case 500:
         return MyException(response.statusCode,
-            "Error en el servidor, consulte al administrador");
+            "Error inesperado en el servidor,espere un momento");
         break;
       case 503:
         return MyException(response.statusCode,
-            "El servicio no esta disponible, consulte al administrador");
+            "El servicio no esta disponible temporalmente");
         break;
       default:
-        return MyException(
-            response.statusCode, "Error desconocido, codigo $statusCode");
+        return MyException(response.statusCode, "El error es desconocido");
+        break;
     }
   }
 }

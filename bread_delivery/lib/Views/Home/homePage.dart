@@ -37,11 +37,9 @@ class _HomePageState extends State<HomePage> {
         title: Text(this.widget.title),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.search),
+            icon: Icon(Icons.qr_code_scanner),
             onPressed: () async {
-              //   bool search = await getDataSearch();
-              //   if (search)
-              //     showSearch(context: context, delegate: Search(busqueda));
+              Navigator.of(context).pushNamed("/Qr");
             },
           )
         ],
