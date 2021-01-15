@@ -3,6 +3,7 @@ import 'package:bread_delivery/Entities/storeViewParams.dart';
 import 'package:bread_delivery/Services/Cuenta/accountRepository.dart';
 import 'package:bread_delivery/Views/CommonUser/registerPage.dart';
 import 'package:bread_delivery/Views/CommonUser/usersPage.dart';
+import 'package:bread_delivery/Views/Qr/qrPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'Views/Home/homePage.dart';
@@ -59,7 +60,7 @@ class MyApp extends StatelessWidget {
               break;
             case '/Qr':
               return MaterialPageRoute(
-                  builder: (context) => UserPage("Usuarios"));
+                  builder: (context) => QrPage("Lector QR"));
               break;
           }
           return MaterialPageRoute(builder: (context) => Login());

@@ -9,7 +9,7 @@ class QrScan extends StatefulWidget {
 }
 
 class _QrScanState extends State<QrScan> {
-  int cont;
+  int cont = 0;
   @override
   void initState() {
     //Esto es por si necesitas inicializar algo, NO puede ser async
