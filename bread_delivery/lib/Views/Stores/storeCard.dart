@@ -91,18 +91,18 @@ class _StoreCardState extends State<StoreCard> {
         errorCorrectionLevel: QrErrorCorrectLevel.H,
         version: QrVersions.auto,
         gapless: true,
-        color: Colors.black,
+        color: Colors.blue,
         // embeddedImage: ,
         embeddedImageStyle: QrEmbeddedImageStyle(
           size: Size(40, 40),
-        )).toImageData(100, format: ImageByteFormat.png);
+        )).toImageData(1000, format: ImageByteFormat.png);
 
     Uint8List pngBytes = byteData.buffer.asUint8List();
 
     final tempDir = await getTemporaryDirectory();
     final path = "${tempDir.path}/qrStore${data.id}.png";
     final file = await new File(path).create();
-    final hola = await file.writeAsBytes(pngBytes);
+    await file.writeAsBytes(pngBytes);
 
     final RenderBox box = context.findRenderObject();
     List<String> archivos = new List<String>();
@@ -114,10 +114,6 @@ class _StoreCardState extends State<StoreCard> {
       await Share.shareFiles(archivos,
           text: text,
           subject: sub,
-          sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
-    } else {
-      await Share.share(text,
-          // subject: {subject, Rect.zero},
           sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
     }
   }
