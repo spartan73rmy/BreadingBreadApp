@@ -10,7 +10,7 @@ import '../Local/auth.dart';
 
 class DioClient {
   // final String baseUrl = "https://localhost:5001/api/"; //Emulator
-  final String baseUrl = "https://192.168.0.101:5001/api/"; //WLAN
+  final String baseUrl = "https://192.168.1.83:5001/api/"; //WLAN
   final String urlCuenta = "Cuenta/RefreshCredentials";
   SharedPreferences _storage;
   String accessToken;
