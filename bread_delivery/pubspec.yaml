@@ -13,6 +13,7 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.0
   dio: ^3.0.10
+  share: ^0.6.5+2
   equatable: ^1.2.5
   flutter_bloc: ^6.1.1
   flutter_full_pdf_viewer: ^1.0.6
@@ -23,6 +24,7 @@ dependencies:
   google_maps_flutter: ^1.0.6
   path_provider: ^1.1.0
   qrscan: ^0.2.17
+  qr_flutter: ^3.2.0
   shared_preferences: ^0.5.12+4
   zsdk: ^1.0.6+10
 
