@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
-
+import 'dart:async';
+import 'package:permission_handler/permission_handler.dart';
 
 class QrScan extends StatefulWidget {
   final String title;
@@ -12,7 +12,6 @@ class QrScan extends StatefulWidget {
 }
 
 class _QrScanState extends State<QrScan> {
-
   String _scanResult;
 
   @override
@@ -20,7 +19,6 @@ class _QrScanState extends State<QrScan> {
     //Esto es por si necesitas inicializar algo, NO puede ser async
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +29,11 @@ class _QrScanState extends State<QrScan> {
           title: Text(widget.title),
         ),
         body: Container(
-          child:_scanResult==null ?Text('Esperando datos de código'):Column(
-          children: [
-            Text('Contenido: $_scanResult')
-          ],
-          )
-        ), //Elimina el container y metes el codigo del lector,
+            child: _scanResult == null
+                ? Text('Esperando datos de código')
+                : Column(
+                    children: [Text('Contenido: $_scanResult')],
+                  )), //Elimina el container y metes el codigo del lector,
         floatingActionButton: FloatingActionButton.extended(
             onPressed: () {
               _scan();
@@ -46,6 +43,15 @@ class _QrScanState extends State<QrScan> {
   }
 
   Future _scan() async {
+    Permission.camera.request();
+    // Permission.storage.request();
+    var status = await Permission.camera.status;
+    if (status.isUndetermined) {
+      Permission.camera.request();
+      //Hacer request de permisos
+      Permission.camera.request();
+    }
+
     String barcode = await scanner.scan();
     if (barcode != null) {
       setState(() {
@@ -53,5 +59,4 @@ class _QrScanState extends State<QrScan> {
       });
     }
   }
-
 }
