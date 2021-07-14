@@ -50,8 +50,10 @@ class _StoreListState extends State<StoreList> {
           )
         ]),
         body: BlocListener<StoreBloc, StoreState>(
-            listener: (context, state) =>
-                {if (state is StoreError) snackBar(context, state.toString())},
+            listener: (context, state) => {
+                  if (state is StoreError) snackBar(context, state.toString()),
+                  if (state is StoreOperationCompleted) _getData()
+                },
             child:
                 BlocBuilder<StoreBloc, StoreState>(builder: (context, state) {
               if (state is StoresLoaded)

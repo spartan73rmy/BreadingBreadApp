@@ -64,7 +64,7 @@ class _UserListState extends State<UserList> {
                                     builder: (_) => DeleteDialog()) ??
                                 false;
                             if (result) {
-                              _deleteUser(state.users[index].id);
+                              _deleteUser(state.users[index].userName);
                             }
                             return result;
                           },
@@ -143,7 +143,7 @@ class _UserListState extends State<UserList> {
     BlocProvider.of<UserBloc>(context).add(GetUsers());
   }
 
-  _deleteUser(int id) async {
+  _deleteUser(String id) async {
     BlocProvider.of<UserBloc>(context).add(DeleteUser(id));
     _getUsers();
   }

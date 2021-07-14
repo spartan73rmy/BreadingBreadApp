@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
             case '/Store':
               StoreViewParams params = settings.arguments;
               return MaterialPageRoute(
-                  builder: (context) => StoresPage("Rutas", params));
+                  builder: (context) => StoresPage("Tiendas", params));
               break;
             case '/Register':
               return MaterialPageRoute(
