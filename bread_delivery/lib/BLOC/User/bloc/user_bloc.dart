@@ -25,10 +25,10 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         if (users != null) {
           yield UsersLoaded(users);
         }
-        yield UsersLoaded(List<User>());
+        yield UsersLoaded(<User>[]);
       } catch (e) {
         if (e is MyException && e != null) yield UserError(e);
-        yield UsersLoaded(List<User>());
+        yield UsersLoaded(<User>[]);
       }
     }
 
@@ -61,7 +61,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         yield UserOperationCompleted();
       } catch (e) {
         if (e is MyException && e != null) yield UserError(e);
-        yield UsersLoaded(List<User>());
+        yield UsersLoaded(<User>[]);
       }
     }
 
@@ -72,7 +72,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         yield UserOperationCompleted();
       } catch (e) {
         if (e is MyException && e != null) yield UserError(e);
-        yield UsersLoaded(List<User>());
+        yield UsersLoaded(<User>[]);
       }
     }
   }

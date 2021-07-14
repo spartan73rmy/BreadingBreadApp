@@ -24,10 +24,10 @@ class PathsBloc extends Bloc<PathsEvent, PathsState> {
         if (paths != null) {
           yield PathsLoaded(paths);
         }
-        yield PathsLoaded(List<Path>());
+        yield PathsLoaded(<Path>[]);
       } catch (e) {
         if (e is MyException && e != null) yield PathsError(e);
-        yield PathsLoaded(List<Path>());
+        yield PathsLoaded(<Path>[]);
       }
     }
 
@@ -38,7 +38,7 @@ class PathsBloc extends Bloc<PathsEvent, PathsState> {
         yield PathOperationCompleted();
       } catch (e) {
         if (e is MyException && e != null) yield PathsError(e);
-        yield PathsLoaded(List<Path>());
+        yield PathsLoaded(<Path>[]);
       }
     }
     if (event is EditPath) {
@@ -48,7 +48,7 @@ class PathsBloc extends Bloc<PathsEvent, PathsState> {
         yield PathOperationCompleted();
       } catch (e) {
         if (e is MyException && e != null) yield PathsError(e);
-        yield PathsLoaded(List<Path>());
+        yield PathsLoaded(<Path>[]);
       }
     }
 
@@ -59,7 +59,7 @@ class PathsBloc extends Bloc<PathsEvent, PathsState> {
         yield PathOperationCompleted();
       } catch (e) {
         if (e is MyException && e != null) yield PathsError(e);
-        yield PathsLoaded(List<Path>());
+        yield PathsLoaded(<Path>[]);
       }
     }
   }

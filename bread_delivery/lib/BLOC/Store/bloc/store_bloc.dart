@@ -24,10 +24,10 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
         if (stores != null) {
           yield StoresLoaded(stores);
         }
-        yield StoresLoaded(List<Store>());
+        yield StoresLoaded(<Store>[]);
       } catch (e) {
         if (e is MyException && e != null) yield StoreError(e);
-        yield StoresLoaded(List<Store>());
+        yield StoresLoaded(<Store>[]);
       }
     }
 
@@ -38,7 +38,7 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
         yield StoreOperationCompleted();
       } catch (e) {
         if (e is MyException && e != null) yield StoreError(e);
-        yield StoresLoaded(List<Store>());
+        yield StoresLoaded(<Store>[]);
       }
     }
     if (event is EditStore) {
@@ -48,7 +48,7 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
         yield StoreOperationCompleted();
       } catch (e) {
         if (e is MyException && e != null) yield StoreError(e);
-        yield StoresLoaded(List<Store>());
+        yield StoresLoaded(<Store>[]);
       }
     }
 
@@ -59,7 +59,7 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
         yield StoreOperationCompleted();
       } catch (e) {
         if (e is MyException && e != null) yield StoreError(e);
-        yield StoresLoaded(List<Store>());
+        yield StoresLoaded(<Store>[]);
       }
     }
   }
