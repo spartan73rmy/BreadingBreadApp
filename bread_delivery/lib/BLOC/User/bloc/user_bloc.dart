@@ -25,10 +25,10 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         if (users != null) {
           yield UsersLoaded(users);
         }
-        yield UsersLoaded(List<User>());
+        yield UsersLoaded(<User>[]);
       } catch (e) {
         if (e is MyException && e != null) yield UserError(e);
-        yield UsersLoaded(List<User>());
+        yield UsersLoaded(<User>[]);
       }
     }
 
@@ -46,7 +46,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     if (event is EditUser) {
       yield UsersLoading();
       try {
-        // await logic.editUser(event.id, event.name);
+        await logic.editUser(event.id, event.name);
         yield UserOperationCompleted();
       } catch (e) {
         if (e is MyException && e != null) yield UserError(e);
@@ -57,22 +57,22 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     if (event is DeleteUser) {
       yield UsersLoading();
       try {
-        await logic.deleteUser(event.id);
+        await logic.deleteUser(event.userName);
         yield UserOperationCompleted();
       } catch (e) {
         if (e is MyException && e != null) yield UserError(e);
-        yield UsersLoaded(List<User>());
+        yield UsersLoaded(<User>[]);
       }
     }
 
     if (event is ApproveUser) {
       yield UsersLoading();
       try {
-        // await logic.deleteUser(event.id);
+        // await logic.apro(event.id);
         yield UserOperationCompleted();
       } catch (e) {
         if (e is MyException && e != null) yield UserError(e);
-        yield UsersLoaded(List<User>());
+        yield UsersLoaded(<User>[]);
       }
     }
   }

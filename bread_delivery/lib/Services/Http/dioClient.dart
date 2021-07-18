@@ -9,14 +9,19 @@ import '../../Services/Http/networkError.dart';
 import '../Local/auth.dart';
 
 class DioClient {
+<<<<<<< HEAD
   // final String baseUrl = "https://localhost:5001/api/"; //Emulator
   final String baseUrl = "https://192.168.1.69:5001/api/"; //WLAN
+=======
+  // final String baseUrl = "https://localhost:5001/api/"; //Emulator (Esto no jala aun si es emulador)
+  final String baseUrl = "https://10.0.0.6:5001/api/"; //WLAN
+>>>>>>> f485b9014131e01b72ce4e28092a4542f6ef228d
   final String urlCuenta = "Cuenta/RefreshCredentials";
   SharedPreferences _storage;
   String accessToken;
 
   Dio _dio;
-  final List<Interceptor> interceptors = new List<Interceptor>();
+  final List<Interceptor> interceptors = <Interceptor>[];
 
   DioClient() {
     _dio = Dio();

@@ -24,42 +24,42 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
         if (stores != null) {
           yield StoresLoaded(stores);
         }
-        yield StoresLoaded(List<Store>());
+        yield StoresLoaded(<Store>[]);
       } catch (e) {
         if (e is MyException && e != null) yield StoreError(e);
-        yield StoresLoaded(List<Store>());
+        yield StoresLoaded(<Store>[]);
       }
     }
 
     if (event is AddStore) {
       yield StoreLoading();
       try {
-        // await logic.addStore(event.name);
+        await logic.addStore(1, event.name);
         yield StoreOperationCompleted();
       } catch (e) {
         if (e is MyException && e != null) yield StoreError(e);
-        yield StoresLoaded(List<Store>());
+        yield StoresLoaded(<Store>[]);
       }
     }
     if (event is EditStore) {
       yield StoreLoading();
       try {
-        // await logic.editStore(event.id, event.name);
+        await logic.editStore(event.id, event.name);
         yield StoreOperationCompleted();
       } catch (e) {
         if (e is MyException && e != null) yield StoreError(e);
-        yield StoresLoaded(List<Store>());
+        yield StoresLoaded(<Store>[]);
       }
     }
 
     if (event is DeleteStore) {
       yield StoreLoading();
       try {
-        // await logic.deleteStore(event.id);
+        await logic.deleteStore(event.id);
         yield StoreOperationCompleted();
       } catch (e) {
         if (e is MyException && e != null) yield StoreError(e);
-        yield StoresLoaded(List<Store>());
+        yield StoresLoaded(<Store>[]);
       }
     }
   }

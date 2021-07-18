@@ -7,8 +7,8 @@ import '../Http/dioClient.dart';
 abstract class UserLogic {
   Future<List<User>> fetchUsersList();
   Future<dynamic> addUser(UserCreate user);
-  Future<void> editUser(UserCreate user);
-  Future<void> deleteUser(int id);
+  Future<void> editUser(int id, String name);
+  Future<void> deleteUser(String userName);
 }
 
 class UserRepository extends UserLogic {
@@ -29,18 +29,18 @@ class UserRepository extends UserLogic {
   }
 
   @override
-  Future<void> editUser(UserCreate user) async {
+  Future<void> editUser(int id, String name) async {
     try {
-      await http.post(url + "Edit", data: jsonEncode(user.toJson()));
+      await http.post(url + "Edit", data: jsonEncode({'id': id, 'name': name}));
     } catch (e) {
       throw NetworkError.handleResponse(e);
     }
   }
 
   @override
-  Future<void> deleteUser(int id) async {
+  Future<void> deleteUser(String userName) async {
     try {
-      await http.post(url + "Delete", data: jsonEncode({'id': id}));
+      await http.post(url + "Delete", data: jsonEncode({'userName': userName}));
     } catch (e) {
       throw NetworkError.handleResponse(e);
     }

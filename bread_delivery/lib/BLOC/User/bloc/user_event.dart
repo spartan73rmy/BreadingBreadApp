@@ -25,9 +25,9 @@ class EditUser extends UserEvent {
 }
 
 class DeleteUser extends UserEvent {
-  final int id;
+  final String userName;
 
-  DeleteUser(this.id) : super([id]);
+  DeleteUser(this.userName) : super([userName]);
 }
 
 class ApproveUser extends UserEvent {

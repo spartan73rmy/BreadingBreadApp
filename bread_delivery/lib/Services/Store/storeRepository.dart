@@ -5,7 +5,7 @@ import '../../Services/Http/dioClient.dart';
 
 abstract class StoresLogic {
   Future<List<Store>> fetchStoresList(int idPath);
-  Future<void> addStore(String name);
+  Future<void> addStore(int idPath, String name);
   Future<void> editStore(int id, String name);
   Future<void> deleteStore(int id);
 }
@@ -21,9 +21,10 @@ class StoreRepository extends StoresLogic {
   }
 
   @override
-  Future<void> addStore(String name) async {
+  Future<void> addStore(int idPath, String name) async {
     try {
-      await http.post(url + "Add", data: jsonEncode({'name': name}));
+      await http.post(url + "Add",
+          data: jsonEncode({'idPath': idPath, 'name': name}));
     } catch (e) {
       throw NetworkError.handleResponse(e);
     }
