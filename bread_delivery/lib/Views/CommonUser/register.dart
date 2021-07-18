@@ -78,10 +78,11 @@ class _RegisterState extends State<Register> {
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
             child: PasswordField(
-              passwordController: _passwordController,
-              obscureText: _obscureText,
-              passwordError: _passwordError,
-              togglePassword: _togglePassword,
+              "Constraseña",
+              _passwordController,
+              _obscureText,
+              _passwordError,
+              _togglePassword,
             ),
           ),
           Padding(
