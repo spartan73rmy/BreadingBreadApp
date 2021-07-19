@@ -68,6 +68,10 @@ class MyApp extends StatelessWidget {
                 bool isAdmin = settings.arguments;
                 return MaterialPageRoute(builder: (context) => ProductsPage('Productos', isAdmin));
                 break;
+              case Routes.Product: //!changue route to Promotions and test if works
+                bool isAdmin = settings.arguments;
+                return MaterialPageRoute(builder: (context) => ProductsPage('Productos', isAdmin));
+                break;
           }
           return MaterialPageRoute(builder: (context) => Login());
         });

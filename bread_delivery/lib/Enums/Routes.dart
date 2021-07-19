@@ -7,4 +7,5 @@ class Routes {
   static const String User = "User";
   static const String Qr = "Qr";
   static const String Product = "Product";
+  static const String Promotions = "Promotions";
 }
