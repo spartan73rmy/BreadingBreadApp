@@ -1,4 +1,5 @@
 import 'package:bread_delivery/CommonWidgets/drawerContent.dart';
+import 'package:bread_delivery/Enums/Routes.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -39,7 +40,7 @@ class _HomePageState extends State<HomePage> {
           IconButton(
             icon: Icon(Icons.qr_code_scanner),
             onPressed: () async {
-              Navigator.of(context).pushNamed("/Qr");
+              Navigator.of(context).pushNamed(Routes.Qr);
             },
           )
         ],

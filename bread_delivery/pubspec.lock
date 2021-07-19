@@ -28,11 +28,7 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
     version: "2.6.1"
-=======
-    version: "2.5.0"
->>>>>>> f485b9014131e01b72ce4e28092a4542f6ef228d
   bloc:
     dependency: transitive
     description:
@@ -535,11 +531,7 @@ packages:
       name: source_span
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
     version: "1.8.1"
-=======
-    version: "1.8.0"
->>>>>>> f485b9014131e01b72ce4e28092a4542f6ef228d
   stack_trace:
     dependency: transitive
     description:
@@ -581,11 +573,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
     version: "0.3.0"
-=======
-    version: "0.2.19"
->>>>>>> f485b9014131e01b72ce4e28092a4542f6ef228d
   typed_data:
     dependency: transitive
     description:
@@ -636,9 +624,5 @@ packages:
     source: hosted
     version: "1.0.6+10"
 sdks:
-<<<<<<< HEAD
   dart: ">=2.13.0 <3.0.0"
-=======
-  dart: ">=2.12.0-0.0 <3.0.0"
->>>>>>> f485b9014131e01b72ce4e28092a4542f6ef228d
   flutter: ">=1.22.0"

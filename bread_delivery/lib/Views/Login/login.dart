@@ -6,6 +6,7 @@ import 'package:bread_delivery/CommonWidgets/snackBar.dart';
 import 'package:bread_delivery/Entities/userType.dart';
 import 'package:bread_delivery/CommonWidgets/background.dart';
 import 'package:bread_delivery/CommonWidgets/button_primary.dart';
+import 'package:bread_delivery/Enums/Routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -41,7 +42,7 @@ class _LoginState extends State<Login> {
   void _pathRegister(context) {
     Navigator.pushNamed(
       context,
-      '/Register',
+      Routes.Register,
     );
   }
 
@@ -60,7 +61,7 @@ class _LoginState extends State<Login> {
                   if (state is ErrorLogin)
                     snackBar(context, state.toString())
                   else if (state is SuccessLogin)
-                    Navigator.pushReplacementNamed(context, '/Home',
+                    Navigator.pushReplacementNamed(context, Routes.Home,
                         arguments: state.token.user.userType == UserType.adminT)
                 },
             child:
