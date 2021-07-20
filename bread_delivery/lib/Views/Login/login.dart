@@ -69,7 +69,7 @@ class _LoginState extends State<Login> {
               if (state is LoadingLogin) return LoadingScreen();
               return Stack(
                 children: [
-                  background(),
+                  Background(),
                   Scaffold(
                       backgroundColor: Colors.transparent,
                       body: SingleChildScrollView(

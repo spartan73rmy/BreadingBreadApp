@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Bread',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.brown,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         home: BlocProvider(
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         ),
         //Configure router
         onGenerateRoute: (RouteSettings settings) {
-          switch (settings.name){
+          switch (settings.name) {
             case Routes.Login:
               return MaterialPageRoute(builder: (context) => Login());
               break;
@@ -64,14 +64,17 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(
                   builder: (context) => QrPage("Lector QR"));
               break;
-              case Routes.Product:
-                bool isAdmin = settings.arguments;
-                return MaterialPageRoute(builder: (context) => ProductsPage('Productos', isAdmin));
-                break;
-              case Routes.Product: //!changue route to Promotions and test if works
-                bool isAdmin = settings.arguments;
-                return MaterialPageRoute(builder: (context) => ProductsPage('Productos', isAdmin));
-                break;
+            case Routes.Product:
+              bool isAdmin = settings.arguments;
+              return MaterialPageRoute(
+                  builder: (context) => ProductsPage('Productos', isAdmin));
+              break;
+            case Routes
+                .Product: //!changue route to Promotions and test if works
+              bool isAdmin = settings.arguments;
+              return MaterialPageRoute(
+                  builder: (context) => ProductsPage('Productos', isAdmin));
+              break;
           }
           return MaterialPageRoute(builder: (context) => Login());
         });
