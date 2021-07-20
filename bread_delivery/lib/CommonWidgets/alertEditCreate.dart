@@ -11,13 +11,13 @@ class SelectCreateEdit extends StatelessWidget {
         title: Text(tittle),
         content: Text(text),
         actions: [
-          FlatButton(
+          TextButton(
             child: Text("Crear"),
             onPressed: () {
               Navigator.pop(context, true);
             },
           ),
-          FlatButton(
+          TextButton(
             child: Text("Editar"),
             onPressed: () {
               Navigator.pop(context, false);

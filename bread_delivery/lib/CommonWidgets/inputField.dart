@@ -31,17 +31,16 @@ class InputField extends StatelessWidget {
                     ]),
                 child: TextField(
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 15),
-                    border: InputBorder.none,
-                    hintText: placeHolder,
-                    hintStyle: TextStyle(color: Colors.brown, fontSize: 20),
-                    errorText: error,
-                  ),
+                      contentPadding: EdgeInsets.symmetric(vertical: 15),
+                      border: InputBorder.none,
+                      hintText: placeHolder,
+                      hintStyle: TextStyle(color: Colors.brown, fontSize: 20),
+                      errorText: error),
                   style: TextStyle(color: Colors.brown, fontSize: 20),
                   cursorColor: Colors.brown,
                   keyboardType: input,
                   controller: textController,
-                ))
+                )),
           ],
         ));
   }

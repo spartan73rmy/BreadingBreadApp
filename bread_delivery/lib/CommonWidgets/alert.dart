@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 alertDiag(BuildContext context, String tittle, String text) {
   // set up the button
-  Widget okButton = FlatButton(
+  Widget okButton = TextButton(
     child: Text("Aceptar"),
     onPressed: () {
       Navigator.of(context).pop(true); // dismiss dialog

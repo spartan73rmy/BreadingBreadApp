@@ -44,7 +44,9 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: Stack(children: [
       Background(),
       Scaffold(
           backgroundColor: Colors.transparent,
@@ -62,7 +64,7 @@ class _RegisterState extends State<Register> {
             if (state is UsersLoading) return LoadingScreen();
             return registerScreen();
           })))
-    ]);
+    ]));
   }
 
   Widget registerScreen() {
@@ -78,11 +80,12 @@ class _RegisterState extends State<Register> {
         Column(
           children: [
             Container(
-              child: InputField.onlyName("Nombre completo"),
+              child: InputField("Nombre completo", _nombreController,
+                  _nombreError, TextInputType.name),
               margin: EdgeInsets.only(bottom: 25),
             ),
             Container(
-              child: InputField("Usuario", _userNameController, _nombreError,
+              child: InputField("Usuario", _userNameController, _userError,
                   TextInputType.emailAddress),
               margin: EdgeInsets.only(bottom: 25),
             ),

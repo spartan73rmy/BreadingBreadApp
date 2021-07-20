@@ -9,11 +9,6 @@ class ButtonPrimary extends StatelessWidget {
   var listPaddingText = [];
   final VoidCallback onPressCallback;
 
-  // buttonPrimary(this.function, this.textButton, this.pathImage, this.sizeImage,
-  //     this.listPaddingIcon, this.listPaddingText,
-  //     {Key key, this.functionPath});
-  //
-
   ButtonPrimary(this.function, this.textButton, this.pathImage, this.sizeImage,
       this.listPaddingIcon, this.listPaddingText, this.onPressCallback);
 
@@ -53,7 +48,6 @@ class ButtonPrimary extends StatelessWidget {
             ),
           ],
         ),
-        //onPressed: () => functionPath(function));
         onPressed: () => onPressCallback());
   }
 }

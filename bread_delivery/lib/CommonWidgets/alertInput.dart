@@ -45,7 +45,7 @@ Future<String> alertInputDiag(
                             )
                           ])))),
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               child: Text("Aceptar"),
               onPressed: () {
                 final form = _formKey.currentState;

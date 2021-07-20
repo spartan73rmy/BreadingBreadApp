@@ -1,3 +1,4 @@
+import 'package:bread_delivery/CommonWidgets/background.dart';
 import 'package:bread_delivery/CommonWidgets/drawerContent.dart';
 import 'package:bread_delivery/Enums/Routes.dart';
 import 'package:flutter/material.dart';
@@ -31,31 +32,35 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      drawer: DrawerContent(isAdmin: isAdmin),
-      appBar: AppBar(
-        title: Text(this.widget.title),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.qr_code_scanner),
-            onPressed: () async {
-              Navigator.of(context).pushNamed(Routes.Qr);
-            },
+    return Stack(children: [
+      Background(),
+      Scaffold(
+        backgroundColor: Colors.transparent,
+        key: scaffoldKey,
+        drawer: DrawerContent(isAdmin: isAdmin),
+        appBar: AppBar(
+          title: Text(this.widget.title),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.qr_code_scanner),
+              onPressed: () async {
+                Navigator.of(context).pushNamed(Routes.Qr);
+              },
+            )
+          ],
+        ),
+        body: Builder(builder: (context) {
+          return Container();
+        }),
+        persistentFooterButtons: <Widget>[
+          FloatingActionButton.extended(
+            icon: Icon(Icons.add),
+            backgroundColor: Theme.of(context).primaryColor,
+            onPressed: () {},
+            label: Text("Pedido"),
           )
         ],
-      ),
-      body: Builder(builder: (context) {
-        return Container();
-      }),
-      persistentFooterButtons: <Widget>[
-        FloatingActionButton.extended(
-          icon: Icon(Icons.add),
-          backgroundColor: Theme.of(context).primaryColor,
-          onPressed: () {},
-          label: Text("Pedido"),
-        )
-      ],
-    );
+      )
+    ]);
   }
 }

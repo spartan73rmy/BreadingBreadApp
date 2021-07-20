@@ -7,13 +7,13 @@ class DeleteDialog extends StatelessWidget {
       title: Text('Advertencia'),
       content: Text('Estas segur@ de desear eliminarlo'),
       actions: <Widget>[
-        FlatButton(
+        TextButton(
           child: Text('Si'),
           onPressed: () {
             Navigator.of(context).pop(true);
           },
         ),
-        FlatButton(
+        TextButton(
           child: Text('No'),
           onPressed: () {
             Navigator.of(context).pop(false);

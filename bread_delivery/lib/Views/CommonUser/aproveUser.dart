@@ -14,13 +14,13 @@ class _AproveUserState extends State<AproveUser> {
       title: Text('Advertencia'),
       content: Text('Desea aprobar a este usuario?'),
       actions: <Widget>[
-        FlatButton(
+        TextButton(
           child: Text('Si'),
           onPressed: () {
             Navigator.of(context).pop(true);
           },
         ),
-        FlatButton(
+        TextButton(
           child: Text('No'),
           onPressed: () {
             Navigator.of(context).pop(false);

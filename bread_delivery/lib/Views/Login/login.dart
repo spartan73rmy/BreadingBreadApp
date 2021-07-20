@@ -54,85 +54,96 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        key: _scaffoldKey,
-        body: BlocListener<LoginBloc, LoginState>(
-            listener: (context, state) => {
-                  if (state is ErrorLogin)
-                    snackBar(context, state.toString())
-                  else if (state is SuccessLogin)
-                    Navigator.pushReplacementNamed(context, Routes.Home,
-                        arguments: state.token.user.userType == UserType.adminT)
-                },
-            child:
-                BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
-              if (state is LoadingLogin) return LoadingScreen();
-              return Stack(
-                children: [
-                  Background(),
-                  Scaffold(
-                      backgroundColor: Colors.transparent,
-                      body: SingleChildScrollView(
-                          child: SafeArea(
-                              child: Column(
-                        children: [
-                          Container(
-                            height: 300,
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                              image: AssetImage('assets/images/logo.png'),
-                            )),
-                          ),
-                          Container(
-                            child: InputField("Usuario", _userNameController,
-                                _emailError, TextInputType.emailAddress),
-                            margin: EdgeInsets.only(bottom: 25),
-                          ),
-                          Container(
-                            child: PasswordField(
-                                "Contraseña",
-                                _passwordController,
-                                _obscureText,
-                                _passwordError,
-                                _togglePassword),
-                          ),
-                          Container(
-                              padding: EdgeInsets.only(left: 130, bottom: 50),
-                              child: TextButton(
-                                style:
-                                    TextButton.styleFrom(primary: Colors.white),
-                                onPressed: () {},
-                                child: Text(
-                                  '¿Olvidaste tu contraseña?',
-                                  style: TextStyle(
-                                      decoration: TextDecoration.underline),
+    return GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: Stack(children: [
+          Background(),
+          Scaffold(
+              backgroundColor: Colors.transparent,
+              key: _scaffoldKey,
+              body: BlocListener<LoginBloc, LoginState>(
+                  listener: (context, state) => {
+                        if (state is ErrorLogin)
+                          snackBar(context, state.toString())
+                        else if (state is SuccessLogin)
+                          Navigator.pushReplacementNamed(context, Routes.Home,
+                              arguments:
+                                  state.token.user.userType == UserType.adminT)
+                      },
+                  child: BlocBuilder<LoginBloc, LoginState>(
+                      builder: (context, state) {
+                    if (state is LoadingLogin) return LoadingScreen();
+                    return Stack(
+                      children: [
+                        Scaffold(
+                            backgroundColor: Colors.transparent,
+                            body: SingleChildScrollView(
+                                child: SafeArea(
+                                    child: Column(
+                              children: [
+                                Container(
+                                  height: 300,
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                    image: AssetImage('assets/images/logo.png'),
+                                  )),
                                 ),
-                              )),
-                          Container(
-                            margin: EdgeInsets.only(bottom: 20),
-                            child: ButtonPrimary(
-                                "login",
-                                "Iniciar Sesión",
-                                'assets/icons/access_icon.png',
-                                25,
-                                [15.0, 10.0, 5.0, 10.0],
-                                [5.0, 10.0, 15.0, 10.0],
-                                () => _doLogin(context)),
-                          ),
-                          Container(
-                            child: ButtonPrimary(
-                                "register",
-                                "Registrarse",
-                                'assets/icons/registration_icon.png',
-                                25,
-                                [15.0, 10.0, 10.0, 10.0],
-                                [5.0, 10.0, 20.0, 10.0],
-                                () => _userRegister(context)),
-                          )
-                        ],
-                      ))))
-                ],
-              );
-            })));
+                                Container(
+                                  child: InputField(
+                                      "Usuario",
+                                      _userNameController,
+                                      _emailError,
+                                      TextInputType.emailAddress),
+                                  margin: EdgeInsets.only(bottom: 25),
+                                ),
+                                Container(
+                                  child: PasswordField(
+                                      "Contraseña",
+                                      _passwordController,
+                                      _obscureText,
+                                      _passwordError,
+                                      _togglePassword),
+                                ),
+                                Container(
+                                    padding:
+                                        EdgeInsets.only(left: 130, bottom: 50),
+                                    child: TextButton(
+                                      style: TextButton.styleFrom(
+                                          primary: Colors.white),
+                                      onPressed: () {},
+                                      child: Text(
+                                        '¿Olvidaste tu contraseña?',
+                                        style: TextStyle(
+                                            decoration:
+                                                TextDecoration.underline),
+                                      ),
+                                    )),
+                                Container(
+                                  margin: EdgeInsets.only(bottom: 20),
+                                  child: ButtonPrimary(
+                                      "login",
+                                      "Iniciar Sesión",
+                                      'assets/icons/access_icon.png',
+                                      25,
+                                      [15.0, 10.0, 5.0, 10.0],
+                                      [5.0, 10.0, 15.0, 10.0],
+                                      () => _doLogin(context)),
+                                ),
+                                Container(
+                                  child: ButtonPrimary(
+                                      "register",
+                                      "Registrarse",
+                                      'assets/icons/registration_icon.png',
+                                      25,
+                                      [15.0, 10.0, 10.0, 10.0],
+                                      [5.0, 10.0, 20.0, 10.0],
+                                      () => _userRegister(context)),
+                                )
+                              ],
+                            ))))
+                      ],
+                    );
+                  })))
+        ]));
   }
 }
