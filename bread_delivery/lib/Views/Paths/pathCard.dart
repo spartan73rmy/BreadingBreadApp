@@ -1,6 +1,7 @@
 import 'package:bread_delivery/BLOC/Paths/bloc/paths_bloc.dart';
 import 'package:bread_delivery/CommonWidgets/alertInput.dart';
 import 'package:bread_delivery/Entities/storeViewParams.dart';
+import 'package:bread_delivery/Enums/Routes.dart';
 import 'package:flutter/material.dart';
 import 'package:bread_delivery/Entities/path.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,7 +53,7 @@ class _PathCardState extends State<PathCard> {
         onTap: () async {
           if (isAdmin) {
             //Si es admin ver tiendas
-            Navigator.pushNamed(context, "/Store",
+            Navigator.pushNamed(context, Routes.Stores,
                 arguments: StoreViewParams(data.id, isAdmin));
           } else {
             //TODO si es usuario enviar como seleccionado y redirigir a home

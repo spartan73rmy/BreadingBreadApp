@@ -3,6 +3,7 @@ import 'package:bread_delivery/CommonWidgets/deleteDialog.dart';
 import 'package:bread_delivery/CommonWidgets/loadingScreen.dart';
 import 'package:bread_delivery/CommonWidgets/snackBar.dart';
 import 'package:bread_delivery/Entities/userCreate.dart';
+import 'package:bread_delivery/Enums/Routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -32,7 +33,7 @@ class _UserListState extends State<UserList> {
         appBar: AppBar(title: Text(widget.title)),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.of(context).pushNamed("/Register").then((_) {
+            Navigator.of(context).pushNamed(Routes.Register).then((_) {
               _getUsers();
             });
           },

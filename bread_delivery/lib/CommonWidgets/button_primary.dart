@@ -1,20 +1,21 @@
-import 'package:bread_delivery/BLOC/Login/bloc/login_bloc.dart';
-import 'package:bread_delivery/Views/Login/login.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
-class buttonPrimary extends StatelessWidget {
+class ButtonPrimary extends StatelessWidget {
   final String function;
   final String textButton;
   final String pathImage;
   final double sizeImage;
   var listPaddingIcon = [];
   var listPaddingText = [];
-  final Function(String) functionPath;
+  final VoidCallback onPressCallback;
 
-  buttonPrimary(this.function, this.textButton, this.pathImage, this.sizeImage,
-      this.listPaddingIcon, this.listPaddingText,
-      {Key key, this.functionPath});
+  // buttonPrimary(this.function, this.textButton, this.pathImage, this.sizeImage,
+  //     this.listPaddingIcon, this.listPaddingText,
+  //     {Key key, this.functionPath});
+  //
+
+  ButtonPrimary(this.function, this.textButton, this.pathImage, this.sizeImage,
+      this.listPaddingIcon, this.listPaddingText, this.onPressCallback);
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +53,7 @@ class buttonPrimary extends StatelessWidget {
             ),
           ],
         ),
-        onPressed: () => functionPath(function));
+        //onPressed: () => functionPath(function));
+        onPressed: () => onPressCallback());
   }
 }

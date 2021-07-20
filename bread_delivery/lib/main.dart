@@ -1,5 +1,6 @@
 import 'package:bread_delivery/BLOC/Login/bloc/login_bloc.dart';
 import 'package:bread_delivery/Entities/storeViewParams.dart';
+import 'package:bread_delivery/Enums/Routes.dart';
 import 'package:bread_delivery/Services/Cuenta/accountRepository.dart';
 import 'package:bread_delivery/Views/CommonUser/registerPage.dart';
 import 'package:bread_delivery/Views/CommonUser/usersPage.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Bread',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.brown,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         home: BlocProvider(
@@ -33,40 +34,47 @@ class MyApp extends StatelessWidget {
         //Configure router
         onGenerateRoute: (RouteSettings settings) {
           switch (settings.name) {
-            case '/Login':
+            case Routes.Login:
               return MaterialPageRoute(builder: (context) => Login());
               break;
-            case '/Home':
+            case Routes.Home:
               bool isAdmin = settings.arguments;
               return MaterialPageRoute(
                   builder: (context) => HomePage("Pan", isAdmin));
               break;
-            case '/Path':
+            case Routes.Paths:
               bool isAdmin = settings.arguments;
               return MaterialPageRoute(
                   builder: (context) => PathsPage("Rutas", isAdmin));
               break;
-            case '/Store':
+            case Routes.Stores:
               StoreViewParams params = settings.arguments;
               return MaterialPageRoute(
                   builder: (context) => StoresPage("Tiendas", params));
               break;
-            case '/Register':
+            case Routes.Register:
               return MaterialPageRoute(
                   builder: (context) => RegisterUserPage("Registro"));
               break;
-            case '/User':
+            case Routes.User:
               return MaterialPageRoute(
                   builder: (context) => UserPage("Usuarios"));
               break;
-            case '/Qr':
+            case Routes.Qr:
               return MaterialPageRoute(
                   builder: (context) => QrPage("Lector QR"));
               break;
-              case '/Product':
-                bool isAdmin = settings.arguments;
-                return MaterialPageRoute(builder: (context) => ProductsPage('Productos', isAdmin));
-                break;
+            case Routes.Product:
+              bool isAdmin = settings.arguments;
+              return MaterialPageRoute(
+                  builder: (context) => ProductsPage('Productos', isAdmin));
+              break;
+            case Routes
+                .Product: //!changue route to Promotions and test if works
+              bool isAdmin = settings.arguments;
+              return MaterialPageRoute(
+                  builder: (context) => ProductsPage('Productos', isAdmin));
+              break;
           }
           return MaterialPageRoute(builder: (context) => Login());
         });

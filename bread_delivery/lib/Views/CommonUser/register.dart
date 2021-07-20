@@ -45,7 +45,7 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Stack(children: [
-      background(),
+      Background(),
       Scaffold(
           backgroundColor: Colors.transparent,
           body: BlocListener<UserBloc, UserState>(listener: (context, state) {
@@ -153,28 +153,22 @@ class _RegisterState extends State<Register> {
             ),
             Container(
               padding: EdgeInsets.only(top: 25),
-              child: buttonPrimary(
+              child: ButtonPrimary(
                 'register',
                 "Registrar usuario",
                 'assets/icons/access_icon.png',
                 25,
                 [15.0, 10.0, 5.0, 10.0],
                 [5.0, 10.0, 15.0, 10.0],
-                functionPath: (value) => {_ReturnValueToParent(value)},
+                () => {
+                  if (_isValid()) {_saveData()}
+                },
               ),
             ),
           ],
         ),
       ]),
     );
-  }
-
-  _ReturnValueToParent(value) async {
-    switch (value) {
-      case "register":
-        if (_isValid()) await _saveData();
-        break;
-    }
   }
 
   _isValid() {
