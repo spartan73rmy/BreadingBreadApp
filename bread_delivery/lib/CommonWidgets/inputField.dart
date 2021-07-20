@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 
 class InputField extends StatelessWidget {
-  final TextEditingController textController;
-  final TextInputType input;
-  final String error;
-  final String placeHolder;
+  TextEditingController textController;
+  TextInputType input;
+  String error;
+  String placeHolder;
+
   InputField(this.placeHolder, this.textController, this.error, this.input);
+
+  InputField.onlyName(this.placeHolder);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 50),
+        padding: EdgeInsets.symmetric(horizontal: 50),
         child: Column(
           children: [
             Container(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
+                padding: EdgeInsets.symmetric(horizontal: 15),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(5),
@@ -28,7 +31,7 @@ class InputField extends StatelessWidget {
                     ]),
                 child: TextField(
                   decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(vertical: 15),
+                    contentPadding: EdgeInsets.symmetric(vertical: 15),
                     border: InputBorder.none,
                     hintText: placeHolder,
                     hintStyle: TextStyle(color: Colors.brown, fontSize: 20),

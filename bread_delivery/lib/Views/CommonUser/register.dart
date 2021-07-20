@@ -1,4 +1,6 @@
 import 'package:bread_delivery/BLOC/User/bloc/user_bloc.dart';
+import 'package:bread_delivery/CommonWidgets/background.dart';
+import 'package:bread_delivery/CommonWidgets/button_primary.dart';
 import 'package:bread_delivery/CommonWidgets/alert.dart';
 import 'package:bread_delivery/CommonWidgets/inputField.dart';
 import 'package:bread_delivery/CommonWidgets/loadingScreen.dart';
@@ -34,105 +36,145 @@ class _RegisterState extends State<Register> {
     _nombreController = new TextEditingController();
   }
 
+  _togglePassword() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-          actions: <Widget>[],
-        ),
-        body: BlocListener<UserBloc, UserState>(listener: (context, state) {
-          if (state is UserError) {
-            snackBar(context, state.toString());
-          }
-          if (state is UserErrorV) {
-            alertDiag(context, state?.e?.message, state?.e?.details);
-          }
-          if (state is UserOperationCompleted) {
-            Navigator.pop(context);
-          }
-        }, child: BlocBuilder<UserBloc, UserState>(builder: (context, state) {
-          if (state is UsersLoading) return LoadingScreen();
-          return registerScreen();
-        })));
+    return Stack(children: [
+      background(),
+      Scaffold(
+          backgroundColor: Colors.transparent,
+          body: BlocListener<UserBloc, UserState>(listener: (context, state) {
+            if (state is UserError) {
+              snackBar(context, state.toString());
+            }
+            if (state is UserErrorV) {
+              alertDiag(context, state?.e?.message, state?.e?.details);
+            }
+            if (state is UserOperationCompleted) {
+              Navigator.pop(context);
+            }
+          }, child: BlocBuilder<UserBloc, UserState>(builder: (context, state) {
+            if (state is UsersLoading) return LoadingScreen();
+            return registerScreen();
+          })))
+    ]);
   }
 
   Widget registerScreen() {
     return Container(
-      child: ListView(
-        padding: const EdgeInsets.all(25.0),
-        children: <Widget>[
-          Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
-              child: Icon(Icons.supervised_user_circle, size: 100)),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-            child: InputField("Nombre Completo", _nombreController,
-                _nombreError, TextInputType.emailAddress),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-            child: InputField("Usuario", _userNameController, _userError,
-                TextInputType.emailAddress),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
-            child: PasswordField(
-              "Constraseña",
-              _passwordController,
-              _obscureText,
-              _passwordError,
-              _togglePassword,
+      child: ListView(children: [
+        Container(
+          height: 300,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+            image: AssetImage('assets/images/logo.png'),
+          )),
+        ),
+        Column(
+          children: [
+            Container(
+              child: InputField.onlyName("Nombre completo"),
+              margin: EdgeInsets.only(bottom: 25),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
-            child: DropdownButton(
-              hint: _selectedPermission == null
-                  ? Text('Selecciona una opcion')
-                  : Text(
-                      _selectedPermission,
-                      style: TextStyle(color: Colors.black),
-                    ),
-              isExpanded: true,
-              iconSize: 30.0,
-              style: TextStyle(color: Colors.blue),
-              items: [UserType.admin, UserType.user].map(
-                (val) {
-                  return DropdownMenuItem<String>(
-                    value: val,
-                    child: Text(val),
-                  );
-                },
-              ).toList(),
-              onChanged: (val) {
-                setState(
-                  () {
-                    _selectedPermission = val;
-                  },
-                );
-              },
+            Container(
+              child: InputField("Usuario", _userNameController, _nombreError,
+                  TextInputType.emailAddress),
+              margin: EdgeInsets.only(bottom: 25),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
-            child: Text(
-              "Una vez te registres pide a tu administrador su aprobacion para poder usar la aplicacion",
-              style: TextStyle(color: Color(Colors.black54.value)),
+            Container(
+              child: PasswordField("Contraseña", _passwordController,
+                  _obscureText, _passwordError, _togglePassword),
+              margin: EdgeInsets.only(bottom: 25),
             ),
-          ),
-          FloatingActionButton.extended(
-              icon: Icon(Icons.supervised_user_circle),
-              backgroundColor: Theme.of(context).primaryColor,
-              onPressed: () async {
-                if (_isValid()) {
-                  await _saveData();
-                }
-              },
-              label: Text("Registrar")),
-        ],
-      ),
+            Container(
+              padding: EdgeInsets.only(bottom: 25),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 50),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5),
+                      boxShadow: [
+                        BoxShadow(
+                          color:
+                              Colors.black.withOpacity(0.3), //color of shadow
+                          spreadRadius: 3, //spread radius
+                          blurRadius: 5, // blur radius
+                          offset: Offset(0, 5),
+                        )
+                      ]),
+                  child: DropdownButton(
+                    underline: Container(),
+                    hint: _selectedPermission == null
+                        ? Text(
+                            'Seleccione puesto',
+                            style: TextStyle(color: Colors.brown, fontSize: 20),
+                          )
+                        : Text(
+                            _selectedPermission,
+                            style: TextStyle(color: Colors.brown),
+                          ),
+                    isExpanded: true,
+                    iconSize: 30.0,
+                    style: TextStyle(color: Colors.brown, fontSize: 20),
+                    items: [UserType.admin, UserType.user].map(
+                      (val) {
+                        return DropdownMenuItem<String>(
+                          value: val,
+                          child: Text(val),
+                        );
+                      },
+                    ).toList(),
+                    onChanged: (val) {
+                      setState(
+                        () {
+                          _selectedPermission = val;
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 60),
+              child: Center(
+                child: Text(
+                    "Una vez te registres pide a tu administrador su aprobación para poder usar la aplicación",
+                    style: TextStyle(color: Colors.white),
+                    textAlign: TextAlign.center),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(top: 25),
+              child: buttonPrimary(
+                'register',
+                "Registrar usuario",
+                'assets/icons/access_icon.png',
+                25,
+                [15.0, 10.0, 5.0, 10.0],
+                [5.0, 10.0, 15.0, 10.0],
+                functionPath: (value) => {_ReturnValueToParent(value)},
+              ),
+            ),
+          ],
+        ),
+      ]),
     );
+  }
+
+  _ReturnValueToParent(value) async {
+    switch (value) {
+      case "register":
+        if (_isValid()) await _saveData();
+        break;
+    }
   }
 
   _isValid() {
@@ -167,12 +209,6 @@ class _RegisterState extends State<Register> {
     }
 
     return valid;
-  }
-
-  _togglePassword() {
-    setState(() {
-      _obscureText = !_obscureText;
-    });
   }
 
   _saveData() async {
