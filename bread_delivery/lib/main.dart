@@ -5,6 +5,7 @@ import 'package:bread_delivery/Services/Cuenta/accountRepository.dart';
 import 'package:bread_delivery/Views/CommonUser/registerPage.dart';
 import 'package:bread_delivery/Views/CommonUser/usersPage.dart';
 import 'package:bread_delivery/Views/Products/productPage.dart';
+import 'package:bread_delivery/Views/Promotions/promotionPage.dart';
 import 'package:bread_delivery/Views/Qr/qrPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -69,11 +70,10 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(
                   builder: (context) => ProductsPage('Productos', isAdmin));
               break;
-            case Routes
-                .Product: //!changue route to Promotions and test if works
+            case Routes.Promotions:
               bool isAdmin = settings.arguments;
               return MaterialPageRoute(
-                  builder: (context) => ProductsPage('Productos', isAdmin));
+                  builder: (context) => PromotionsPage('Promociones', isAdmin));
               break;
           }
           return MaterialPageRoute(builder: (context) => Login());
