@@ -1,3 +1,4 @@
+import 'package:bread_delivery/Enums/Routes.dart';
 import 'package:bread_delivery/Views/Login/login.dart';
 import 'package:flutter/material.dart';
 
@@ -67,28 +68,35 @@ class _DrawerContentState extends State<DrawerContent> {
                     TextStyle(color: Color(Colors.black.value), fontSize: 15)),
           ),
           onTap: () {
-            Navigator.pushNamed(context, '/User');
+            Navigator.pushNamed(context, Routes.User);
           },
         ),
         ListTile(
           leading: Icon(Icons.alt_route_rounded),
           title: Text('Rutas'),
           onTap: () {
-            Navigator.pushNamed(context, '/Path', arguments: isAdmin);
+            Navigator.pushNamed(context, Routes.Paths, arguments: isAdmin);
           },
         ),
         ListTile(
           leading: Icon(Icons.store),
           title: Text('Tiendas'),
           onTap: () async {
-            Navigator.pushNamed(context, '/Store', arguments: isAdmin);
+            Navigator.pushNamed(context, Routes.Stores, arguments: isAdmin);
           },
         ),
         ListTile(
           leading: Icon(Icons.breakfast_dining),
           title: Text('Producto'),
           onTap: () async {
-            Navigator.pushNamed(context, '/Product', arguments: isAdmin);
+            Navigator.pushNamed(context, Routes.Product, arguments: isAdmin);
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.chair),
+          title: Text('Promociones'),
+          onTap: () async {
+            Navigator.pushNamed(context, Routes.Promotions, arguments: isAdmin);
           },
         ),
         ListTile(
