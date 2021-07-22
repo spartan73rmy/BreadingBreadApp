@@ -8,4 +8,5 @@ class Routes {
   static const String Qr = "Qr";
   static const String Product = "Product";
   static const String Promotions = "Promotions";
+  static const String UserSales = "UserSales";
 }

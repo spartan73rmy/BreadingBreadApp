@@ -12,6 +12,7 @@ import 'Views/Home/homePage.dart';
 import 'Views/Login/login.dart';
 import 'Views/Paths/pathPage.dart';
 import 'Views/Stores/storesPage.dart';
+import 'Views/UserSales/userSalesPage.dart';
 
 void main() {
   runApp(MyApp());
@@ -46,6 +47,12 @@ class MyApp extends StatelessWidget {
               bool isAdmin = settings.arguments;
               return MaterialPageRoute(
                   builder: (context) => PathsPage("Rutas", isAdmin));
+              break;
+            case Routes.UserSales:
+              bool isAdmin = settings.arguments;
+              return MaterialPageRoute(
+                  builder: (context) =>
+                      UserSalesPage("Rutas de venta", isAdmin));
               break;
             case Routes.Stores:
               StoreViewParams params = settings.arguments;

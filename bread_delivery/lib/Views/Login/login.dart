@@ -66,9 +66,14 @@ class _LoginState extends State<Login> {
                         if (state is ErrorLogin)
                           snackBar(context, state.toString())
                         else if (state is SuccessLogin)
-                          Navigator.pushReplacementNamed(context, Routes.Home,
-                              arguments:
-                                  state.token.user.userType == UserType.adminT)
+                          if (state.token.user.userType == UserType.adminT)
+                            Navigator.pushReplacementNamed(context, Routes.Home,
+                                arguments: state.token.user.userType ==
+                                    UserType.adminT)
+                          else
+                            Navigator.pushNamed(context, Routes.UserSales,
+                                arguments: state.token.user.userType ==
+                                    UserType.adminT)
                       },
                   child: BlocBuilder<LoginBloc, LoginState>(
                       builder: (context, state) {
