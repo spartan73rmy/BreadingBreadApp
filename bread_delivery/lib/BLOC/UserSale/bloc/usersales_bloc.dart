@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:bread_delivery/Entities/path.dart';
+import 'package:bread_delivery/Entities/storeViewParams.dart';
 import 'package:bread_delivery/Services/Http/networkError.dart';
 import 'package:bread_delivery/Services/Local/auth.dart';
 import 'package:bread_delivery/Services/UserSale/userSaleRespository.dart';
@@ -40,7 +41,8 @@ class UserSalesBloc extends Bloc<UserSalesEvent, UserSalesState> {
         int idUser = Auth.getIdUser(await SharedPreferences.getInstance());
         int idUserSale = await logic.addUserSale(event.idPath, idUser);
         Auth.setIdUserSale(await SharedPreferences.getInstance(), idUserSale);
-        yield UserSaleAssigned();
+
+        yield UserSaleAssigned(StoreViewParams(event.idPath, false));
       } catch (e) {
         if (e is MyException && e != null) yield UserSalesError(e);
         yield UserSalesLoaded(<Path>[]);

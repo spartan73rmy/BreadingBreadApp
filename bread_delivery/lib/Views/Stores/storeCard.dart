@@ -6,6 +6,7 @@ import 'package:bread_delivery/BLOC/Store/bloc/store_bloc.dart';
 import 'package:bread_delivery/CommonWidgets/alertInput.dart';
 import 'package:bread_delivery/Entities/store.dart';
 import 'package:bread_delivery/Entities/storeQr.dart';
+import 'package:bread_delivery/Enums/Routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
@@ -60,7 +61,9 @@ class _StoreCardState extends State<StoreCard> {
         onTap: () async {
           if (isAdmin) {
             _onShare(context);
-          } else {}
+          } else {
+            Navigator.of(context).pushNamed(Routes.Qr);
+          }
         },
         onLongPress: () async {
           if (isAdmin) {

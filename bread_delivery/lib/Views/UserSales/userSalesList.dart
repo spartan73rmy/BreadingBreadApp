@@ -51,8 +51,8 @@ class _UserSaleListState extends State<UserSaleList> {
                   if (state is UserSalesError)
                     snackBar(context, state.toString())
                   else if (state is UserSaleAssigned)
-                    Navigator.pushReplacementNamed(context, Routes.Home,
-                        arguments: false) //Le decimos que es usuario
+                    Navigator.pushReplacementNamed(context, Routes.Stores,
+                        arguments: state.store) //Le decimos que es usuario
                 },
             child: BlocBuilder<UserSalesBloc, UserSalesState>(
                 builder: (context, state) {
