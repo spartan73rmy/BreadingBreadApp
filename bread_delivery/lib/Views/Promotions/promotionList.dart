@@ -12,6 +12,8 @@ class PromotionList extends StatefulWidget {
   final bool isAdmin;
   PromotionList(this.isAdmin);
 
+
+
   @override
   _PromotionListState createState() => _PromotionListState();
 }
@@ -21,6 +23,7 @@ class _PromotionListState extends State<PromotionList> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
   bool isAdmin;
+  GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
   _isAdmin() {
     if (isAdmin == null) {
@@ -96,8 +99,8 @@ class _PromotionListState extends State<PromotionList> {
             ? FloatingActionButton.extended(
                 icon: Icon(Icons.add),
                 backgroundColor: Theme.of(context).primaryColor,
-                onPressed: () {
-                  //Todo: Add dialog to create promo
+                onPressed: () async{
+                  await showDialogWithFields(context);
                 },
                 label: Text("Promocion"))
             : Container());
@@ -118,5 +121,93 @@ class _PromotionListState extends State<PromotionList> {
   _getData() async {
     _refreshIndicatorKey.currentState?.show();
     BlocProvider.of<PromotionsBloc>(context).add(GetPromotions());
+  }
+
+  Future<void> showDialogWithFields(BuildContext context) async{
+    return await showDialog(
+      context: context,
+      builder: (context) {
+        var DiscountController = TextEditingController();
+        var TypeController = TextEditingController();
+        bool isDiscount = false;
+        bool isPerQuantity = false;
+        return StatefulBuilder(builder: (context,setState){
+          return AlertDialog(
+            title: Text('Nueva Promocion'),
+            content: Form(
+              key: _formkey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(  
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Venta"),
+                      Switch(value: isPerQuantity, onChanged: (value){ setState(() {  isPerQuantity = value; });}),
+                      Text("Cantidad")
+                    ],
+                  ),
+                  TextFormField(
+                    controller: TypeController,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      hintText: isPerQuantity ? "Venta minima (Cantidad)" : "Venta minima (\$)" ,
+                      icon: isPerQuantity ? Icon(Icons.production_quantity_limits) : Icon(Icons.attach_money),
+                    ),
+                    validator: (value){
+                      return value.isNotEmpty ? null : "El campo no puede estar vacio";
+                    },
+                  ),
+                  Divider(
+
+                  ),
+                  Row(  
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Gratis"),
+                      Switch(value: isDiscount, onChanged: (value){ setState(() {  isDiscount = value;});}),
+                      Text("Descuento")
+                    ],
+                  ),
+                  TextFormField(
+                    controller: DiscountController,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      hintText: isDiscount ? "Descuento (%)" : "Producto Gratis",
+                      icon: isDiscount ? Icon(Icons.new_releases) : Icon(Icons.add_shopping_cart) 
+                    ),
+                    validator: (value){
+                      return value.isNotEmpty ? null : "El campo no puede estar vacio";
+                    },
+                  ),
+                ],
+            )
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () async{
+                  if(_formkey.currentState.validate()){
+                    var Type = TypeController.text;
+                    var Discount = DiscountController.text;
+                    int idProducto = 0;
+                    int cantitySaleMin = (isPerQuantity) ? int.parse(Type) : 0;
+                    int saleMin = (!isPerQuantity) ? int.parse(Type) : 0;
+                    int cantityFree = (!isDiscount) ? int.parse(Discount) : 0;
+                    int discount = (isDiscount) ? int.parse(Discount) : 0;
+                    await _addPromotion(idProducto,cantitySaleMin,saleMin,cantityFree,discount);
+                    Navigator.pop(context);
+                  }
+                },
+                child: Text('Agregar'),
+              ),
+            ],
+          );
+        });
+      }
+    );
   }
 }

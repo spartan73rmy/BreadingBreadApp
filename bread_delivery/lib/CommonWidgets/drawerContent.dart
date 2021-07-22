@@ -92,7 +92,7 @@ class _DrawerContentState extends State<DrawerContent> {
             Navigator.pushNamed(context, Routes.Product, arguments: isAdmin);
           },
         ),
-        ListTile(
+        ListTile( //TODO: Cambiar de drawerContent a la vista de Productos
           leading: Icon(Icons.chair),
           title: Text('Promociones'),
           onTap: () async {
