@@ -25,7 +25,7 @@ class PasswordField extends StatelessWidget {
                         color: Colors.black.withOpacity(0.3), //color of shadow
                         spreadRadius: 3, //spread radius
                         blurRadius: 5, // blur radius
-                        offset: Offset(0, 5),
+                        offset: Offset(0, 1),
                       )
                     ]),
                 child: TextField(

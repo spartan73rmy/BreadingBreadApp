@@ -1,6 +1,7 @@
 import 'package:bread_delivery/CommonWidgets/background.dart';
 import 'package:bread_delivery/CommonWidgets/drawerContent.dart';
-import 'package:bread_delivery/Enums/Routes.dart';
+import 'package:bread_delivery/CommonWidgets/drawerAdmin.dart';
+
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -39,27 +40,20 @@ class _HomePageState extends State<HomePage> {
         key: scaffoldKey,
         drawer: DrawerContent(isAdmin: isAdmin),
         appBar: AppBar(
-          title: Text(this.widget.title),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.qr_code_scanner),
-              onPressed: () async {
-                Navigator.of(context).pushNamed(Routes.Qr);
-              },
-            )
-          ],
+          title: Text('¡Bienvenido ' + this.widget.title + "!"),
+          toolbarHeight: 80,
+          centerTitle: true,
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: <Color>[Color(0XFF714012), Color(0XFFC26410)])),
+          ),
         ),
         body: Builder(builder: (context) {
-          return Container();
+          return DrawerAdmin(isAdmin: isAdmin);
         }),
-        persistentFooterButtons: <Widget>[
-          FloatingActionButton.extended(
-            icon: Icon(Icons.add),
-            backgroundColor: Theme.of(context).primaryColor,
-            onPressed: () {},
-            label: Text("Pedido"),
-          )
-        ],
       )
     ]);
   }

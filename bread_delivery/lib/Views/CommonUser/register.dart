@@ -1,6 +1,6 @@
 import 'package:bread_delivery/BLOC/User/bloc/user_bloc.dart';
 import 'package:bread_delivery/CommonWidgets/background.dart';
-import 'package:bread_delivery/CommonWidgets/button_primary.dart';
+import 'package:bread_delivery/CommonWidgets/buttonPrimary.dart';
 import 'package:bread_delivery/CommonWidgets/alert.dart';
 import 'package:bread_delivery/CommonWidgets/inputField.dart';
 import 'package:bread_delivery/CommonWidgets/loadingScreen.dart';
@@ -45,26 +45,28 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Stack(children: [
-      Background(),
-      Scaffold(
-          backgroundColor: Colors.transparent,
-          body: BlocListener<UserBloc, UserState>(listener: (context, state) {
-            if (state is UserError) {
-              snackBar(context, state.toString());
-            }
-            if (state is UserErrorV) {
-              alertDiag(context, state?.e?.message, state?.e?.details);
-            }
-            if (state is UserOperationCompleted) {
-              Navigator.pop(context);
-            }
-          }, child: BlocBuilder<UserBloc, UserState>(builder: (context, state) {
-            if (state is UsersLoading) return LoadingScreen();
-            return registerScreen();
-          })))
-    ]));
+          Background(),
+          Scaffold(
+              backgroundColor: Colors.transparent,
+              body: BlocListener<UserBloc, UserState>(listener:
+                  (context, state) {
+                if (state is UserError) {
+                  snackBar(context, state.toString());
+                }
+                if (state is UserErrorV) {
+                  alertDiag(context, state?.e?.message, state?.e?.details);
+                }
+                if (state is UserOperationCompleted) {
+                  Navigator.pop(context);
+                }
+              }, child:
+                  BlocBuilder<UserBloc, UserState>(builder: (context, state) {
+                if (state is UsersLoading) return LoadingScreen();
+                return registerScreen();
+              })))
+        ]));
   }
 
   Widget registerScreen() {
@@ -109,7 +111,7 @@ class _RegisterState extends State<Register> {
                               Colors.black.withOpacity(0.3), //color of shadow
                           spreadRadius: 3, //spread radius
                           blurRadius: 5, // blur radius
-                          offset: Offset(0, 5),
+                          offset: Offset(0, 1),
                         )
                       ]),
                   child: DropdownButton(

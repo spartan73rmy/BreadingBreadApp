@@ -1,6 +1,6 @@
 import 'package:bread_delivery/BLOC/Login/bloc/login_bloc.dart';
 import 'package:bread_delivery/CommonWidgets/background.dart';
-import 'package:bread_delivery/CommonWidgets/button_primary.dart';
+import 'package:bread_delivery/CommonWidgets/buttonPrimary.dart';
 import 'package:bread_delivery/CommonWidgets/inputField.dart';
 import 'package:bread_delivery/CommonWidgets/loadingScreen.dart';
 import 'package:bread_delivery/CommonWidgets/passField.dart';
