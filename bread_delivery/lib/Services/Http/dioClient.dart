@@ -10,7 +10,7 @@ import '../Local/auth.dart';
 
 class DioClient {
   final String baseUrl =
-      "https://192.168.1.69:5001/api/"; //Emulator (Esto no jala aun si es emulador)
+      "https://192.168.1.73:5001/api/"; //Emulator (Esto no jala aun si es emulador)
   // final String baseUrl = "https://10.0.0.6:5001/api/"; //WLAN
   final String urlCuenta = "Cuenta/RefreshCredentials";
   SharedPreferences _storage;
@@ -115,18 +115,18 @@ class DioClient {
   }
 
   void unauthenticateHandlerInterceptor() {
-    _dio.interceptors.add(InterceptorsWrapper(onError: (error) async {
+    _dio.interceptors.add(InterceptorsWrapper(onError: (error, handler) async {
       if (error.response?.statusCode == 403 ||
           error.response?.statusCode == 401) {
         await refreshToken();
-        return _retry(error.request);
+        return _retry(error.requestOptions);
       }
       return error.response;
     }));
   }
 
   void errorHandlerInterceptor() {
-    _dio.interceptors.add(InterceptorsWrapper(onError: (error) async {
+    _dio.interceptors.add(InterceptorsWrapper(onError: (error, handler) async {
       print(error);
       return NetworkError.handleResponse(error);
     }));

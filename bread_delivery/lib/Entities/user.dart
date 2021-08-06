@@ -5,7 +5,7 @@ class Users {
 
   Users.fromJson(Map<String, dynamic> json) {
     if (json['usuarios'] != null) {
-      usuarios = new List<User>();
+      usuarios = [];
       json['usuarios'].forEach((v) {
         usuarios.add(new User.fromJson(v));
       });

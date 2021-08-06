@@ -108,7 +108,7 @@ class _StoreCardState extends State<StoreCard> {
     await file.writeAsBytes(pngBytes);
 
     final RenderBox box = context.findRenderObject();
-    List<String> archivos = new List<String>();
+    List<String> archivos = [];
     archivos.add(path);
 
     String text = "Qr ${data.name}";
