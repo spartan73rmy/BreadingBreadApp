@@ -21,10 +21,10 @@ dependencies:
   freezed: ^0.12.6
   geolocator: ^6.0.0+4
   get_it: ^4.0.4
-  google_maps_flutter: ^1.0.6
   path_provider: ^1.1.0
   qrscan: ^0.2.17
   qr_flutter: ^3.2.0
+  flutter_map: ^0.11.0
   permission_handler: ^5.0.1+1
   shared_preferences: ^0.5.12+4
   zsdk: ^1.0.6+10
