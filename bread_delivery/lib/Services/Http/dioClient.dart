@@ -115,18 +115,18 @@ class DioClient {
   }
 
   void unauthenticateHandlerInterceptor() {
-    _dio.interceptors.add(InterceptorsWrapper(onError: (error) async {
+    _dio.interceptors.add(InterceptorsWrapper(onError: (error, handler) async {
       if (error.response?.statusCode == 403 ||
           error.response?.statusCode == 401) {
         await refreshToken();
-        return _retry(error.request);
+        return _retry(error.requestOptions);
       }
       return error.response;
     }));
   }
 
   void errorHandlerInterceptor() {
-    _dio.interceptors.add(InterceptorsWrapper(onError: (error) async {
+    _dio.interceptors.add(InterceptorsWrapper(onError: (error, handler) async {
       print(error);
       return NetworkError.handleResponse(error);
     }));

@@ -1,6 +1,5 @@
 part of 'promotions_bloc.dart';
 
-
 abstract class PromotionsState extends Equatable {
   const PromotionsState();
 
@@ -24,6 +23,7 @@ class PromotionsError extends PromotionsState {
 }
 
 class PromotionsLoaded extends PromotionsState {
+  // ignore: non_constant_identifier_names
   final List<Promotion> Promotions;
 
   PromotionsLoaded(this.Promotions);

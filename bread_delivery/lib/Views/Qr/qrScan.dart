@@ -46,7 +46,7 @@ class _QrScanState extends State<QrScan> {
     Permission.camera.request();
     // Permission.storage.request();
     var status = await Permission.camera.status;
-    if (status.isUndetermined) {
+    if (status.isLimited) {
       Permission.camera.request();
       //Hacer request de permisos
       Permission.camera.request();

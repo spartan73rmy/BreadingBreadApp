@@ -5,7 +5,7 @@ class Stores {
 
   Stores.fromJson(Map<String, dynamic> json) {
     if (json['stores'] != null) {
-      stores = new List<Store>();
+      stores = [];
       json['stores'].forEach((v) {
         stores.add(new Store.fromJson(v));
       });

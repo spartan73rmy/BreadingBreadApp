@@ -5,7 +5,7 @@ class Promotions {
 
   Promotions.fromJson(Map<String, dynamic> json) {
     if (json['promotions'] != null) {
-      promotions = new List<Promotion>();
+      promotions = [];
       json['promotions'].forEach((v) {
         promotions.add(new Promotion.fromJson(v));
       });

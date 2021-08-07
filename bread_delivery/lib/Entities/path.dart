@@ -5,7 +5,7 @@ class Paths {
 
   Paths.fromJson(Map<String, dynamic> json) {
     if (json['paths'] != null) {
-      paths = new List<Path>();
+      paths = [];
       json['paths'].forEach((v) {
         paths.add(new Path.fromJson(v));
       });
