@@ -42,26 +42,26 @@ class _StoreCardState extends State<StoreCard> {
         child: Card(
             child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
       ListTile(
-        leading: Icon(Icons.store),
+        leading: isAdmin
+            ? Icon(Icons.store)
+            : data.visited
+                ? Icon(
+                    Icons.check_box,
+                    color: Color(Colors.lightGreen.value),
+                  )
+                : Icon(Icons.store, color: Color(Colors.blueGrey.value)),
         title: RichText(
             text: TextSpan(
-                text: 'Nombre: ',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    color: Color(Colors.black.value)),
-                children: <TextSpan>[
-              TextSpan(
-                  text: '${data.name}',
-                  style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      fontSize: 18,
-                      color: Color(Colors.black.value)))
-            ])),
+          text: '${data.name}',
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              color: Color(Colors.black.value)),
+        )),
         onTap: () async {
           if (isAdmin) {
             _onShare(context);
-          } else {
+          } else if (!data.visited) {
             Navigator.of(context).pushNamed(Routes.Qr);
           }
         },
