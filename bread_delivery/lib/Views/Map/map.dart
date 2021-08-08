@@ -21,7 +21,7 @@ class _MapAreaState extends State<MapArea> {
   var markers = <Marker>[];
   CenterOnLocationUpdate _centerOnLocationUpdate;
   StreamController<double> _centerCurrentLocationStreamController;
-  final PopupController _popupController = PopupController();
+
   @override
   void initState() {
     _centerOnLocationUpdate = CenterOnLocationUpdate.always;
@@ -76,6 +76,7 @@ class _MapAreaState extends State<MapArea> {
                   borderStrokeWidth: 3),
               builder: (context, markers) {
                 return FloatingActionButton(
+                  heroTag: null,
                   onPressed: null,
                   child: Icon(
                     Icons.location_on,
@@ -105,6 +106,7 @@ class _MapAreaState extends State<MapArea> {
         right: 20,
         bottom: 20,
         child: FloatingActionButton(
+          heroTag: null,
           onPressed: () {
             // Automatically center the location marker on the map when location updated until user interact with the map.
             setState(

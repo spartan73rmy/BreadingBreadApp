@@ -10,5 +10,6 @@ class Routes {
   static const String Product = "Product";
   static const String Promotions = "Promotions";
   static const String UserSales = "UserSales";
+  static const String Sale = "UserSales";
   static const String Map = "Map";
 }

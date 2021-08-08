@@ -47,10 +47,12 @@ class _ProductListState extends State<ProductList> {
           )
         ]),
         body: BlocListener<ProductsBloc, ProductsState>(
-            listener: (context, state) =>
-                {if (state is ProductsError) snackBar(context, state.toString())},
-            child:
-                BlocBuilder<ProductsBloc, ProductsState>(builder: (context, state) {
+            listener: (context, state) => {
+                  if (state is ProductsError)
+                    snackBar(context, state.toString())
+                },
+            child: BlocBuilder<ProductsBloc, ProductsState>(
+                builder: (context, state) {
               if (state is ProductsLoaded)
                 return RefreshIndicator(
                     key: _refreshIndicatorKey,
@@ -84,7 +86,8 @@ class _ProductListState extends State<ProductList> {
                                   alignment: Alignment.centerLeft,
                                 ),
                               ),
-                              child: ProductCard(state.products[index], isAdmin));
+                              child:
+                                  ProductCard(state.products[index], isAdmin));
                         }));
               return LoadingScreen();
             })),
@@ -95,24 +98,32 @@ class _ProductListState extends State<ProductList> {
                 onPressed: () {
                   String nameValue;
                   double priceValue;
-                  alertInputDiag(context, "Agregar Producto", "Nombre del producto",
-                          "", "Nombre para el producto",
+                  alertInputDiag(context, "Agregar Producto",
+                          "Nombre del producto", "", "Nombre para el producto",
                           keyboard: TextInputType.text)
                       .then((value) {
-                        if (value == null) return;
-                        else nameValue = value;
+                    if (value == null)
+                      return;
+                    else
+                      nameValue = value;
 
-                        alertInputDiag(context, "Agregar Producto", "Precio del producto",
-                                "", "Precio para el producto",
-                                keyboard: TextInputType.number)
-                            .then((value) {
-                              if (value == null) return;
-                              else priceValue = double.parse(value);
-                              // print(nameValue);
-                              // print(priceValue);
-                              if(nameValue != null && priceValue != null)
-                                _addProduct(nameValue, priceValue);
-                        });
+                    alertInputDiag(
+                            context,
+                            "Agregar Producto",
+                            "Precio del producto",
+                            "",
+                            "Precio para el producto",
+                            keyboard: TextInputType.number)
+                        .then((value) {
+                      if (value == null)
+                        return;
+                      else
+                        priceValue = double.parse(value);
+                      // print(nameValue);
+                      // print(priceValue);
+                      if (nameValue != null && priceValue != null)
+                        _addProduct(nameValue, priceValue);
+                    });
                   });
                 },
                 label: Text("Producto"))

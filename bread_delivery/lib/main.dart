@@ -62,6 +62,13 @@ class MyApp extends StatelessWidget {
                   builder: (context) =>
                       UserSalesPage("Rutas de venta", isAdmin));
               break;
+            //TODO definir proceso de venta, se manda llamar desde QRScan
+            case Routes.Sale:
+              bool isAdmin = settings.arguments;
+              return MaterialPageRoute(
+                  builder: (context) =>
+                      UserSalesPage("Rutas de venta", isAdmin));
+              break;
             case Routes.Stores:
               StoreViewParams params = settings.arguments;
               return MaterialPageRoute(
