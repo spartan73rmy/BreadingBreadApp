@@ -3,7 +3,7 @@ import 'dart:convert';
 class StoreQr {
   int id;
 
-  StoreQr(this.id);
+  StoreQr({this.id});
 
   StoreQr.decodeString(String value) {
     Map json = jsonDecode(value);

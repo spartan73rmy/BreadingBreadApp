@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bread_delivery/CommonWidgets/alert.dart';
 import 'package:bread_delivery/Entities/storeQr.dart';
 import 'package:bread_delivery/Enums/Routes.dart';
@@ -54,9 +56,9 @@ class _QrScanState extends State<QrScan> {
 
     String barcode = await scanner.scan();
     if (barcode != null) {
-      int idStore = StoreQr.decodeString(barcode).id;
-      //TODO pasar parametro id de tienda
-      if (idStore != 0) Navigator.pushNamed(context, Routes.Sale);
+      //TODO add idStore to start sale process
+      var store = StoreQr.fromJson(jsonDecode(barcode));
+      if (store != null) Navigator.pushNamed(context, Routes.Sale);
 
       await alertDiag(
           context, "El codigo Qr no es un codigo valido", 'QR Invalido');

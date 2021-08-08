@@ -3,11 +3,13 @@ import 'dart:typed_data';
 import 'dart:ui';
 import 'dart:convert';
 import 'package:bread_delivery/BLOC/Store/bloc/store_bloc.dart';
+import 'package:bread_delivery/CommonWidgets/alert.dart';
 import 'package:bread_delivery/CommonWidgets/alertInput.dart';
 import 'package:bread_delivery/Entities/store.dart';
 import 'package:bread_delivery/Entities/storeQr.dart';
 import 'package:bread_delivery/Enums/Routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -60,7 +62,7 @@ class _StoreCardState extends State<StoreCard> {
         )),
         onTap: () async {
           if (isAdmin) {
-            _onShare(context);
+            await _onShare(context);
           } else if (!data.visited) {
             Navigator.of(context).pushNamed(Routes.Qr);
           }
@@ -88,24 +90,32 @@ class _StoreCardState extends State<StoreCard> {
   }
 
   _onShare(BuildContext context) async {
-    String dataQr = jsonEncode(StoreQr(data.id));
-    ByteData byteData = await QrPainter(
-        data: "$dataQr",
-        errorCorrectionLevel: QrErrorCorrectLevel.H,
-        version: QrVersions.auto,
-        gapless: true,
-        color: Colors.blue,
-        // embeddedImage: ,
-        embeddedImageStyle: QrEmbeddedImageStyle(
-          size: Size(40, 40),
-        )).toImageData(1000, format: ImageByteFormat.png);
+    String dataQr = jsonEncode(StoreQr(id: data.id));
 
-    Uint8List pngBytes = byteData.buffer.asUint8List();
+    final qrValidationResult = QrValidator.validate(
+      data: dataQr,
+      version: QrVersions.auto,
+      errorCorrectionLevel: QrErrorCorrectLevel.L,
+    );
+    if (!qrValidationResult.isValid)
+      alertDiag(context, 'QR invalido', "El qr no se puede generar");
+
+    final byteData = await QrPainter(
+      data: dataQr,
+      version: QrVersions.auto,
+      gapless: true,
+      color: Color(Colors.brown.value),
+      emptyColor: Color(Colors.white.value),
+      embeddedImageStyle: null,
+      embeddedImage: null,
+    ).toImageData(2048, format: ImageByteFormat.png);
 
     final tempDir = await getTemporaryDirectory();
     final path = "${tempDir.path}/qrStore${data.id}.png";
     final file = await new File(path).create();
-    await file.writeAsBytes(pngBytes);
+    var buffer = byteData.buffer;
+    await file.writeAsBytes(
+        buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
 
     final RenderBox box = context.findRenderObject();
     List<String> archivos = [];
