@@ -9,7 +9,8 @@ class PromotionsPage extends StatefulWidget {
   final String title;
   final bool isAdmin;
   final Product _product;
-  const PromotionsPage(this.title, this.isAdmin, this._product, {Key key}) : super(key: key);
+  const PromotionsPage(this.title, this.isAdmin, this._product, {Key key})
+      : super(key: key);
   @override
   _PromotionsPageState createState() => _PromotionsPageState();
 }

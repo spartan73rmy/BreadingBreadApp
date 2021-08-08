@@ -7,7 +7,7 @@ class Promotions {
     if (json['promotions'] != null) {
       promotions = [];
       json['promotions'].forEach((v) {
-        promotions.add(new Promotion.fromJson(v));
+        promotions.add(Promotion.fromJson(v));
       });
     }
   }
@@ -23,23 +23,22 @@ class Promotions {
 
 class Promotion {
   int idPromo;
-  int idProducto;
   int cantitySaleMin;
-  int saleMin;
+  double saleMin;
   int cantityFree;
   int discount;
+  int idProduct;
 
   Promotion(
       {this.idPromo,
-      this.idProducto,
       this.cantitySaleMin,
       this.saleMin,
       this.cantityFree,
-      this.discount});
+      this.discount,
+      this.idProduct});
 
   Promotion.fromJson(Map<String, dynamic> json) {
     idPromo = json['idPromo'];
-    idProducto = json['idProducto'];
     cantitySaleMin = json['cantitySaleMin'];
     saleMin = json['saleMin'];
     cantityFree = json['cantityFree'];
@@ -49,7 +48,6 @@ class Promotion {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['idPromo'] = this.idPromo;
-    data['idProducto'] = this.idProducto;
     data['cantitySaleMin'] = this.cantitySaleMin;
     data['saleMin'] = this.saleMin;
     data['cantityFree'] = this.cantityFree;

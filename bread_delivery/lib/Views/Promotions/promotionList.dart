@@ -1,5 +1,5 @@
 import 'package:bread_delivery/BLOC/Promotions/bloc/promotions_bloc.dart';
-import 'package:bread_delivery/CommonWidgets/alertInput.dart';
+import 'package:bread_delivery/CommonWidgets/alert.dart';
 import 'package:bread_delivery/CommonWidgets/deleteDialog.dart';
 import 'package:bread_delivery/CommonWidgets/loadingScreen.dart';
 import 'package:bread_delivery/CommonWidgets/snackBar.dart';
@@ -19,23 +19,13 @@ class PromotionList extends StatefulWidget {
 }
 
 class _PromotionListState extends State<PromotionList> {
-  Future<List<Promotions>> data;
+  List<Promotions> data;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
-  bool isAdmin;
   GlobalKey<FormState> _formkey = GlobalKey<FormState>();
-
-  _isAdmin() {
-    if (isAdmin == null) {
-      setState(() {
-        isAdmin = widget.isAdmin;
-      });
-    }
-  }
 
   @override
   void initState() {
-    _isAdmin();
     super.initState();
     _getData(widget._product);
   }
@@ -56,7 +46,7 @@ class _PromotionListState extends State<PromotionList> {
                 },
             child: BlocBuilder<PromotionsBloc, PromotionsState>(
                 builder: (context, state) {
-              if (state is PromotionsLoaded)
+              if (state is PromotionsLoaded) {
                 return RefreshIndicator(
                     key: _refreshIndicatorKey,
                     onRefresh: () async {
@@ -91,11 +81,12 @@ class _PromotionListState extends State<PromotionList> {
                                 ),
                               ),
                               child: PromotionCard(
-                                  state.promotions[index], isAdmin));
+                                  state.promotions[index], widget.isAdmin));
                         }));
+              }
               return LoadingScreen();
             })),
-        floatingActionButton: isAdmin
+        floatingActionButton: widget.isAdmin
             ? FloatingActionButton.extended(
                 icon: Icon(Icons.add),
                 backgroundColor: Theme.of(context).primaryColor,
@@ -110,17 +101,20 @@ class _PromotionListState extends State<PromotionList> {
       int cantityFree, int discount) async {
     BlocProvider.of<PromotionsBloc>(context).add(
         AddPromotion(idProducto, cantityFree, saleMin, cantityFree, discount));
-    BlocProvider.of<PromotionsBloc>(context).add(GetPromotionsByProduct(widget._product.id));
+    BlocProvider.of<PromotionsBloc>(context)
+        .add(GetPromotionsByProduct(widget._product.id));
   }
 
   _deletePromotion(int id) async {
     BlocProvider.of<PromotionsBloc>(context).add(DeletePromotion(id));
-    BlocProvider.of<PromotionsBloc>(context).add(GetPromotionsByProduct(widget._product.id));
+    BlocProvider.of<PromotionsBloc>(context)
+        .add(GetPromotionsByProduct(widget._product.id));
   }
 
   _getData(Product product) async {
     _refreshIndicatorKey.currentState?.show();
-    BlocProvider.of<PromotionsBloc>(context).add(GetPromotionsByProduct(product.id));
+    BlocProvider.of<PromotionsBloc>(context)
+        .add(GetPromotionsByProduct(product.id));
   }
 
   Future<void> showDialogWithFields(BuildContext context) async {
