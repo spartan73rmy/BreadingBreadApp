@@ -11,8 +11,10 @@ import 'package:bread_delivery/Views/Promotions/promotionPage.dart';
 import 'package:bread_delivery/Views/Qr/qrPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'Entities/storePoint.dart';
 import 'Views/Home/homePage.dart';
 import 'Views/Login/login.dart';
+import 'Views/Map/map.dart';
 import 'Views/Paths/pathPage.dart';
 import 'Views/Stores/storesPage.dart';
 import 'Views/UserSales/userSalesPage.dart';
@@ -65,6 +67,10 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(
                   builder: (context) => StoresPage("Tiendas", params));
               break;
+            case Routes.Map:
+              List<StorePoint> points = settings.arguments;
+              return MaterialPageRoute(builder: (context) => MapArea(points));
+              break;
             case Routes.Register:
               return MaterialPageRoute(
                   builder: (context) => RegisterUserPage("Registro"));
@@ -87,7 +93,8 @@ class MyApp extends StatelessWidget {
               bool isAdmin = pvp.isAdmin;
               Product product = pvp.producto;
               return MaterialPageRoute(
-                  builder: (context) => PromotionsPage('Promociones', isAdmin, product));
+                  builder: (context) =>
+                      PromotionsPage('Promociones', isAdmin, product));
               break;
           }
           return MaterialPageRoute(builder: (context) => Login());

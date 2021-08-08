@@ -30,7 +30,9 @@ dependencies:
   font_awesome_flutter: ^9.1.0
   fluttertoast: ^8.0.8
   flutter_map: any
-  
+  flutter_map_location_marker: any
+  flutter_map_marker_cluster: any
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

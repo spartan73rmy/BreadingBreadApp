@@ -5,10 +5,12 @@ import 'package:bread_delivery/CommonWidgets/drawerContent.dart';
 import 'package:bread_delivery/CommonWidgets/loadingScreen.dart';
 import 'package:bread_delivery/CommonWidgets/snackBar.dart';
 import 'package:bread_delivery/Entities/Store.dart';
+import 'package:bread_delivery/Entities/storePoint.dart';
 import 'package:bread_delivery/Entities/storeViewParams.dart';
 import 'package:bread_delivery/Enums/Routes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:latlong2/latlong.dart';
 import 'storeCard.dart';
 
 class StoreList extends StatefulWidget {
@@ -47,21 +49,29 @@ class _StoreListState extends State<StoreList> {
     return Scaffold(
         drawer: DrawerContent(isAdmin: isAdmin),
         appBar: AppBar(title: Text("Tiendas"), actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.map),
-            onPressed: () {
-              Navigator.of(context).pushNamed(Routes.Map, arguments: idPath);
-            },
-          )
+          BlocBuilder<StoreBloc, StoreState>(builder: (context, state) {
+            if (state is StoresLoaded)
+              return IconButton(
+                  icon: Icon(Icons.map),
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(Routes.Map,
+                        arguments: state.stores
+                            .map((e) =>
+                                StorePoint(e.name, e.id, LatLng(e.lat, e.lon)))
+                            .toList());
+                  });
+            else
+              return IconButton(icon: Icon(Icons.map), onPressed: () {});
+          })
         ]),
         body: BlocListener<StoreBloc, StoreState>(
             listener: (context, state) => {
                   if (state is StoreError) snackBar(context, state.toString()),
-                  if (state is StoreOperationCompleted) _getData()
+                  if (state is StoreOperationCompleted) _getData(),
                 },
             child:
                 BlocBuilder<StoreBloc, StoreState>(builder: (context, state) {
-              if (state is StoresLoaded)
+              if (state is StoresLoaded) {
                 return RefreshIndicator(
                     key: _refreshIndicatorKey,
                     onRefresh: () async {
@@ -99,6 +109,7 @@ class _StoreListState extends State<StoreList> {
                                       state.stores[index], isAdmin, idPath))
                               : StoreCard(state.stores[index], isAdmin, idPath);
                         }));
+              }
               return LoadingScreen();
             })),
         floatingActionButton: isAdmin

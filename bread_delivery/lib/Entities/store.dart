@@ -24,18 +24,27 @@ class Stores {
 class Store {
   int id;
   String name;
+  double lat;
+  double lon;
+  bool visited;
 
-  Store({this.id, this.name});
+  Store({this.id, this.name, this.lat, this.lon, this.visited});
 
   Store.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
+    lat = json['lat'];
+    lon = json['lon'];
+    visited = json['visited'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
+    data['lat'] = this.lat;
+    data['lon'] = this.lon;
+    data['visited'] = this.visited;
     return data;
   }
 }

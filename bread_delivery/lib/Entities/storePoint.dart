@@ -7,7 +7,8 @@ class StorePoints {
 }
 
 class StorePoint {
+  StorePoint(this.nombre, this.id, this.point);
   String nombre;
-  String id;
+  int id;
   LatLng point;
 }

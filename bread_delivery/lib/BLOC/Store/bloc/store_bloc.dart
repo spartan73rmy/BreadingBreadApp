@@ -20,7 +20,12 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
     if (event is GetStores) {
       yield StoreLoading();
       try {
-        var stores = await logic.fetchStoresList(event.idPath);
+        var stores;
+        if (event.idPath == null)
+          stores = await logic.fetchStoresList();
+        else
+          stores = await logic.fetchStoresListByPath(event.idPath);
+
         if (stores != null) {
           yield StoresLoaded(stores);
         }
