@@ -10,6 +10,10 @@ abstract class PromotionsEvent extends Equatable {
 class GetPromotions extends PromotionsEvent {
   GetPromotions() : super([]);
 }
+class GetPromotionsByProduct extends PromotionsEvent {
+  final int idProducto;
+  GetPromotionsByProduct(this.idProducto) : super([idProducto]);
+}
 
 class AddPromotion extends PromotionsEvent {
   final int idProducto;

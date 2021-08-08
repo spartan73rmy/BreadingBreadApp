@@ -1,4 +1,6 @@
 import 'package:bread_delivery/BLOC/Login/bloc/login_bloc.dart';
+import 'package:bread_delivery/Entities/product.dart';
+import 'package:bread_delivery/Entities/promotionViewParams.dart';
 import 'package:bread_delivery/Entities/storeViewParams.dart';
 import 'package:bread_delivery/Enums/Routes.dart';
 import 'package:bread_delivery/Services/Cuenta/accountRepository.dart';
@@ -78,9 +80,11 @@ class MyApp extends StatelessWidget {
                   builder: (context) => ProductsPage('Productos', isAdmin));
               break;
             case Routes.Promotions:
-              bool isAdmin = settings.arguments;
+              PromotionViewParams pvp = settings.arguments;
+              bool isAdmin = pvp.isAdmin;
+              Product product = pvp.producto;
               return MaterialPageRoute(
-                  builder: (context) => PromotionsPage('Promociones', isAdmin));
+                  builder: (context) => PromotionsPage('Promociones', isAdmin, product));
               break;
           }
           return MaterialPageRoute(builder: (context) => Login());

@@ -1,5 +1,7 @@
 import 'package:bread_delivery/BLOC/Products/bloc/products_bloc.dart';
 import 'package:bread_delivery/CommonWidgets/alertInput.dart';
+import 'package:bread_delivery/Entities/promotionViewParams.dart';
+import 'package:bread_delivery/Enums/Routes.dart';
 import 'package:flutter/material.dart';
 import 'package:bread_delivery/Entities/product.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,16 +41,11 @@ class _ProductCardState extends State<ProductCard> {
           style: TextStyle(
               fontWeight: FontWeight.bold, color: Color(Colors.black45.value)),
         )),
-        // onTap: () async {
-        //   if (isAdmin) {
-        //     //Si es admin ver tiendas
-        //     Navigator.pushNamed(context, "/Store",
-        //         arguments: StoreViewParams(data.id, isAdmin));
-        //   } else {
-        //     // Navigator.pushNamed(context, "/Home",
-        //     //     arguments: StoreViewParams(data.id, isAdmin));
-        //   }
-        // },
+        onTap: () async {
+          if (isAdmin) {
+            Navigator.pushNamed(context, Routes.Promotions, arguments: PromotionViewParams(isAdmin, data));
+          }
+        },
         onLongPress: () async {
           String nameValue;
           double priceValue;
