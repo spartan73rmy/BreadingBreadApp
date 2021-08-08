@@ -30,6 +30,19 @@ class PromotionsBloc extends Bloc<PromotionsEvent, PromotionsState> {
         yield PromotionsLoaded(<Promotion>[]);
       }
     }
+    if (event is GetPromotionsByProduct) {
+      yield PromotionsLoading();
+      try {
+        var promotions = await logic.fetchPromotionsListByProduct(event.idProducto);
+        if (promotions != null) {
+          yield PromotionsLoaded(promotions);
+        }
+        yield PromotionsLoaded(<Promotion>[]);
+      } catch (e) {
+        if (e is MyException && e != null) yield PromotionsError(e);
+        yield PromotionsLoaded(<Promotion>[]);
+      }
+    }
 
     if (event is AddPromotion) {
       yield PromotionsLoading();

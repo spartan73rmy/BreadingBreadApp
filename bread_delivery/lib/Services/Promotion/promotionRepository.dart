@@ -6,6 +6,7 @@ import '../../Services/Http/dioClient.dart';
 
 abstract class PromotionsLogic {
   Future<List<Promotion>> fetchPromotionsList();
+  Future<List<Promotion>> fetchPromotionsListByProduct(int idProducto);
   Future<void> addPromotion(int idProducto, int cantitySaleMin, int saleMin, int cantityFree, int discount);
   Future<void> editPromotion(int idPromo, int idProducto, int cantitySaleMin, int saleMin, int cantityFree, int discount, bool active);
   Future<void> deletePromotion(int idPromo);
@@ -19,8 +20,10 @@ class PromotionRepository extends PromotionsLogic {
     final response = await http.get(url + "GetList");
     return Promotions.fromJson(response).promotions;
   }
-
-  // TODO: Get Promotions by Product
+  Future<List<Promotion>> fetchPromotionsListByProduct(int  idProducto) async {
+    final response = await http.get(url + "GetListByProduct",queryParameters: { 'idProduct': idProducto } );
+    return Promotions.fromJson(response).promotions;
+  }
 
 
   @override

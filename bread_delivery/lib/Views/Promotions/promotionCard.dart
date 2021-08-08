@@ -1,7 +1,4 @@
 import 'package:bread_delivery/BLOC/Promotions/bloc/promotions_bloc.dart';
-import 'package:bread_delivery/CommonWidgets/alertInput.dart';
-import 'package:bread_delivery/Entities/storeViewParams.dart';
-import 'package:bread_delivery/Enums/Routes.dart';
 import 'package:flutter/material.dart';
 import 'package:bread_delivery/Entities/promotion.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,12 +42,10 @@ class _PromotionCardState extends State<PromotionCard> {
                       fontSize: 18,
                       color: Color(Colors.black.value)))
             ])),
-        onTap: () async {
-          if (isAdmin) {
-            Navigator.pushNamed(context, Routes.Stores,
-                arguments: StoreViewParams(data.idPromo, isAdmin));
-          }
-        },
+        // onTap: () async {
+        //   if (isAdmin) {
+        //   }
+        // },
         onLongPress: () async {
           if (isAdmin) {
             await showDialogWithFields(context);

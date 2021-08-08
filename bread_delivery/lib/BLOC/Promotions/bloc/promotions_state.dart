@@ -24,9 +24,9 @@ class PromotionsError extends PromotionsState {
 
 class PromotionsLoaded extends PromotionsState {
   // ignore: non_constant_identifier_names
-  final List<Promotion> Promotions;
+  final List<Promotion> promotions;
 
-  PromotionsLoaded(this.Promotions);
+  PromotionsLoaded(this.promotions);
 }
 
 class PromotionOperationCompleted extends PromotionsState {}
