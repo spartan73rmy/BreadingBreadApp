@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:bread_delivery/Entities/path.dart';
 import 'package:bread_delivery/Entities/storeViewParams.dart';
@@ -24,6 +23,11 @@ class UserSalesBloc extends Bloc<UserSalesEvent, UserSalesState> {
     if (event is GetUserSales) {
       yield UserSalesLoading();
       try {
+        //Si ya fue seleccionada una ruta se pasa a las tiendas
+        var idPath = Auth.getCurrentPath(await SharedPreferences.getInstance());
+        if (idPath != null)
+          yield UserSaleAssigned(StoreViewParams(idPath, false));
+
         var paths = await logic.fetchPathsList();
         if (paths != null) {
           yield UserSalesLoaded(paths);
@@ -38,10 +42,11 @@ class UserSalesBloc extends Bloc<UserSalesEvent, UserSalesState> {
     if (event is AddUserSale) {
       yield UserSalesLoading();
       try {
-        int idUser = Auth.getIdUser(await SharedPreferences.getInstance());
+        var preferences = await SharedPreferences.getInstance();
+        int idUser = Auth.getIdUser(preferences);
         int idUserSale = await logic.addUserSale(event.idPath, idUser);
-        Auth.setIdUserSale(await SharedPreferences.getInstance(), idUserSale);
-
+        Auth.setIdUserSale(preferences, idUserSale);
+        Auth.setIdPath(preferences, event.idPath);
         yield UserSaleAssigned(StoreViewParams(event.idPath, false));
       } catch (e) {
         if (e is MyException && e != null) yield UserSalesError(e);
