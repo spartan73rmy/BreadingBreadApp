@@ -36,6 +36,9 @@ class MyApp extends StatelessWidget {
         //Configure router
         onGenerateRoute: (RouteSettings settings) {
           switch (settings.name) {
+            case Routes.LogOut:
+              return MaterialPageRoute(builder: (context) => MyApp());
+              break;
             case Routes.Login:
               return MaterialPageRoute(builder: (context) => Login());
               break;

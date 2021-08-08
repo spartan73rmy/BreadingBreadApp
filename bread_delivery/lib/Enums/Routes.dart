@@ -1,4 +1,5 @@
 class Routes {
+  static const String LogOut = "LogOut";
   static const String Login = "Login";
   static const String Home = "Home";
   static const String Paths = "Paths";

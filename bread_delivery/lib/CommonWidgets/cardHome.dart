@@ -10,7 +10,7 @@ class CardHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () => {onPressCallBack()},
+        onTap: onPressCallBack,
         child: Column(children: [
           Container(
             width: 75,

@@ -1,3 +1,4 @@
+import 'package:bread_delivery/Entities/storeViewParams.dart';
 import 'package:flutter/material.dart';
 import 'package:bread_delivery/CommonWidgets/cardHome.dart';
 import 'package:bread_delivery/Enums/Routes.dart';
@@ -50,39 +51,49 @@ class _DrawerAdminState extends State<DrawerAdmin> {
                     if (isAdmin)
                       Column(
                         children: [
-                          CardHome('assets/icons/users.png', "Usuarios", () {}),
-                          CardHome('assets/icons/path.png', "Rutas", () {})
+                          CardHome('assets/icons/users.png', "Usuarios", () {
+                            Navigator.pushNamed(context, Routes.User);
+                          }),
+                          CardHome('assets/icons/path.png', "Rutas", () {
+                            Navigator.pushNamed(context, Routes.Paths,
+                                arguments: isAdmin);
+                          })
                         ],
                       ),
                     Column(
                       children: [
-                        CardHome('assets/icons/store.png', "Tiendas", () {}),
+                        CardHome('assets/icons/store.png', "Tiendas", () {
+                          Navigator.pushNamed(context, Routes.Stores,
+                              arguments: StoreViewParams(null, isAdmin));
+                        }),
                         CardHome('assets/icons/qr-code.png', "Escanear",
                             () => {Navigator.of(context).pushNamed(Routes.Qr)})
                       ],
                     ),
                     Column(
                       children: [
-                        CardHome('assets/icons/bread.png', "Producto", () {}),
+                        CardHome('assets/icons/bread.png', "Producto", () {
+                          Navigator.pushNamed(context, Routes.Product,
+                              arguments: isAdmin);
+                        }),
                         CardHome(
-                            'assets/icons/discount.png', "Promociones", () {})
+                            'assets/icons/logout.png',
+                            "Cerrar sesión",
+                            () => Navigator.pushReplacementNamed(
+                                context, Routes.LogOut))
                       ],
                     ),
-                    Column(
-                      children: [
-                        CardHome('assets/icons/sale-tag.png', "Ventas", () {}),
-                        CardHome('assets/icons/order.png', "Pedido", () {})
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        CardHome(
-                            'assets/icons/logout.png', "Cerrar sesión", () {})
-                      ],
-                    ),
+                    // Column(
+                    //   //TODO Esto es secundario,Definir estadisticas de ventas
+                    //   children: [
+                    //     CardHome('assets/icons/sale-tag.png', "Ventas", () {}),
+                    //     CardHome('assets/icons/order.png', "Pedido", () {})
+                    //   ],
+                    // ),
                   ],
                 ))),
         Container(
+          //Para que o como se va a definir
           child: Text("Ventas de hoy"),
         ),
         Container(

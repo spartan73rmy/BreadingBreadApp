@@ -7,8 +7,10 @@ import 'package:bread_delivery/CommonWidgets/passField.dart';
 import 'package:bread_delivery/CommonWidgets/snackBar.dart';
 import 'package:bread_delivery/Entities/userType.dart';
 import 'package:bread_delivery/Enums/Routes.dart';
+import 'package:bread_delivery/Services/Local/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   final functionButton;
@@ -29,8 +31,13 @@ class _LoginState extends State<Login> {
   @override
   void initState() {
     super.initState();
+    logOut();
     _userNameController = new TextEditingController();
     _passwordController = new TextEditingController();
+  }
+
+  logOut() async {
+    await Auth.logoutUser(await SharedPreferences.getInstance());
   }
 
   _togglePassword() {
