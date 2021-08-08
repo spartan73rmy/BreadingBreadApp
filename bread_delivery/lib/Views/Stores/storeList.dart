@@ -48,8 +48,10 @@ class _StoreListState extends State<StoreList> {
         drawer: DrawerContent(isAdmin: isAdmin),
         appBar: AppBar(title: Text("Tiendas"), actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.store),
-            onPressed: () {},
+            icon: Icon(Icons.map),
+            onPressed: () {
+              Navigator.of(context).pushNamed(Routes.Map, arguments: idPath);
+            },
           )
         ]),
         body: BlocListener<StoreBloc, StoreState>(

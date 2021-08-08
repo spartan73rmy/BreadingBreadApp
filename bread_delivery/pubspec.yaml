@@ -16,12 +16,9 @@ dependencies:
   share: ^2.0.4
   equatable: ^2.0.3
   flutter_bloc: ^7.1.0
-  flutter_full_pdf_viewer: ^1.0.6
-  flutter_html_to_pdf: ^0.6.1
   freezed: ^0.14.2
   geolocator: ^7.4.0
   get_it: ^7.2.0
-  google_maps_flutter: ^2.0.6
   path_provider: ^2.0.2
   qrscan: ^0.3.2
   qr_flutter: ^4.0.0
@@ -31,9 +28,10 @@ dependencies:
   charts_flutter: ^0.11.0
   google_fonts: ^2.1.0
   font_awesome_flutter: ^9.1.0
-
-dev_dependencies:
   fluttertoast: ^8.0.8
+  flutter_map: any
+  
+dev_dependencies:
   flutter_test:
     sdk: flutter
 
