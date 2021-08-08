@@ -6,8 +6,15 @@ class PinMarker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(children: [FlutterLogo()]),
-    );
+    return Row(children: <Widget>[
+      Icon(
+        Icons.store,
+        color: Color(Colors.indigoAccent.value),
+      ),
+      Text(
+        this.name,
+        style: TextStyle(fontSize: 12, color: Color(Colors.black.value)),
+      )
+    ]);
   }
 }

@@ -21,13 +21,13 @@ class _MapAreaState extends State<MapArea> {
   var markers = <Marker>[];
   CenterOnLocationUpdate _centerOnLocationUpdate;
   StreamController<double> _centerCurrentLocationStreamController;
-
+  final PopupController _popupController = PopupController();
   @override
   void initState() {
     _centerOnLocationUpdate = CenterOnLocationUpdate.always;
     _centerCurrentLocationStreamController = StreamController<double>();
     markers.addAll(widget.points.map((e) => Marker(
-        width: 40.0,
+        width: 320.0,
         height: 40.0,
         point: e.point,
         builder: (ctx) => PinMarker(e.nombre))));
@@ -44,14 +44,12 @@ class _MapAreaState extends State<MapArea> {
   Widget build(BuildContext context) {
     return Stack(children: [
       Container(
-          // alignment: Alignment.topCenter,
-          // height: MediaQuery.of(context).size.height * 0.35,
           child: FlutterMap(
               options: MapOptions(
                   center: widget.center,
-                  zoom: 15.0,
+                  zoom: 12.0,
                   plugins: [
-                    // MarkerClusterPlugin(),
+                    MarkerClusterPlugin(),
                   ],
                   onPositionChanged: (MapPosition position, bool hasGesture) {
                     if (hasGesture) {
@@ -60,7 +58,32 @@ class _MapAreaState extends State<MapArea> {
                     }
                   }),
               layers: [
-            MarkerLayerOptions(markers: markers)
+            // MarkerLayerOptions(markers: markers),
+            MarkerClusterLayerOptions(
+              maxClusterRadius: 300,
+              size: Size(30, 30),
+              anchor: AnchorPos.align(AnchorAlign.center),
+              centerMarkerOnClick: true,
+              fitBoundsOptions: FitBoundsOptions(
+                padding: EdgeInsets.all(50),
+              ),
+              markers: markers,
+              animationsOptions:
+                  AnimationsOptions(zoom: Duration(milliseconds: 200)),
+              polygonOptions: PolygonOptions(
+                  borderColor: Colors.blueAccent,
+                  color: Colors.black12,
+                  borderStrokeWidth: 3),
+              builder: (context, markers) {
+                return FloatingActionButton(
+                  onPressed: null,
+                  child: Icon(
+                    Icons.location_on,
+                    color: Color(Colors.redAccent.value),
+                  ),
+                );
+              },
+            ),
           ],
               children: [
             TileLayerWidget(
@@ -68,7 +91,7 @@ class _MapAreaState extends State<MapArea> {
                 urlTemplate:
                     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                 subdomains: ['a', 'b', 'c'],
-                maxZoom: 19,
+                maxZoom: 20,
               ),
             ),
             LocationMarkerLayerWidget(
