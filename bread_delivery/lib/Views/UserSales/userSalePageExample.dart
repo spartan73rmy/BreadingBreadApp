@@ -5,11 +5,11 @@ import 'package:bread_delivery/Views/UserSales/userSaleListProducts.dart';
 import 'package:bread_delivery/Views/UserSales/userSaleReturnProduct.dart';
 import 'package:bread_delivery/Views/UserSales/userSaleTotalSale.dart';
 
-class LoginPage extends StatefulWidget {
-  _LoginPage createState() => _LoginPage();
+class SalePage extends StatefulWidget {
+  _SalePage createState() => _SalePage();
 }
 
-class _LoginPage extends State<LoginPage> {
+class _SalePage extends State<SalePage> {
   int indexScreen = 0;
 
   @override

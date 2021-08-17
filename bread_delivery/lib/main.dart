@@ -9,6 +9,7 @@ import 'package:bread_delivery/Views/CommonUser/usersPage.dart';
 import 'package:bread_delivery/Views/Products/productPage.dart';
 import 'package:bread_delivery/Views/Promotions/promotionPage.dart';
 import 'package:bread_delivery/Views/Qr/qrPage.dart';
+import 'package:bread_delivery/Views/UserSales/userSalePageExample.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'Entities/storePoint.dart';
@@ -69,6 +70,9 @@ class MyApp extends StatelessWidget {
                   builder: (context) =>
                       UserSalesPage("Rutas de venta", isAdmin));
               break;
+            //TODO Este proceso es de ventas de prueba
+            case Routes.SalePage:
+              return MaterialPageRoute(builder: (context) => SalePage());
             case Routes.Stores:
               StoreViewParams params = settings.arguments;
               return MaterialPageRoute(

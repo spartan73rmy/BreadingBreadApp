@@ -51,13 +51,13 @@ class Auth {
   }
 
   static logoutUser(SharedPreferences prefs) {
-    prefs.setString(Auth.authTokenKey, null);
-    prefs.setString(Auth.refToken, null);
+    prefs.setString(Auth.authTokenKey, "");
+    prefs.setString(Auth.refToken, "");
     prefs.setString(Auth.expDate,
         DateTime.fromMicrosecondsSinceEpoch(0, isUtc: true).toString());
-    prefs.setString(Auth.userIdKey, null);
-    prefs.setString(Auth.nameKey, null);
-    prefs.setString(Auth.roleKey, null);
+    prefs.setString(Auth.userIdKey, "");
+    prefs.setString(Auth.nameKey, "");
+    prefs.setString(Auth.roleKey, "");
   }
 
   static setIdUserSale(SharedPreferences prefs, int idUserSale) {

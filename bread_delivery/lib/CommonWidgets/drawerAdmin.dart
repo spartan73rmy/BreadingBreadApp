@@ -1,4 +1,5 @@
 import 'package:bread_delivery/Entities/storeViewParams.dart';
+import 'package:bread_delivery/Views/UserSales/userSalePageExample.dart';
 import 'package:flutter/material.dart';
 import 'package:bread_delivery/CommonWidgets/cardHome.dart';
 import 'package:bread_delivery/Enums/Routes.dart';
@@ -83,13 +84,18 @@ class _DrawerAdminState extends State<DrawerAdmin> {
                                 context, Routes.LogOut))
                       ],
                     ),
-                    // Column(
-                    //   //TODO Esto es secundario,Definir estadisticas de ventas
-                    //   children: [
-                    //     CardHome('assets/icons/sale-tag.png', "Ventas", () {}),
-                    //     CardHome('assets/icons/order.png', "Pedido", () {})
-                    //   ],
-                    // ),
+                    Column(
+                      //TODO Esto es secundario,Definir estadisticas de ventas
+                      children: [
+                        CardHome('assets/icons/sale-tag.png', "Ventas", () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SalePage()));
+                        }),
+                        CardHome('assets/icons/order.png', "Pedido", () {})
+                      ],
+                    ),
                   ],
                 ))),
         Container(
