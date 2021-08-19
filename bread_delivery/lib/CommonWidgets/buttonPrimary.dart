@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class ButtonPrimary extends StatelessWidget {
-  final String function;
   final String textButton;
   final String pathImage;
   final double sizeImage;
@@ -10,7 +9,7 @@ class ButtonPrimary extends StatelessWidget {
   var listPaddingText = [];
   final VoidCallback onPressCallback;
 
-  ButtonPrimary(this.function, this.textButton, this.pathImage, this.sizeImage,
+  ButtonPrimary(this.textButton, this.pathImage, this.sizeImage,
       this.listPaddingIcon, this.listPaddingText, this.onPressCallback);
 
   @override

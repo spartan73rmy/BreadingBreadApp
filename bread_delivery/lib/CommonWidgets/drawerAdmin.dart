@@ -88,10 +88,7 @@ class _DrawerAdminState extends State<DrawerAdmin> {
                       //TODO Esto es secundario,Definir estadisticas de ventas
                       children: [
                         CardHome('assets/icons/sale-tag.png', "Ventas", () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SalePage()));
+                          Navigator.pushNamed(context, Routes.SalePage);
                         }),
                         CardHome('assets/icons/order.png', "Pedido", () {})
                       ],

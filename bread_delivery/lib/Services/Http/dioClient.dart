@@ -115,11 +115,13 @@ class DioClient {
   }
 
   void unauthenticateHandlerInterceptor() {
-    _dio.interceptors.add(InterceptorsWrapper(onError: (error, handler) async {
+    _dio.interceptors.add(InterceptorsWrapper(
+        onError: (DioError error, ErrorInterceptorHandler handler) async {
       if (error.response?.statusCode == 403 ||
-          error.response?.statusCode == 401) {
+          error.response?.statusCode == 401 ||
+          error.response?.statusCode == 400) {
         await refreshToken();
-        return _retry(error.error);
+        return _retry(error.requestOptions, handler);
       }
       return error.response;
     }));
@@ -165,14 +167,24 @@ class DioClient {
     }
   }
 
-  Future<Response<dynamic>> _retry(RequestOptions requestOptions) async {
+  Future<Response<dynamic>> _retry(
+      RequestOptions requestOptions, ErrorInterceptorHandler handler) async {
     final options = new Options(
       method: requestOptions.method,
       headers: requestOptions.headers,
     );
-    return this._dio.request<dynamic>(requestOptions.path,
-        data: requestOptions.data,
-        queryParameters: requestOptions.queryParameters,
-        options: options);
+    try {
+      final response = await _dio.request(requestOptions.path,
+          options: options,
+          data: requestOptions.data,
+          queryParameters: requestOptions.queryParameters);
+      handler.resolve(response);
+    } on DioError catch (error) {
+      handler.next(error);
+    }
+    // return this._dio.request<dynamic>(requestOptions.path,
+    //     data: requestOptions.data,
+    //     queryParameters: requestOptions.queryParameters,
+    //     options: options);
   }
 }

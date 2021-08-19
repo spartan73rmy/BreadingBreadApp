@@ -1,13 +1,11 @@
+import 'package:bread_delivery/CommonWidgets/buttonPrimary.dart';
+import 'package:bread_delivery/Enums/Routes.dart';
 import 'package:flutter/material.dart';
 
 class LoadingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new Container(child: _loadingScreen());
-  }
-
-  Widget _loadingScreen() {
-    return new Container(
+    return Container(
         margin: const EdgeInsets.only(top: 150.0),
         child: new Center(
             child: new Column(
@@ -17,8 +15,7 @@ class LoadingScreen extends StatelessWidget {
               padding: const EdgeInsets.all(12.0),
               child: new Text(
                 'Espere',
-                style:
-                    new TextStyle(color: Colors.grey.shade500, fontSize: 16.0),
+                style: new TextStyle(color: Colors.white, fontSize: 16.0),
               ),
             )
           ],

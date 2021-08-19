@@ -159,7 +159,6 @@ class _RegisterState extends State<Register> {
             Container(
               padding: EdgeInsets.only(top: 25),
               child: ButtonPrimary(
-                'register',
                 "Registrar usuario",
                 'assets/icons/access_icon.png',
                 25,

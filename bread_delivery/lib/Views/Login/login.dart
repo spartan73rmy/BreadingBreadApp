@@ -59,6 +59,12 @@ class _LoginState extends State<Login> {
     );
   }
 
+  void _onWidgetDidBuild(Function callback) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      callback();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -71,7 +77,17 @@ class _LoginState extends State<Login> {
               body: BlocListener<LoginBloc, LoginState>(
                   listener: (context, state) => {
                         if (state is ErrorLogin)
-                          snackBar(context, state.toString())
+                          {
+                            _onWidgetDidBuild(() {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('${state.e}'),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                            })
+                            //snackBar(context, state.toString()),
+                          }
                         else if (state is SuccessLogin)
                           if (state.token.user.userType == UserType.adminT)
                             Navigator.pushReplacementNamed(context, Routes.Home,
@@ -133,7 +149,6 @@ class _LoginState extends State<Login> {
                                 Container(
                                   margin: EdgeInsets.only(bottom: 20),
                                   child: ButtonPrimary(
-                                      "login",
                                       "Iniciar Sesión",
                                       'assets/icons/access_icon.png',
                                       25,
@@ -143,7 +158,6 @@ class _LoginState extends State<Login> {
                                 ),
                                 Container(
                                   child: ButtonPrimary(
-                                      "register",
                                       "Registrarse",
                                       'assets/icons/registration_icon.png',
                                       25,
