@@ -97,6 +97,26 @@ class DioClient {
     }
   }
 
+  void addInterceptors() async {
+    //TODO _dio.interceptor.clear va hasta arriba
+    requestInterceptor();
+    errorHandlerInterceptor();
+    if (accessToken != null) {
+      //   Can be refreshed
+      unauthenticateHandlerInterceptor();
+    }
+    _dio.interceptors.clear();
+  }
+
+  void setCertificateAvoid() {
+    (_dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (HttpClient client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+      return client;
+    };
+  }
+
   void requestInterceptor() async {
     accessToken = Auth.getToken(await SharedPreferences.getInstance());
     _dio.options.headers.clear();
@@ -115,42 +135,27 @@ class DioClient {
   }
 
   void unauthenticateHandlerInterceptor() {
-    _dio.interceptors.add(InterceptorsWrapper(
-        onError: (DioError error, ErrorInterceptorHandler handler) async {
-      if (error.response?.statusCode == 403 ||
-          error.response?.statusCode == 401 ||
-          error.response?.statusCode == 400) {
-        await refreshToken();
-        return _retry(error.requestOptions, handler);
+    _dio.interceptors.add(InterceptorsWrapper(onError: (error, handler) async {
+      try {
+        if (error.response?.statusCode == 404 ||
+            error.response?.statusCode == 403 ||
+            error.response?.statusCode == 401 ||
+            error.response?.statusCode == 400) {
+          await refreshToken();
+          return _retry(error.requestOptions, handler);
+        }
+        return error.response;
+      } catch (error) {
+        handler.next(error);
       }
-      return error.response;
     }));
   }
 
   void errorHandlerInterceptor() {
-    _dio.interceptors.add(InterceptorsWrapper(onError: (error, handler) async {
+    _dio.interceptors.add(InterceptorsWrapper(onError: (error, handler) {
       print(error);
       return NetworkError.handleResponse(error);
     }));
-  }
-
-  void addInterceptors() async {
-    _dio.interceptors.clear();
-    requestInterceptor();
-    errorHandlerInterceptor();
-    if (accessToken != null) {
-      //Can be refreshed
-      unauthenticateHandlerInterceptor();
-    }
-  }
-
-  void setCertificateAvoid() {
-    (_dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-        (HttpClient client) {
-      client.badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
-      return client;
-    };
   }
 
   Future<void> refreshToken() async {
@@ -174,17 +179,12 @@ class DioClient {
       headers: requestOptions.headers,
     );
     try {
-      final response = await _dio.request(requestOptions.path,
-          options: options,
+      return this._dio.request<dynamic>(requestOptions.path,
           data: requestOptions.data,
-          queryParameters: requestOptions.queryParameters);
-      handler.resolve(response);
+          queryParameters: requestOptions.queryParameters,
+          options: options);
     } on DioError catch (error) {
       handler.next(error);
     }
-    // return this._dio.request<dynamic>(requestOptions.path,
-    //     data: requestOptions.data,
-    //     queryParameters: requestOptions.queryParameters,
-    //     options: options);
   }
 }
