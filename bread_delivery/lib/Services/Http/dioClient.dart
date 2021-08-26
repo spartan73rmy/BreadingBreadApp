@@ -136,10 +136,8 @@ class DioClient {
   void unauthenticateHandlerInterceptor() {
     _dio.interceptors.add(InterceptorsWrapper(onError: (error, handler) async {
       try {
-        if (error.response?.statusCode == 404 ||
-            error.response?.statusCode == 403 ||
-            error.response?.statusCode == 401 ||
-            error.response?.statusCode == 400) {
+        if (error.response?.statusCode == 403 ||
+            error.response?.statusCode == 401) {
           await refreshToken();
           return _retry(error.requestOptions, handler);
         }
