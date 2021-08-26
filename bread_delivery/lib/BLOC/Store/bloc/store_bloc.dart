@@ -21,18 +21,16 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
       yield StoreLoading();
       try {
         var stores;
-        if (event.idPath == null)
-          stores = await logic.fetchStoresList();
-        else
-          stores = await logic.fetchStoresListByPath(event.idPath);
+        var storesAvailable;
+        storesAvailable = await logic.fetchStoresList() ?? <Store>[];
+        stores = event.idPath != null
+            ? await logic.fetchStoresListByPath(event.idPath)
+            : storesAvailable;
 
-        if (stores != null) {
-          yield StoresLoaded(stores);
-        }
-        yield StoresLoaded(<Store>[]);
+        yield StoresLoaded(stores, storesAvailable);
       } catch (e) {
         if (e is MyException && e != null) yield StoreError(e);
-        yield StoresLoaded(<Store>[]);
+        yield StoresLoaded(<Store>[], <Store>[]);
       }
     }
 
@@ -43,9 +41,10 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
         yield StoreOperationCompleted();
       } catch (e) {
         if (e is MyException && e != null) yield StoreError(e);
-        yield StoresLoaded(<Store>[]);
+        yield StoresLoaded(<Store>[], <Store>[]);
       }
     }
+
     if (event is EditStore) {
       yield StoreLoading();
       try {
@@ -53,7 +52,7 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
         yield StoreOperationCompleted();
       } catch (e) {
         if (e is MyException && e != null) yield StoreError(e);
-        yield StoresLoaded(<Store>[]);
+        yield StoresLoaded(<Store>[], <Store>[]);
       }
     }
 
@@ -64,7 +63,29 @@ class StoreBloc extends Bloc<StoreEvent, StoreState> {
         yield StoreOperationCompleted();
       } catch (e) {
         if (e is MyException && e != null) yield StoreError(e);
-        yield StoresLoaded(<Store>[]);
+        yield StoresLoaded(<Store>[], <Store>[]);
+      }
+    }
+
+    if (event is DeallocateStoreToPath) {
+      yield StoreLoading();
+      try {
+        await logic.deallocateStoreFromPath(event.idStore, event.idPath);
+        yield StoreOperationCompleted();
+      } catch (e) {
+        if (e is MyException && e != null) yield StoreError(e);
+        yield StoresLoaded(<Store>[], <Store>[]);
+      }
+    }
+
+    if (event is AssignStoreToPath) {
+      yield StoreLoading();
+      try {
+        await logic.assignStoresToPath(event.stores, event.idPath);
+        yield StoreOperationCompleted();
+      } catch (e) {
+        if (e is MyException && e != null) yield StoreError(e);
+        yield StoresLoaded(<Store>[], <Store>[]);
       }
     }
   }

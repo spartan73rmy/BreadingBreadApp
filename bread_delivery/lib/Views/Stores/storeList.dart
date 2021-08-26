@@ -4,10 +4,11 @@ import 'package:bread_delivery/CommonWidgets/deleteDialog.dart';
 import 'package:bread_delivery/CommonWidgets/drawerContent.dart';
 import 'package:bread_delivery/CommonWidgets/loadingScreen.dart';
 import 'package:bread_delivery/CommonWidgets/snackBar.dart';
-import 'package:bread_delivery/Entities/Store.dart';
+import 'package:bread_delivery/Entities/store.dart';
 import 'package:bread_delivery/Entities/storePoint.dart';
 import 'package:bread_delivery/Entities/storeViewParams.dart';
 import 'package:bread_delivery/Enums/Routes.dart';
+import 'package:bread_delivery/Views/Stores/selectStoreByPath.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
@@ -46,6 +47,8 @@ class _StoreListState extends State<StoreList> {
 
   @override
   Widget build(BuildContext context) {
+    final StoreBloc block = BlocProvider.of<StoreBloc>(context);
+
     return Scaffold(
         drawer: DrawerContent(isAdmin: isAdmin),
         appBar: AppBar(title: Text("Tiendas"), actions: <Widget>[
@@ -92,7 +95,11 @@ class _StoreListState extends State<StoreList> {
                                             builder: (_) => DeleteDialog()) ??
                                         false;
                                     if (result) {
-                                      _deleteStore(state.stores[index].id);
+                                      if (idPath != null)
+                                        _deallocateStorePath(
+                                            state.stores[index].id, idPath);
+                                      else
+                                        _deleteStore(state.stores[index].id);
                                     }
                                     return result;
                                   },
@@ -112,31 +119,54 @@ class _StoreListState extends State<StoreList> {
               }
               return LoadingScreen();
             })),
-        floatingActionButton: isAdmin
-            ? FloatingActionButton.extended(
+        floatingActionButton: Container(child:
+            BlocBuilder<StoreBloc, StoreState>(builder: (context, state) {
+          if (state is StoresLoaded) {
+            return isAdmin
+                ? FloatingActionButton.extended(
+                    icon: Icon(Icons.add),
+                    backgroundColor: Theme.of(context).primaryColor,
+                    onPressed: () {
+                      if (idPath != null) {
+                        addStoresToPath(context, state.storesAvailable)
+                            .then((value) {
+                          print(value.length);
+                          if (value == null) return;
+                          _assignStoresToPath(value, idPath);
+                        });
+                      } else {
+                        //If is valid add to list else return
+                        alertInputDiag(
+                                context,
+                                "Agregar Tienda",
+                                "Nombre de la tienda",
+                                "",
+                                "Nombre para la tienda",
+                                keyboard: TextInputType.text)
+                            .then((value) {
+                          if (value == null) return;
+                          bool isValid = value != null;
+                          if (isValid) {
+                            _addStore(value);
+                          }
+                        });
+                      }
+                    },
+                    label: Text("Tienda"))
+                : FloatingActionButton.extended(
+                    icon: Icon(Icons.qr_code_scanner),
+                    backgroundColor: Theme.of(context).primaryColor,
+                    onPressed: () async {
+                      Navigator.of(context).pushNamed(Routes.Qr);
+                    },
+                    label: Text("Escanear"));
+          } else
+            return FloatingActionButton.extended(
                 icon: Icon(Icons.add),
                 backgroundColor: Theme.of(context).primaryColor,
-                onPressed: () {
-                  //If is valid add to list else return
-                  alertInputDiag(context, "Agregar Tienda",
-                          "Nombre de la tienda", "", "Nombre para la tienda",
-                          keyboard: TextInputType.text)
-                      .then((value) {
-                    if (value == null) return;
-                    bool isValid = value != null;
-                    if (isValid) {
-                      _addStore(value);
-                    }
-                  });
-                },
-                label: Text("Tienda"))
-            : FloatingActionButton.extended(
-                icon: Icon(Icons.qr_code_scanner),
-                backgroundColor: Theme.of(context).primaryColor,
-                onPressed: () async {
-                  Navigator.of(context).pushNamed(Routes.Qr);
-                },
-                label: Text("Escanear")));
+                onPressed: () async {},
+                label: Text("Tienda"));
+        })));
   }
 
   _addStore(String name) async {
@@ -150,5 +180,16 @@ class _StoreListState extends State<StoreList> {
   _getData() async {
     _refreshIndicatorKey.currentState?.show();
     BlocProvider.of<StoreBloc>(context).add(GetStores(idPath));
+  }
+
+  _assignStoresToPath(List<Store> value, int idPath) async {
+    _refreshIndicatorKey.currentState?.show();
+    BlocProvider.of<StoreBloc>(context).add(AssignStoreToPath(value, idPath));
+  }
+
+  _deallocateStorePath(int idStore, int idPath) async {
+    _refreshIndicatorKey.currentState?.show();
+    BlocProvider.of<StoreBloc>(context)
+        .add(DeallocateStoreToPath(idStore, idPath));
   }
 }

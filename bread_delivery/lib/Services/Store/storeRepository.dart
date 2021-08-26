@@ -9,6 +9,8 @@ abstract class StoresLogic {
   Future<void> addStore(int idPath, String name);
   Future<void> editStore(int id, String name);
   Future<void> deleteStore(int id);
+  Future<void> assignStoresToPath(List<Store> idStores, int idPath);
+  Future<void> deallocateStoreFromPath(int idStore, int idPath);
 }
 
 class StoreRepository extends StoresLogic {
@@ -51,6 +53,27 @@ class StoreRepository extends StoresLogic {
   Future<void> deleteStore(int id) async {
     try {
       await http.post(url + "Delete", data: jsonEncode({'id': id}));
+    } catch (e) {
+      throw NetworkError.handleResponse(e);
+    }
+  }
+
+  @override
+  Future<void> assignStoresToPath(List<Store> idStores, int idPath) async {
+    try {
+      List<int> ids = idStores.map((e) => e.id).toList();
+      await http.post(url + "Assign",
+          data: jsonEncode({'idPath': idPath, 'IdStores': ids}));
+    } catch (e) {
+      throw NetworkError.handleResponse(e);
+    }
+  }
+
+  @override
+  Future<void> deallocateStoreFromPath(int idStore, int idPath) async {
+    try {
+      await http.post(url + "Deallocate",
+          data: jsonEncode({'idPath': idPath, 'idStore': idStore}));
     } catch (e) {
       throw NetworkError.handleResponse(e);
     }

@@ -24,8 +24,9 @@ class StoreError extends StoreState {
 
 class StoresLoaded extends StoreState {
   final List<Store> stores;
+  final List<Store> storesAvailable;
 
-  StoresLoaded(this.stores);
+  StoresLoaded(this.stores, this.storesAvailable);
 }
 
 class StoreOperationCompleted extends StoreState {}

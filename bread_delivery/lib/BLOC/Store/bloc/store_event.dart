@@ -18,6 +18,20 @@ class AddStore extends StoreEvent {
   AddStore(this.name) : super([name]);
 }
 
+class AssignStoreToPath extends StoreEvent {
+  final List<Store> stores;
+  final int idPath;
+
+  AssignStoreToPath(this.stores, this.idPath) : super([stores, idPath]);
+}
+
+class DeallocateStoreToPath extends StoreEvent {
+  final int idStore;
+  final int idPath;
+
+  DeallocateStoreToPath(this.idStore, this.idPath) : super([idStore, idPath]);
+}
+
 class EditStore extends StoreEvent {
   final String name;
   final int id;
