@@ -1,3 +1,4 @@
+import 'package:bread_delivery/Entities/errorDetails.dart';
 import 'package:bread_delivery/Services/Http/validationErrorHandler.dart';
 import 'package:dio/dio.dart';
 
@@ -17,14 +18,21 @@ class NetworkError extends DioError {
 
     switch (statusCode) {
       case 400:
+        if (response?.data != null) {
+          error = ErrorDetails.fromJson(response.data)?.error ??
+              "No se puede realizar la accion solicitada";
+        }
+        return MyException(response.statusCode, error);
       case 401:
+        return MyException(response.statusCode, "Reinicie su sesion");
       case 403:
         return MyException(response.statusCode,
             "No se encuentra autorizado o no tiene permiso");
         break;
       case 404:
-        return MyException(
-            response.statusCode, "No se encuentra, intente otra vez");
+        error = ErrorDetails.fromJson(response.data)?.error ??
+            "No se encuentra, intente otra vez";
+        return MyException(response.statusCode, error);
         break;
       case 409:
         return MyException(response.statusCode, "Conflicto en la red");

@@ -26,7 +26,7 @@ class ValidationErrorHandler {
         break;
       case 408:
         throw MyException(response.statusCode,
-            "Coneccion de internet lenta, tiempo limite excedido");
+            "Conexion de internet lenta, tiempo limite excedido");
         break;
       case 500:
         throw MyException(response.statusCode,

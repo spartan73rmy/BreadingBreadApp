@@ -64,7 +64,7 @@ class DioClient {
     } on FormatException catch (_) {
       throw FormatException("El formato no es JSON");
     } catch (e) {
-      NetworkError.handleResponse(e);
+      throw NetworkError.handleResponse(e);
     }
   }
 
@@ -93,12 +93,11 @@ class DioClient {
     } on FormatException catch (e) {
       print(e);
     } catch (e) {
-      NetworkError.handleResponse(e);
+      throw NetworkError.handleResponse(e);
     }
   }
 
   void addInterceptors() async {
-    //TODO _dio.interceptor.clear va hasta arriba
     requestInterceptor();
     errorHandlerInterceptor();
     if (accessToken != null) {
