@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:bread_delivery/CommonWidgets/background.dart';
+import 'package:bread_delivery/BLOC/Products/bloc/products_bloc.dart';
+import 'package:bread_delivery/Services/Product/productRepository.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bread_delivery/Views/UserSales/userSaleBottomNavBar.dart';
 import 'package:bread_delivery/Views/UserSales/userSaleListProducts.dart';
 import 'package:bread_delivery/Views/UserSales/userSaleReturnProduct.dart';
@@ -75,7 +78,10 @@ class _SalePage extends State<SalePage> {
   _setSectionBody(value) {
     switch (value) {
       case 0:
-        return ListViewProducts();
+        return BlocProvider(
+            create: (_) => ProductsBloc(ProductRepository()),
+            child: ListViewProducts());
+
       case 1:
         return ReturnProduct();
       case 2:

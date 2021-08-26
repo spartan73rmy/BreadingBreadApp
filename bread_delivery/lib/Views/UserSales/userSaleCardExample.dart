@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:bread_delivery/Entities/product.dart';
 
 class ProductCard extends StatelessWidget {
-  final String nameProduct;
-  final String pathImgProduct;
+  final Product data;
 
-  ProductCard(this.nameProduct, this.pathImgProduct);
+  ProductCard(this.data);
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -35,7 +35,7 @@ class ProductCard extends StatelessWidget {
                 child: Container(
                   child: Center(
                       child: Text(
-                    nameProduct,
+                    '${data.name}',
                     style: GoogleFonts.lora(
                         color: Colors.white,
                         fontSize: 20,
@@ -48,7 +48,7 @@ class ProductCard extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white,
                 image: DecorationImage(
-                  image: AssetImage(pathImgProduct),
+                  image: AssetImage(''),
                   fit: BoxFit.scaleDown,
                 ),
               ),
