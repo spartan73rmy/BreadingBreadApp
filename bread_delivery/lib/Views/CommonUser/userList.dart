@@ -125,7 +125,7 @@ class _UserListState extends State<UserList> {
                                       builder: (_) => AproveUser()) ??
                                   false;
                               if (result) {
-                                _approveUser();
+                                _approveUser(state.users[index].userName);
                               }
                             },
                             onLongPress: () async {
@@ -149,8 +149,8 @@ class _UserListState extends State<UserList> {
     _getUsers();
   }
 
-  _approveUser() async {
-    BlocProvider.of<UserBloc>(context).add(ApproveUser());
+  _approveUser(String userName) async {
+    BlocProvider.of<UserBloc>(context).add(ApproveUser(userName));
     _getUsers();
   }
 }
