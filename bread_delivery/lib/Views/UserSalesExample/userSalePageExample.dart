@@ -3,10 +3,10 @@ import 'package:bread_delivery/CommonWidgets/background.dart';
 import 'package:bread_delivery/BLOC/Products/bloc/products_bloc.dart';
 import 'package:bread_delivery/Services/Product/productRepository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:bread_delivery/Views/UserSales/userSaleBottomNavBar.dart';
-import 'package:bread_delivery/Views/UserSales/userSaleListProducts.dart';
-import 'package:bread_delivery/Views/UserSales/userSaleReturnProduct.dart';
-import 'package:bread_delivery/Views/UserSales/userSaleTotalSale.dart';
+import 'package:bread_delivery/Views/UserSalesExample/userSaleBottomNavBar.dart';
+import 'package:bread_delivery/Views/UserSalesExample/userSaleListProducts.dart';
+import 'package:bread_delivery/Views/UserSalesExample/userSaleReturnProduct.dart';
+import 'package:bread_delivery/Views/UserSalesExample/userSaleTotalSale.dart';
 
 class SalePage extends StatefulWidget {
   _SalePage createState() => _SalePage();
