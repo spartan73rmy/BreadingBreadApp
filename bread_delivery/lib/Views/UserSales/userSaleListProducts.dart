@@ -31,6 +31,9 @@ class _ListViewProducts extends State<ListViewProducts> {
             if (state is ProductsError) snackBar(context, state.toString());
           },
           builder: (context, state) {
+            if (state is ProductsLoading) {
+              return Center(child: Text("Cargando"));
+            }
             if (state is ProductsLoaded) {
               return RefreshIndicator(
                   key: _refreshIndicatorKey,
@@ -42,20 +45,19 @@ class _ListViewProducts extends State<ListViewProducts> {
                       padding: EdgeInsets.only(bottom: 55),
                       //TODO Change the value of cacheExtent!!
                       cacheExtent: 100000,
-                      addAutomaticKeepAlives: false,
+                      addAutomaticKeepAlives: true,
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
                             child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                              ProductCard(state.products[index]),
                               ProductCard(state.products[index])
                             ]));
                       }));
             } else {
               return Center(
-                child: Text("Cargando"),
+                child: Text("Datos no disponibles"),
               );
             }
           },

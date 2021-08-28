@@ -75,17 +75,19 @@ class _State extends State<productAmount> {
         counter++;
       else if (value == "minus" && counter > 0) counter--;
     });
-    print(counter);
   }
 
-  _isNumberInt(value) {
+  void _isNumberInt(value) {
     try {
       int amount = int.parse(value);
-      print(amount);
       if (amount >= 0 && amount <= 99) counter = amount;
     } catch (e) {
       counter = 0;
     }
+  }
+
+  void _saveResultValueWithIndexProduct() {
+    if (counter != 0) {}
   }
 
   @override
