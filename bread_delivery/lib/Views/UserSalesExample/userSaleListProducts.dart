@@ -1,10 +1,9 @@
 import 'package:bread_delivery/BLOC/Products/bloc/products_bloc.dart';
-import 'package:bread_delivery/CommonWidgets/background.dart';
 import 'package:bread_delivery/CommonWidgets/snackBar.dart';
 import 'package:flutter/material.dart';
 import 'package:bread_delivery/Entities/product.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'userSaleCardExample.dart';
+import 'userSaleCard.dart';
 
 class ListViewProducts extends StatefulWidget {
   @override
@@ -42,7 +41,7 @@ class _ListViewProducts extends State<ListViewProducts> {
                   },
                   child: ListView.builder(
                       itemCount: state.products.length,
-                      padding: EdgeInsets.only(bottom: 55),
+                      padding: EdgeInsets.only(bottom: 60),
                       //TODO Change the value of cacheExtent!!
                       cacheExtent: 100000,
                       addAutomaticKeepAlives: true,

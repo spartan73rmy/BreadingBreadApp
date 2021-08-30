@@ -28,7 +28,7 @@ class CardHome extends StatelessWidget {
                 gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: <Color>[Color(0XFF714012), Color(0XFFC26410)])),
+                    colors: <Color>[Color(0XFF674023), Color(0XFF9E5F32)])),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

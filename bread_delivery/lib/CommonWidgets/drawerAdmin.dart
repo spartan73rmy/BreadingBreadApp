@@ -1,5 +1,5 @@
 import 'package:bread_delivery/Entities/storeViewParams.dart';
-import 'package:bread_delivery/Views/UserSalesExample/userSalePageExample.dart';
+import 'package:bread_delivery/Views/UserSalesExample/userSalePage.dart';
 import 'package:flutter/material.dart';
 import 'package:bread_delivery/CommonWidgets/cardHome.dart';
 import 'package:bread_delivery/Enums/Routes.dart';

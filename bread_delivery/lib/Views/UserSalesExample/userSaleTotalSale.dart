@@ -1,3 +1,4 @@
+import 'package:bread_delivery/Views/UserSalesExample/userSaleCard.dart';
 import 'package:flutter/material.dart';
 import 'package:bread_delivery/Views/UserSalesExample/userSaleCardTotal.dart';
 
@@ -7,9 +8,7 @@ class TotalSale extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: ListView(
-        children: [
-          userSaleCardTotal(),
-        ],
+        children: [userSaleCardTotal()],
       ),
     );
   }

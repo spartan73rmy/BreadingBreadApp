@@ -21,7 +21,7 @@ class _bottomNavBar extends State<BottomNavBar> {
             widget.functionPath(numberPage);
           });
         },
-        backgroundColor: Color(0XFF785841),
+        backgroundColor: Color(0XFF674023),
         unselectedItemColor: Colors.grey,
         selectedItemColor: Colors.white,
         currentIndex: numberPage,
@@ -32,12 +32,6 @@ class _bottomNavBar extends State<BottomNavBar> {
                 size: 25,
               ),
               label: "Panes"),
-          BottomNavigationBarItem(
-              icon: ImageIcon(
-                AssetImage('assets/images/exchange.png'),
-                size: 25,
-              ),
-              label: "Devolución"),
           BottomNavigationBarItem(
               icon: ImageIcon(
                 AssetImage('assets/images/bill.png'),
