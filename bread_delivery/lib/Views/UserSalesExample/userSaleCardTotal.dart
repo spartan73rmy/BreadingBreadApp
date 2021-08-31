@@ -1,152 +1,90 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:bread_delivery/Entities/product.dart';
 
-class userSaleCardTotal extends StatelessWidget {
-  const userSaleCardTotal({
-    Key key,
-  }) : super(key: key);
+class ProductCardTotal extends StatelessWidget {
+  //final Product data;
 
+  ProductCardTotal(/*this.data*/);
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.only(top: 15),
-        child: Column(
-          children: [
-            // PRIMARY CONTAINER
-            Container(
-                width: 330,
-                height: 125,
+        padding: EdgeInsets.only(top: 5),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: 100,
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: <Color>[Color(0XFF674023), Color(0XFF9E5F32)])),
+          child: Row(
+            children: [
+              //IMAGE
+              Container(
+                width: 75,
+                height: 100,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.black.withOpacity(.5), //color of shadow
-                          spreadRadius: 1, //spread radius
-                          blurRadius: 3, // blur radius
-                          offset: Offset(0, 2))
-                    ],
-                    gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: <Color>[Color(0XFF714012), Color(0XFFC26410)])),
-                child: Row(
+                  color: Colors.white,
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/cuerno.png'),
+                    fit: BoxFit.scaleDown,
+                  ),
+                ),
+              ),
+              //INFORMATION
+              Container(
+                width: MediaQuery.of(context).size.width - 75,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // IMAGE
+                    //NAME PRODUCT
                     Container(
-                      width: 105,
-                      height: 150,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
-                        image: DecorationImage(
-                          image: AssetImage('assets/images/cuerno.png'),
-                          fit: BoxFit.scaleDown,
-                        ),
+                      child: Text(
+                        "data.name",
+                        style: GoogleFonts.lora(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
-
-                    // PRODUCT NAME
+                    //INVENTORY
                     Container(
-                      width: 225,
-                      height: 150,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Container(
-                            padding: EdgeInsets.only(bottom: 10),
                             child: Text(
-                              "Cuernito",
+                              "Precio\n \$8.5",
                               style: GoogleFonts.lora(
                                   color: Colors.white,
-                                  fontSize: 20,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
                           Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Container(
-                                  child: Column(
-                                    // mainAxisAlignment:
-                                    //     MainAxisAlignment.center,
-                                    children: [
-                                      // PRODUCT LABEL
-                                      Container(
-                                        child: Text(
-                                          "Precio",
-                                          style: GoogleFonts.lora(
-                                              color: Colors.white,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                      // PRODUCT PRICE
-                                      Container(
-                                        child: Text(
-                                          r"$6.5",
-                                          style: GoogleFonts.lora(
-                                              color: Colors.white,
-                                              fontSize: 16),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  child: Column(
-                                    children: [
-                                      // LABEL QUANTITY
-                                      Container(
-                                        child: Text(
-                                          "Cantidad",
-                                          style: GoogleFonts.lora(
-                                              color: Colors.white,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                      // AMOUNT
-                                      Container(
-                                        child: Text("20",
-                                            style: GoogleFonts.lora(
-                                                color: Colors.white,
-                                                fontSize: 16)),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  child: Column(
-                                    children: [
-                                      // LABEL SALE
-                                      Container(
-                                        child: Text("Total",
-                                            style: GoogleFonts.lora(
-                                                color: Colors.white,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold)),
-                                      ),
-                                      // TOTAL PRICE
-                                      Container(
-                                        child: Text(r"$130",
-                                            style: GoogleFonts.lora(
-                                                color: Colors.white,
-                                                fontSize: 16)),
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
+                              child: Text(
+                            "Cantidad: 20\nDevolucion: 2",
+                            style: GoogleFonts.lora(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
+                          )),
+                          Container(
+                            child: Text("Total\n\$200",
+                                style: GoogleFonts.lora(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold)),
                           )
                         ],
                       ),
                     )
                   ],
-                ))
-          ],
+                ),
+              )
+            ],
+          ),
         ));
   }
 }
