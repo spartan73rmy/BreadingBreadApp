@@ -51,7 +51,7 @@ class _ListViewProducts extends State<ListViewProducts> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                              ProductCard(state.products[index])
+                              ProductCard(data: state.products[index])
                             ]));
                       }));
             } else {

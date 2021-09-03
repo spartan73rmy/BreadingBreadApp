@@ -1,11 +1,35 @@
+import 'package:bread_delivery/Views/Products/productCard.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bread_delivery/Entities/product.dart';
+import 'showDialogAdd.dart';
 
-class ProductCard extends StatelessWidget {
+class ProductCard extends StatefulWidget {
   final Product data;
 
-  ProductCard(this.data);
+  ProductCard({this.data});
+
+  _ProductCard createState() => _ProductCard();
+}
+
+class _ProductCard extends State<ProductCard> {
+  var resultsvaluesTextInput = {0: "0", 1: "0"};
+
+  void _isNumberInt(Map valuesTextInput) {
+    int amount;
+    for (var i = 0; i < valuesTextInput.length; i++) {
+      try {
+        amount = int.tryParse(valuesTextInput[i]);
+      } catch (e) {
+        resultsvaluesTextInput[i] = "0";
+      }
+      if (amount >= 0 && amount <= 999)
+        resultsvaluesTextInput[i] = amount.toString();
+    }
+  }
+
+  void _saveResultValueWithIndexProduct() {}
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -41,7 +65,7 @@ class ProductCard extends StatelessWidget {
                     //NAME PRODUCT
                     Container(
                       child: Text(
-                        data.name,
+                        this.widget.data.name,
                         style: GoogleFonts.lora(
                             color: Colors.white,
                             fontSize: 20,
@@ -80,7 +104,9 @@ class ProductCard extends StatelessWidget {
                                     children: [
                                       Container(
                                         child: Text(
-                                          "Venta: 0",
+                                          "Venta: " +
+                                              resultsvaluesTextInput[0]
+                                                  .toString(),
                                           style: GoogleFonts.lora(
                                               color: Colors.white,
                                               fontSize: 16),
@@ -88,7 +114,9 @@ class ProductCard extends StatelessWidget {
                                       ),
                                       Container(
                                         child: Text(
-                                          "Dev: 0",
+                                          "Dev: " +
+                                              resultsvaluesTextInput[1]
+                                                  .toString(),
                                           style: GoogleFonts.lora(
                                               color: Colors.white,
                                               fontSize: 16),
@@ -109,7 +137,13 @@ class ProductCard extends StatelessWidget {
                                   backgroundColor:
                                       MaterialStateProperty.all<Color>(
                                           Color(0xFF1E9431))),
-                              onPressed: () {},
+                              onPressed: () async {
+                                resultsvaluesTextInput =
+                                    await _displayTextInputDialog(context);
+                                setState(() {
+                                  _isNumberInt(resultsvaluesTextInput);
+                                });
+                              },
                             ),
                           )
                         ],
@@ -122,75 +156,22 @@ class ProductCard extends StatelessWidget {
           ),
         ));
   }
-}
 
-// ignore: camel_case_types
-class productAmount extends StatefulWidget {
-  const productAmount({Key key}) : super(key: key);
-
-  _State createState() => _State();
-}
-
-class _State extends State<productAmount> {
-  final snackError = SnackBar(content: const Text("Número no valido"));
-  int counter = 0;
-
-  void _isNumberInt(value) {
-    try {
-      int amount = int.parse(value);
-      if (amount >= 0 && amount <= 99) counter = amount;
-    } catch (e) {
-      counter = 0;
-    }
-  }
-
-  void _saveResultValueWithIndexProduct() {
-    if (counter != 0) {}
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-
-  Future<String> _displayTextInputDialog(BuildContext context) async {
-    TextEditingController _textFieldController = TextEditingController();
-    final ButtonStyle styleAdd = ElevatedButton.styleFrom(
-        primary: Color(0XFF378C36), textStyle: const TextStyle(fontSize: 20));
-    final ButtonStyle styleDelete = ElevatedButton.styleFrom(
-        primary: Color(0XFF8B0000), textStyle: const TextStyle(fontSize: 20));
+  Future<Map> _displayTextInputDialog(BuildContext context) async {
+    TextEditingController _textFieldControllerSale = TextEditingController();
+    TextEditingController _textFieldControllerReturn = TextEditingController();
     try {
       return await showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(
-            title: Text('Ingrese cantidad'),
-            content: TextField(
-              keyboardType: TextInputType.number,
-              controller: _textFieldController,
-              decoration: InputDecoration(hintText: "Cantidad"),
-            ),
-            actions: <Widget>[
-              ElevatedButton(
-                child: Text('Cancelar'),
-                style: styleDelete,
-                onPressed: () {
-                  Navigator.pop(context, "");
-                },
-              ),
-              ElevatedButton(
-                child: Text('Ok'),
-                style: styleAdd,
-                onPressed: () {
-                  Navigator.pop(context, _textFieldController.text);
-                },
-              ),
-            ],
+          return CustomAlertDialog(
+            textFieldControllerSale: _textFieldControllerSale,
+            textFieldControllerReturn: _textFieldControllerReturn,
           );
         },
       );
     } catch (e) {
-      return "";
+      return null;
     }
   }
 }

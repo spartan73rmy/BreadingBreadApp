@@ -71,6 +71,13 @@ class ProductCardTotal extends StatelessWidget {
                                 fontWeight: FontWeight.bold),
                           )),
                           Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 3),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.black.withOpacity(.5),
+                                border:
+                                    Border.all(width: 1, color: Colors.white)),
                             child: Text("Total\n\$200",
                                 style: GoogleFonts.lora(
                                     color: Colors.white,

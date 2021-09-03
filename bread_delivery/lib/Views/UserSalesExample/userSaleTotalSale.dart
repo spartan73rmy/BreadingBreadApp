@@ -14,7 +14,9 @@ class _TotalSale extends State<TotalSale> {
         backgroundColor: Colors.transparent,
         body: Container(
           child: ListView(
-            children: [ProductCardTotal()],
+            children: [
+              ProductCardTotal(),
+            ],
           ),
         ),
         bottomSheet: BottomSheetTotal());
