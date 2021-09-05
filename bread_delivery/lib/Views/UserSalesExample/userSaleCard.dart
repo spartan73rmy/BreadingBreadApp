@@ -15,20 +15,7 @@ class ProductCard extends StatefulWidget {
 class _ProductCard extends State<ProductCard> {
   var resultsvaluesTextInput = {0: "0", 1: "0"};
 
-  void _isNumberInt(Map valuesTextInput) {
-    int amount;
-    for (var i = 0; i < valuesTextInput.length; i++) {
-      try {
-        amount = int.tryParse(valuesTextInput[i]);
-      } catch (e) {
-        resultsvaluesTextInput[i] = "0";
-      }
-      if (amount >= 0 && amount <= 999)
-        resultsvaluesTextInput[i] = amount.toString();
-    }
-  }
-
-  void _saveResultValueWithIndexProduct() {}
+  // void _saveResultValueWithIndexProduct() {}
 
   @override
   Widget build(BuildContext context) {
@@ -104,9 +91,7 @@ class _ProductCard extends State<ProductCard> {
                                     children: [
                                       Container(
                                         child: Text(
-                                          "Venta: " +
-                                              resultsvaluesTextInput[0]
-                                                  .toString(),
+                                          "Venta: " + resultsvaluesTextInput[0],
                                           style: GoogleFonts.lora(
                                               color: Colors.white,
                                               fontSize: 16),
@@ -114,9 +99,7 @@ class _ProductCard extends State<ProductCard> {
                                       ),
                                       Container(
                                         child: Text(
-                                          "Dev: " +
-                                              resultsvaluesTextInput[1]
-                                                  .toString(),
+                                          "Dev: " + resultsvaluesTextInput[1],
                                           style: GoogleFonts.lora(
                                               color: Colors.white,
                                               fontSize: 16),
@@ -138,11 +121,13 @@ class _ProductCard extends State<ProductCard> {
                                       MaterialStateProperty.all<Color>(
                                           Color(0xFF1E9431))),
                               onPressed: () async {
-                                resultsvaluesTextInput =
-                                    await _displayTextInputDialog(context);
-                                setState(() {
-                                  _isNumberInt(resultsvaluesTextInput);
-                                });
+                                try {
+                                  resultsvaluesTextInput =
+                                      await _displayTextInputDialog(context);
+                                  setState(() {});
+                                } catch (e) {
+                                  print("Holis");
+                                }
                               },
                             ),
                           )
@@ -157,7 +142,7 @@ class _ProductCard extends State<ProductCard> {
         ));
   }
 
-  Future<Map> _displayTextInputDialog(BuildContext context) async {
+  Future<Map<int, String>> _displayTextInputDialog(BuildContext context) async {
     TextEditingController _textFieldControllerSale = TextEditingController();
     TextEditingController _textFieldControllerReturn = TextEditingController();
     try {
@@ -171,7 +156,7 @@ class _ProductCard extends State<ProductCard> {
         },
       );
     } catch (e) {
-      return null;
+      return {0: "0", 1: "0"};
     }
   }
 }
