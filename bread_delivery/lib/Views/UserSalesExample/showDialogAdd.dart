@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class CustomAlertDialog extends StatefulWidget {
@@ -11,29 +13,33 @@ class CustomAlertDialog extends StatefulWidget {
 }
 
 class _CustomAlertDialogState extends State<CustomAlertDialog> {
+  double fontSize20 = 20;
+  Color colorBrown = Color(0XFF674023);
   var resultInputText = {0: "0", 1: "0"};
   bool checkBoxValue = false;
   final ButtonStyle styleAdd = ElevatedButton.styleFrom(
       primary: Color(0XFF378C36), textStyle: const TextStyle(fontSize: 20));
   final ButtonStyle styleDelete = ElevatedButton.styleFrom(
       primary: Color(0XFF8B0000), textStyle: const TextStyle(fontSize: 20));
+  final TextStyle textStyleHint =
+      TextStyle(color: Color(0XFF674023), fontSize: 18);
+  final TextStyle textStyleField =
+      TextStyle(color: Color(0XFF674023), fontSize: 20);
 
   _getResultsInputText() {
     resultInputText[0] = this.widget.textFieldControllerSale.text;
     resultInputText[1] = this.widget.textFieldControllerReturn.text;
-    print(resultInputText);
     _isNumeric(resultInputText);
-    print(resultInputText);
   }
 
-  _isNumeric(Map valuesTextController) {
+  _isNumeric(Map<int, String> valuesTextController) {
     for (var i = 0; i < valuesTextController.length; i++) {
-      if (valuesTextController[i] == "" || valuesTextController[i] == null)
+      try {
+        num value = num.tryParse(valuesTextController[i]);
+        if (value <= 0 || value > 999) valuesTextController[i] = "0";
+      } catch (e) {
         valuesTextController[i] = "0";
-      bool checkInt = valuesTextController[i] is int;
-      if (checkInt == true) valuesTextController[i] = "0";
-      int value = int.parse(valuesTextController[i]);
-      if (value < 0 || value > 999) valuesTextController[i] = "0";
+      }
     }
   }
 
@@ -60,29 +66,28 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
                     alignment: Alignment.topLeft,
                     child: Text(
                       "Ingrese cantidad",
-                      style: TextStyle(fontSize: 20),
+                      style: TextStyle(fontSize: fontSize20),
                     ),
                   ),
                   Container(
                     child: TextField(
                       keyboardType: TextInputType.number,
                       controller: this.widget.textFieldControllerSale,
-                      decoration: InputDecoration(hintText: "Cantidad"),
+                      style: textStyleField,
+                      decoration: InputDecoration(
+                          hintText: "Cantidad", hintStyle: textStyleHint),
                     ),
                   ),
                   Container(
                       margin: EdgeInsets.symmetric(vertical: 15),
-                      padding: EdgeInsets.symmetric(horizontal: 15),
-                      decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(.2),
-                          borderRadius: BorderRadius.circular(15)),
                       child: Row(
                         children: [
                           Text(
                             "¿Devoluciones?",
-                            style: TextStyle(fontSize: 18),
+                            style: TextStyle(fontSize: fontSize20),
                           ),
                           Checkbox(
+                              activeColor: colorBrown,
                               value: checkBoxValue,
                               onChanged: (bool value) {
                                 setState(() {
@@ -99,15 +104,17 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
                             alignment: Alignment.topLeft,
                             child: Text(
                               "Ingrese cantidad",
-                              style: TextStyle(fontSize: 20),
+                              style: TextStyle(fontSize: fontSize20),
                             ),
                           ),
                           Container(
                             child: TextField(
                               keyboardType: TextInputType.number,
                               controller: this.widget.textFieldControllerReturn,
-                              decoration:
-                                  InputDecoration(hintText: "Devolucion"),
+                              style: textStyleField,
+                              decoration: InputDecoration(
+                                  hintText: "Devolución",
+                                  hintStyle: textStyleHint),
                             ),
                           ),
                         ],

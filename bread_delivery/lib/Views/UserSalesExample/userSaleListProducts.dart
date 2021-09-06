@@ -1,4 +1,5 @@
 import 'package:bread_delivery/BLOC/Products/bloc/products_bloc.dart';
+import 'package:bread_delivery/CommonWidgets/loadingScreen.dart';
 import 'package:bread_delivery/CommonWidgets/snackBar.dart';
 import 'package:flutter/material.dart';
 import 'package:bread_delivery/Entities/product.dart';
@@ -31,7 +32,7 @@ class _ListViewProducts extends State<ListViewProducts> {
           },
           builder: (context, state) {
             if (state is ProductsLoading) {
-              return Center(child: Text("Cargando"));
+              return LoadingScreen();
             }
             if (state is ProductsLoaded) {
               return RefreshIndicator(

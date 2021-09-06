@@ -1,24 +1,43 @@
 import 'package:bread_delivery/CommonWidgets/buttonPrimary.dart';
 import 'package:bread_delivery/Enums/Routes.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoadingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-        margin: const EdgeInsets.only(top: 150.0),
-        child: new Center(
-            child: new Column(
-          children: <Widget>[
-            CircularProgressIndicator(strokeWidth: 4.0),
-            new Container(
-              padding: const EdgeInsets.all(12.0),
-              child: new Text(
-                'Espere',
-                style: new TextStyle(color: Colors.white, fontSize: 16.0),
-              ),
-            )
+    return Dialog(
+      backgroundColor: Color(0XFF674023),
+      child: Container(
+        height: 110,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+                margin: EdgeInsets.all(10),
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage('assets/icons/baker.png')),
+                )),
+            Container(
+                margin: EdgeInsets.only(bottom: 10),
+                width: 250,
+                height: 30,
+                child: Center(
+                  child: Text(
+                    "Horneando los panes...",
+                    style: GoogleFonts.lora(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ))
           ],
-        )));
+        ),
+      ),
+    );
   }
 }

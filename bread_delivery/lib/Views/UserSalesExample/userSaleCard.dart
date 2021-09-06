@@ -1,4 +1,3 @@
-import 'package:bread_delivery/Views/Products/productCard.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bread_delivery/Entities/product.dart';
@@ -13,8 +12,11 @@ class ProductCard extends StatefulWidget {
 }
 
 class _ProductCard extends State<ProductCard> {
+  TextStyle styleTextSale = GoogleFonts.lora(color: Colors.white, fontSize: 16);
+  TextStyle styleTextNameProduct = GoogleFonts.lora(
+      color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold);
+  Color colorBrown = Color(0XFF674023);
   var resultsvaluesTextInput = {0: "0", 1: "0"};
-
   // void _saveResultValueWithIndexProduct() {}
 
   @override
@@ -25,6 +27,7 @@ class _ProductCard extends State<ProductCard> {
           width: MediaQuery.of(context).size.width,
           height: 100,
           decoration: BoxDecoration(
+              //color: colorBrown,
               gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
@@ -51,13 +54,8 @@ class _ProductCard extends State<ProductCard> {
                   children: [
                     //NAME PRODUCT
                     Container(
-                      child: Text(
-                        this.widget.data.name,
-                        style: GoogleFonts.lora(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
+                      child: Text(this.widget.data.name,
+                          style: styleTextNameProduct),
                     ),
                     //INVENTORY
                     Container(
@@ -78,11 +76,7 @@ class _ProductCard extends State<ProductCard> {
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Container(
-                                  child: Text(
-                                    "Inv: 0",
-                                    style: GoogleFonts.lora(
-                                        color: Colors.white, fontSize: 16),
-                                  ),
+                                  child: Text("Inv: 0", style: styleTextSale),
                                 ),
                                 Container(
                                   child: Row(
@@ -91,19 +85,14 @@ class _ProductCard extends State<ProductCard> {
                                     children: [
                                       Container(
                                         child: Text(
-                                          "Venta: " + resultsvaluesTextInput[0],
-                                          style: GoogleFonts.lora(
-                                              color: Colors.white,
-                                              fontSize: 16),
-                                        ),
+                                            "Venta: " +
+                                                resultsvaluesTextInput[0],
+                                            style: styleTextSale),
                                       ),
                                       Container(
                                         child: Text(
-                                          "Dev: " + resultsvaluesTextInput[1],
-                                          style: GoogleFonts.lora(
-                                              color: Colors.white,
-                                              fontSize: 16),
-                                        ),
+                                            "Dev: " + resultsvaluesTextInput[1],
+                                            style: styleTextSale),
                                       )
                                     ],
                                   ),
@@ -121,13 +110,9 @@ class _ProductCard extends State<ProductCard> {
                                       MaterialStateProperty.all<Color>(
                                           Color(0xFF1E9431))),
                               onPressed: () async {
-                                try {
-                                  resultsvaluesTextInput =
-                                      await _displayTextInputDialog(context);
-                                  setState(() {});
-                                } catch (e) {
-                                  print("Holis");
-                                }
+                                resultsvaluesTextInput =
+                                    await _displayTextInputDialog(context);
+                                setState(() {});
                               },
                             ),
                           )
@@ -145,18 +130,14 @@ class _ProductCard extends State<ProductCard> {
   Future<Map<int, String>> _displayTextInputDialog(BuildContext context) async {
     TextEditingController _textFieldControllerSale = TextEditingController();
     TextEditingController _textFieldControllerReturn = TextEditingController();
-    try {
-      return await showDialog(
-        context: context,
-        builder: (context) {
-          return CustomAlertDialog(
-            textFieldControllerSale: _textFieldControllerSale,
-            textFieldControllerReturn: _textFieldControllerReturn,
-          );
-        },
-      );
-    } catch (e) {
-      return {0: "0", 1: "0"};
-    }
+    return await showDialog(
+      context: context,
+      builder: (context) {
+        return CustomAlertDialog(
+          textFieldControllerSale: _textFieldControllerSale,
+          textFieldControllerReturn: _textFieldControllerReturn,
+        );
+      },
+    );
   }
 }
