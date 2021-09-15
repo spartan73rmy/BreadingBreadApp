@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bread_delivery/Entities/product.dart';
 import 'showDialogAdd.dart';
+import 'package:bread_delivery/Services/UserSale/userSaleDatabase.dart';
 
 class ProductCard extends StatefulWidget {
   final Product data;
@@ -12,12 +13,23 @@ class ProductCard extends StatefulWidget {
 }
 
 class _ProductCard extends State<ProductCard> {
+  SalePreviewDatabase db = SalePreviewDatabase();
   TextStyle styleTextSale = GoogleFonts.lora(color: Colors.white, fontSize: 16);
   TextStyle styleTextNameProduct = GoogleFonts.lora(
       color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold);
   Color colorBrown = Color(0XFF674023);
   var resultsvaluesTextInput = {0: "0", 1: "0"};
-  // void _saveResultValueWithIndexProduct() {}
+
+  void _saveResultDatabase() async {
+    SalePreview salePreview = SalePreview(
+        indexProduct: this.widget.data.id,
+        nameProduct: this.widget.data.name,
+        priceProduct: this.widget.data.price.toString(),
+        amountSale: resultsvaluesTextInput[0],
+        amountReturn: resultsvaluesTextInput[1]);
+    await db.init();
+    await db.insert(salePreview);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,6 +124,10 @@ class _ProductCard extends State<ProductCard> {
                               onPressed: () async {
                                 resultsvaluesTextInput =
                                     await _displayTextInputDialog(context);
+                                if (resultsvaluesTextInput[0] != 0 &&
+                                    resultsvaluesTextInput[1] != 0) {
+                                  _saveResultDatabase();
+                                }
                                 setState(() {});
                               },
                             ),

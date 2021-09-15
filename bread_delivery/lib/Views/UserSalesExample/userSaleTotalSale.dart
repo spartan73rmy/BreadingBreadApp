@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bread_delivery/Views/UserSalesExample/userSaleCardTotal.dart';
+import 'package:bread_delivery/Services/UserSale/userSaleDatabase.dart';
 
 class TotalSale extends StatefulWidget {
   @override
@@ -8,17 +9,37 @@ class TotalSale extends StatefulWidget {
 }
 
 class _TotalSale extends State<TotalSale> {
+  SalePreviewDatabase db = SalePreviewDatabase();
+  SalePreview mapsIndex;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.transparent,
-        body: Container(
-          child: ListView(
-            children: [
-              ProductCardTotal(),
-            ],
-          ),
-        ),
+        body: FutureBuilder(
+            future: db.init(),
+            builder: (BuildContext context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return FutureBuilder(
+                  future: db.salePreview(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<SalePreview>> snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView(
+                        children: [
+                          for (mapsIndex in snapshot.data.map((e) => e))
+                            ProductCardTotal(mapsIndex)
+                        ],
+                      );
+                    } else {
+                      return Text("No hay datos");
+                    }
+                  },
+                );
+              } else {
+                return Text("");
+              }
+            }),
         bottomSheet: BottomSheetTotal());
   }
 }
