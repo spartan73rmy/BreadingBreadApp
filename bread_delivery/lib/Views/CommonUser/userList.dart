@@ -1,6 +1,6 @@
 import 'package:bread_delivery/BLOC/User/bloc/user_bloc.dart';
 import 'package:bread_delivery/CommonWidgets/deleteDialog.dart';
-import 'package:bread_delivery/CommonWidgets/loadingScreen.dart';
+import 'package:bread_delivery/CommonWidgets/messageScreen.dart';
 import 'package:bread_delivery/CommonWidgets/snackBar.dart';
 import 'package:bread_delivery/Entities/userCreate.dart';
 import 'package:bread_delivery/Enums/Routes.dart';
@@ -135,7 +135,7 @@ class _UserListState extends State<UserList> {
                           ));
                     }),
               );
-            return LoadingScreen();
+            return MessageScreen();
           }),
         ));
   }

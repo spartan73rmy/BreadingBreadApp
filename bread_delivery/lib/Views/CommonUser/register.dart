@@ -3,7 +3,7 @@ import 'package:bread_delivery/CommonWidgets/background.dart';
 import 'package:bread_delivery/CommonWidgets/buttonPrimary.dart';
 import 'package:bread_delivery/CommonWidgets/alert.dart';
 import 'package:bread_delivery/CommonWidgets/inputField.dart';
-import 'package:bread_delivery/CommonWidgets/loadingScreen.dart';
+import 'package:bread_delivery/CommonWidgets/messageScreen.dart';
 import 'package:bread_delivery/CommonWidgets/passField.dart';
 import 'package:bread_delivery/CommonWidgets/snackBar.dart';
 import 'package:bread_delivery/Entities/userCreate.dart';
@@ -63,7 +63,7 @@ class _RegisterState extends State<Register> {
                 }
               }, child:
                   BlocBuilder<UserBloc, UserState>(builder: (context, state) {
-                if (state is UsersLoading) return LoadingScreen();
+                if (state is UsersLoading) return MessageScreen();
                 return registerScreen();
               })))
         ]));

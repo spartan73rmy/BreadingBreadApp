@@ -1,7 +1,7 @@
 import 'package:bread_delivery/BLOC/Promotions/bloc/promotions_bloc.dart';
 import 'package:bread_delivery/CommonWidgets/alert.dart';
 import 'package:bread_delivery/CommonWidgets/deleteDialog.dart';
-import 'package:bread_delivery/CommonWidgets/loadingScreen.dart';
+import 'package:bread_delivery/CommonWidgets/messageScreen.dart';
 import 'package:bread_delivery/CommonWidgets/snackBar.dart';
 import 'package:bread_delivery/Entities/product.dart';
 import 'package:bread_delivery/Entities/promotion.dart';
@@ -84,7 +84,7 @@ class _PromotionListState extends State<PromotionList> {
                                   state.promotions[index], widget.isAdmin));
                         }));
               }
-              return LoadingScreen();
+              return MessageScreen();
             })),
         floatingActionButton: widget.isAdmin
             ? FloatingActionButton.extended(

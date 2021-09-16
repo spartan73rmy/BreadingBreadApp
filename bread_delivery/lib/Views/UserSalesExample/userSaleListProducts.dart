@@ -1,5 +1,5 @@
 import 'package:bread_delivery/BLOC/Products/bloc/products_bloc.dart';
-import 'package:bread_delivery/CommonWidgets/loadingScreen.dart';
+import 'package:bread_delivery/CommonWidgets/messageScreen.dart';
 import 'package:bread_delivery/CommonWidgets/snackBar.dart';
 import 'package:flutter/material.dart';
 import 'package:bread_delivery/Entities/product.dart';
@@ -32,7 +32,7 @@ class _ListViewProducts extends State<ListViewProducts> {
           },
           builder: (context, state) {
             if (state is ProductsLoading) {
-              return LoadingScreen();
+              return MessageScreen();
             }
             if (state is ProductsLoaded) {
               return RefreshIndicator(
@@ -56,9 +56,7 @@ class _ListViewProducts extends State<ListViewProducts> {
                             ]));
                       }));
             } else {
-              return Center(
-                child: Text("Datos no disponibles"),
-              );
+              return MessageScreen.message("No hay datos");
             }
           },
         ));

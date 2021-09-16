@@ -2,7 +2,7 @@ import 'package:bread_delivery/BLOC/Login/bloc/login_bloc.dart';
 import 'package:bread_delivery/CommonWidgets/background.dart';
 import 'package:bread_delivery/CommonWidgets/buttonPrimary.dart';
 import 'package:bread_delivery/CommonWidgets/inputField.dart';
-import 'package:bread_delivery/CommonWidgets/loadingScreen.dart';
+import 'package:bread_delivery/CommonWidgets/messageScreen.dart';
 import 'package:bread_delivery/CommonWidgets/passField.dart';
 import 'package:bread_delivery/CommonWidgets/snackBar.dart';
 import 'package:bread_delivery/Entities/userType.dart';
@@ -100,7 +100,7 @@ class _LoginState extends State<Login> {
                       },
                   child: BlocBuilder<LoginBloc, LoginState>(
                       builder: (context, state) {
-                    if (state is LoadingLogin) return LoadingScreen();
+                    if (state is LoadingLogin) return MessageScreen();
                     return Stack(
                       children: [
                         Scaffold(

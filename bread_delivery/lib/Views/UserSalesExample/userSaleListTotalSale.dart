@@ -1,3 +1,4 @@
+import 'package:bread_delivery/CommonWidgets/messageScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bread_delivery/Views/UserSalesExample/userSaleCardTotal.dart';
@@ -32,12 +33,12 @@ class _TotalSale extends State<TotalSale> {
                         ],
                       );
                     } else {
-                      return Text("No hay datos");
+                      return MessageScreen.message("No hay datos");
                     }
                   },
                 );
               } else {
-                return Text("");
+                return MessageScreen.message("No hay datos");
               }
             }),
         bottomSheet: BottomSheetTotal());
