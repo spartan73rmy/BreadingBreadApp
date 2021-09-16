@@ -9,8 +9,8 @@ class TotalSale extends StatefulWidget {
 }
 
 class _TotalSale extends State<TotalSale> {
-  SalePreviewDatabase db = SalePreviewDatabase();
-  SalePreview mapsIndex;
+  PriorSaleDatabase db = PriorSaleDatabase();
+  PriorSale mapsIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class _TotalSale extends State<TotalSale> {
                 return FutureBuilder(
                   future: db.salePreview(),
                   builder: (BuildContext context,
-                      AsyncSnapshot<List<SalePreview>> snapshot) {
+                      AsyncSnapshot<List<PriorSale>> snapshot) {
                     if (snapshot.hasData) {
                       return ListView(
                         children: [

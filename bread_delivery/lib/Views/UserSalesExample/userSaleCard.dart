@@ -13,7 +13,7 @@ class ProductCard extends StatefulWidget {
 }
 
 class _ProductCard extends State<ProductCard> {
-  SalePreviewDatabase db = SalePreviewDatabase();
+  PriorSaleDatabase db = PriorSaleDatabase();
   TextStyle styleTextSale = GoogleFonts.lora(color: Colors.white, fontSize: 16);
   TextStyle styleTextNameProduct = GoogleFonts.lora(
       color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold);
@@ -21,12 +21,12 @@ class _ProductCard extends State<ProductCard> {
   var resultsvaluesTextInput = {0: "0", 1: "0"};
 
   void _saveResultDatabase() async {
-    SalePreview salePreview = SalePreview(
+    PriorSale salePreview = PriorSale(
         indexProduct: this.widget.data.id,
         nameProduct: this.widget.data.name,
         priceProduct: this.widget.data.price.toString(),
-        amountSale: resultsvaluesTextInput[0],
-        amountReturn: resultsvaluesTextInput[1]);
+        saleQuantity: resultsvaluesTextInput[0],
+        refundAmount: resultsvaluesTextInput[1]);
     await db.init();
     await db.insert(salePreview);
   }

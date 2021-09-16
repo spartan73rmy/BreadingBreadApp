@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProductCardTotal extends StatelessWidget {
-  SalePreview data;
+  PriorSale data;
   ProductCardTotal(this.data);
-  _totalSaleProduct() {
-    int total = int.parse(data.amountSale) - int.parse(data.amountReturn);
+
+  _getTotalSaleProduct() {
+    int total = int.parse(data.saleQuantity) - int.parse(data.refundAmount);
     double totalSale =
         double.parse(total.toString()) * double.parse(data.priceProduct);
     return totalSale.toString();
@@ -71,9 +72,9 @@ class ProductCardTotal extends StatelessWidget {
                           Container(
                               child: Text(
                             "Cantidad: " +
-                                data.amountSale +
+                                data.saleQuantity +
                                 "\nDevolucion: " +
-                                data.amountReturn,
+                                data.refundAmount,
                             style: GoogleFonts.lora(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -87,7 +88,7 @@ class ProductCardTotal extends StatelessWidget {
                                 color: Colors.black.withOpacity(.5),
                                 border:
                                     Border.all(width: 1, color: Colors.white)),
-                            child: Text("Total\n\$" + _totalSaleProduct(),
+                            child: Text("Total\n\$" + _getTotalSaleProduct(),
                                 style: GoogleFonts.lora(
                                     color: Colors.white,
                                     fontSize: 20,
