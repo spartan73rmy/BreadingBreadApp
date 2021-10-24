@@ -63,9 +63,10 @@ class _StoreCardState extends State<StoreCard> {
         onTap: () async {
           if (isAdmin) {
             await _onShare(context);
-          } else if (!data.visited) {
-            Navigator.of(context).pushNamed(Routes.Qr);
           }
+          //  else if (!data.visited) {
+          //   Navigator.of(context).pushNamed(Routes.Qr);
+          // }
         },
         onLongPress: () async {
           if (isAdmin) {

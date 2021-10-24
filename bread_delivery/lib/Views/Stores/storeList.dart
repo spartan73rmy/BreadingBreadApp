@@ -157,7 +157,8 @@ class _StoreListState extends State<StoreList> {
                     icon: Icon(Icons.qr_code_scanner),
                     backgroundColor: Theme.of(context).primaryColor,
                     onPressed: () async {
-                      Navigator.of(context).pushNamed(Routes.Qr);
+                      Navigator.of(context).pushNamed(Routes.Qr,
+                          arguments: state.storesAvailable);
                     },
                     label: Text("Escanear"));
           } else

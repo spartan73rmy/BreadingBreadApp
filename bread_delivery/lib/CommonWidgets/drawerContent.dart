@@ -1,6 +1,8 @@
 import 'package:bread_delivery/Enums/Routes.dart';
 import 'package:bread_delivery/Views/Login/login.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../Services/Local/auth.dart';
 
 class DrawerContent extends StatefulWidget {
   final bool isAdmin;
@@ -33,13 +35,8 @@ class _DrawerContentState extends State<DrawerContent> {
   }
 
   Future<void> logOut() async {
-    // _sharedPreferences = await _prefs;
-    // await Auth.logoutUser(_sharedPreferences);
-    Navigator.of(context).popUntil((route) => route.isFirst);
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => Login()),
-    );
+    await Auth.logoutUser(await SharedPreferences.getInstance());
+    Navigator.pushNamedAndRemoveUntil(context, Routes.LogOut, (route) => false);
   }
 
   Drawer drawerContent(BuildContext context) {
@@ -51,13 +48,8 @@ class _DrawerContentState extends State<DrawerContent> {
       return <Widget>[
         DrawerHeader(
             decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-            ),
-            child: Text('Hola\nJose Alberto Espinoza Morelos',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ))),
+          color: Theme.of(context).primaryColor,
+        )),
         ListTile(
           leading: Icon(Icons.supervised_user_circle),
           title: Text('Usuarios'),
@@ -102,21 +94,19 @@ class _DrawerContentState extends State<DrawerContent> {
           child: ListTile(
             leading: Icon(Icons.close),
             title: Text('Cerrar Sesion'),
-            onTap: () async {},
+            onTap: () async {
+              logOut();
+            },
           ),
         ))
       ];
     else
       return <Widget>[
         DrawerHeader(
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-            ),
-            child: Text('Hola\nNombre de usuario completo',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ))),
+          decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor,
+          ),
+        ),
         ListTile(
           leading: Icon(Icons.alt_route_rounded),
           title: Text('Ruta'),
@@ -133,7 +123,9 @@ class _DrawerContentState extends State<DrawerContent> {
           child: ListTile(
             leading: Icon(Icons.close),
             title: Text('Cerrar Sesion'),
-            onTap: () async {},
+            onTap: () async {
+              logOut();
+            },
           ),
         ))
       ];

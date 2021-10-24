@@ -67,8 +67,8 @@ class _DrawerAdminState extends State<DrawerAdmin> {
                           Navigator.pushNamed(context, Routes.Stores,
                               arguments: StoreViewParams(null, isAdmin));
                         }),
-                        CardHome('assets/icons/qr-code.png', "Escanear",
-                            () => {Navigator.of(context).pushNamed(Routes.Qr)})
+                        // CardHome('assets/icons/qr-code.png', "Escanear",
+                        //     () => {Navigator.of(context).pushNamed(Routes.Qr)})
                       ],
                     ),
                     Column(
