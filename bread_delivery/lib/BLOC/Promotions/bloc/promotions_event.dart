@@ -18,7 +18,7 @@ class GetPromotionsByProduct extends PromotionsEvent {
 class AddPromotion extends PromotionsEvent {
   final int idProducto;
   final int cantitySaleMin;
-  final int saleMin;
+  final double saleMin;
   final int cantityFree;
   final int discount;
 
@@ -31,7 +31,7 @@ class EditPromotion extends PromotionsEvent {
   final int idPromo;
   final int idProducto;
   final int cantitySaleMin;
-  final int saleMin;
+  final double saleMin;
   final int cantityFree;
   final int discount;
   final bool active;

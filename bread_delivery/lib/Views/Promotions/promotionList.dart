@@ -97,7 +97,7 @@ class _PromotionListState extends State<PromotionList> {
             : Container());
   }
 
-  _addPromotion(int idProducto, int cantitySaleMin, int saleMin,
+  _addPromotion(int idProducto, int cantitySaleMin, double saleMin,
       int cantityFree, int discount) async {
     BlocProvider.of<PromotionsBloc>(context).add(
         AddPromotion(idProducto, cantityFree, saleMin, cantityFree, discount));
@@ -212,7 +212,7 @@ class _PromotionListState extends State<PromotionList> {
                       int idProducto = 0;
                       int cantitySaleMin =
                           (isPerQuantity) ? int.parse(Type) : 0;
-                      int saleMin = (!isPerQuantity) ? int.parse(Type) : 0;
+                      double saleMin = (!isPerQuantity) ? double.parse(Type) : 0;
                       int cantityFree = (!isDiscount) ? int.parse(Discount) : 0;
                       int discount = (isDiscount) ? int.parse(Discount) : 0;
                       await _addPromotion(idProducto, cantitySaleMin, saleMin,

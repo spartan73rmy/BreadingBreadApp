@@ -57,14 +57,14 @@ class _PromotionCardState extends State<PromotionCard> {
     ])));
   }
 
-  _editPromotion(int idPromo, int idProducto, int cantitySaleMin, int saleMin,
+  _editPromotion(int idPromo, int idProducto, int cantitySaleMin, double saleMin,
       int cantityFree, int discount, bool active) async {
     BlocProvider.of<PromotionsBloc>(context).add(EditPromotion(idPromo,
         idProducto, cantitySaleMin, saleMin, cantityFree, discount, active));
     BlocProvider.of<PromotionsBloc>(context).add(GetPromotions());
   }
 
-  Future<void> showDialogWithFields(BuildContext context) async {
+  Future<void> showDialogWithFields(BuildContext context,) async {
     return await showDialog(
         context: context,
         builder: (context) {
@@ -73,6 +73,9 @@ class _PromotionCardState extends State<PromotionCard> {
           bool isDiscount = (data.discount != 0);
           bool isPerQuantity = (data.cantitySaleMin != 0);
           bool isActive = true;
+          DiscountController.text = (isDiscount) ? data.discount.toString():data.cantityFree.toString();
+          TypeController.text = (isPerQuantity) ? data.cantitySaleMin.toString():data.saleMin.toString();
+
           return StatefulBuilder(builder: (context, setState) {
             return AlertDialog(
               title: Text('Nueva Promocion'),
@@ -164,7 +167,7 @@ class _PromotionCardState extends State<PromotionCard> {
                       int idProducto = data.idProduct;
                       int cantitySaleMin =
                           (isPerQuantity) ? int.parse(Type) : 0;
-                      int saleMin = (!isPerQuantity) ? int.parse(Type) : 0;
+                      double saleMin = (!isPerQuantity) ? double.parse(Type) : 0;
                       int cantityFree = (!isDiscount) ? int.parse(Discount) : 0;
                       int discount = (isDiscount) ? int.parse(Discount) : 0;
                       bool active = isActive;

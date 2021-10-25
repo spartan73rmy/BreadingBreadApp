@@ -6,10 +6,10 @@ import '../../Services/Http/dioClient.dart';
 abstract class PromotionsLogic {
   Future<List<Promotion>> fetchPromotionsList();
   Future<List<Promotion>> fetchPromotionsListByProduct(int idProducto);
-  Future<void> addPromotion(int idProducto, int cantitySaleMin, int saleMin,
+  Future<void> addPromotion(int idProducto, int cantitySaleMin, double saleMin,
       int cantityFree, int discount);
   Future<void> editPromotion(int idPromo, int idProducto, int cantitySaleMin,
-      int saleMin, int cantityFree, int discount, bool active);
+      double saleMin, int cantityFree, int discount, bool active);
   Future<void> deletePromotion(int idPromo);
 }
 
@@ -29,7 +29,7 @@ class PromotionRepository extends PromotionsLogic {
   }
 
   @override
-  Future<void> addPromotion(int idProducto, int cantitySaleMin, int saleMin,
+  Future<void> addPromotion(int idProducto, int cantitySaleMin, double saleMin,
       int cantityFree, int discount) async {
     try {
       await http.post(url + "Add",
@@ -47,7 +47,7 @@ class PromotionRepository extends PromotionsLogic {
 
   @override
   Future<void> editPromotion(int idPromo, int idProducto, int cantitySaleMin,
-      int saleMin, int cantityFree, int discount, bool active) async {
+      double saleMin, int cantityFree, int discount, bool active) async {
     try {
       await http.post(url + "Edit",
           data: jsonEncode({
