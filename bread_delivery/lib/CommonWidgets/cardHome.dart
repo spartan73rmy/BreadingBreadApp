@@ -13,8 +13,8 @@ class CardHome extends StatelessWidget {
         onTap: onPressCallBack,
         child: Column(children: [
           Container(
-            width: 75,
-            height: 75,
+            width: 150,
+            height: 150,
             margin: EdgeInsets.all(10),
             decoration: BoxDecoration(
                 boxShadow: [
@@ -34,7 +34,7 @@ class CardHome extends StatelessWidget {
               children: [
                 ImageIcon(
                   AssetImage(pathIcon),
-                  size: 40,
+                  size: 80,
                   color: Colors.white,
                 )
               ],

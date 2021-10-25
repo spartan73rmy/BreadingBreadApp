@@ -47,10 +47,10 @@ class _DrawerAdminState extends State<DrawerAdmin> {
         SafeArea(
             child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                child: Row(
+                child: Column(
                   children: [
                     if (isAdmin)
-                      Column(
+                      Row(
                         children: [
                           CardHome('assets/icons/users.png', "Usuarios", () {
                             Navigator.pushNamed(context, Routes.User);
@@ -61,36 +61,36 @@ class _DrawerAdminState extends State<DrawerAdmin> {
                           })
                         ],
                       ),
-                    Column(
+                    Row(
                       children: [
                         CardHome('assets/icons/store.png', "Tiendas", () {
                           Navigator.pushNamed(context, Routes.Stores,
                               arguments: StoreViewParams(null, isAdmin));
                         }),
-                        // CardHome('assets/icons/qr-code.png', "Escanear",
-                        //     () => {Navigator.of(context).pushNamed(Routes.Qr)})
-                      ],
-                    ),
-                    Column(
-                      children: [
                         CardHome('assets/icons/bread.png', "Producto", () {
                           Navigator.pushNamed(context, Routes.Product,
                               arguments: isAdmin);
                         }),
-                        CardHome(
-                            'assets/icons/logout.png',
-                            "Cerrar sesión",
-                            () => Navigator.pushReplacementNamed(
-                                context, Routes.LogOut))
                       ],
                     ),
-                    Column(
+                    Row(
                       //TODO Esto es secundario,Definir estadisticas de ventas
                       children: [
                         CardHome('assets/icons/sale-tag.png', "Ventas", () {
                           Navigator.pushNamed(context, Routes.SalePage);
                         }),
                         CardHome('assets/icons/order.png', "Pedido", () {})
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        CardHome(
+                            'assets/icons/logout.png',
+                            "Cerrar sesión",
+                            () => Navigator.pushReplacementNamed(
+                                context, Routes.LogOut))
+                        // CardHome('assets/icons/qr-code.png', "Escanear",
+                        //     () => {Navigator.of(context).pushNamed(Routes.Qr)})
                       ],
                     ),
                   ],
