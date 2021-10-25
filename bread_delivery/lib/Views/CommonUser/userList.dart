@@ -1,6 +1,6 @@
 import 'package:bread_delivery/BLOC/User/bloc/user_bloc.dart';
 import 'package:bread_delivery/CommonWidgets/deleteDialog.dart';
-import 'package:bread_delivery/CommonWidgets/loadingScreen.dart';
+import 'package:bread_delivery/CommonWidgets/messageScreen.dart';
 import 'package:bread_delivery/CommonWidgets/snackBar.dart';
 import 'package:bread_delivery/Entities/userCreate.dart';
 import 'package:bread_delivery/Enums/Routes.dart';
@@ -125,7 +125,7 @@ class _UserListState extends State<UserList> {
                                       builder: (_) => AproveUser()) ??
                                   false;
                               if (result) {
-                                _approveUser();
+                                _approveUser(state.users[index].userName);
                               }
                             },
                             onLongPress: () async {
@@ -135,7 +135,7 @@ class _UserListState extends State<UserList> {
                           ));
                     }),
               );
-            return LoadingScreen();
+            return MessageScreen();
           }),
         ));
   }
@@ -149,8 +149,8 @@ class _UserListState extends State<UserList> {
     _getUsers();
   }
 
-  _approveUser() async {
-    BlocProvider.of<UserBloc>(context).add(ApproveUser());
+  _approveUser(String userName) async {
+    BlocProvider.of<UserBloc>(context).add(ApproveUser(userName));
     _getUsers();
   }
 }

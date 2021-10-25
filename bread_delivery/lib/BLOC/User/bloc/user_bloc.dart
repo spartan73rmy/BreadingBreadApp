@@ -68,7 +68,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     if (event is ApproveUser) {
       yield UsersLoading();
       try {
-        // await logic.apro(event.id);
+        await logic.approveUser(event.userName);
         yield UserOperationCompleted();
       } catch (e) {
         if (e is MyException && e != null) yield UserError(e);

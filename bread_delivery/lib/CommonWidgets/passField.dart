@@ -31,19 +31,20 @@ class PasswordField extends StatelessWidget {
                 child: TextField(
                     controller: passwordController,
                     obscureText: obscureText,
-                    style: TextStyle(color: Colors.brown, fontSize: 20),
-                    cursorColor: Colors.brown,
+                    style: TextStyle(color: Color(0xFF674023), fontSize: 20),
+                    cursorColor: Color(0xFF674023),
                     decoration: InputDecoration(
                         contentPadding:
                             const EdgeInsets.symmetric(vertical: 15),
                         border: InputBorder.none,
                         hintText: placeHolder,
-                        hintStyle: TextStyle(color: Colors.brown, fontSize: 20),
+                        hintStyle:
+                            TextStyle(color: Color(0xFF674023), fontSize: 20),
                         errorText: passwordError,
                         suffixIcon: GestureDetector(
                             onTap: togglePassword,
                             child: Icon(Icons.remove_red_eye,
-                                color: Colors.brown)))))
+                                color: Color(0xFF674023))))))
           ],
         ));
   }

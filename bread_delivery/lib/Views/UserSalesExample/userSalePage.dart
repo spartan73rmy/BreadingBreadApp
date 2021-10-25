@@ -3,10 +3,9 @@ import 'package:bread_delivery/CommonWidgets/background.dart';
 import 'package:bread_delivery/BLOC/Products/bloc/products_bloc.dart';
 import 'package:bread_delivery/Services/Product/productRepository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:bread_delivery/Views/UserSales/userSaleBottomNavBar.dart';
-import 'package:bread_delivery/Views/UserSales/userSaleListProducts.dart';
-import 'package:bread_delivery/Views/UserSales/userSaleReturnProduct.dart';
-import 'package:bread_delivery/Views/UserSales/userSaleTotalSale.dart';
+import 'package:bread_delivery/Views/UserSalesExample/userSaleBottomNavBar.dart';
+import 'package:bread_delivery/Views/UserSalesExample/userSaleListProducts.dart';
+import 'package:bread_delivery/Views/UserSalesExample/userSaleListTotalSale.dart';
 
 class SalePage extends StatefulWidget {
   _SalePage createState() => _SalePage();
@@ -41,7 +40,7 @@ class _SalePage extends State<SalePage> {
                     gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
-                        colors: <Color>[Color(0XFF714012), Color(0XFFC26410)])),
+                        colors: <Color>[Color(0XFF674023), Color(0XFF9E5F32)])),
               ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(
@@ -81,10 +80,7 @@ class _SalePage extends State<SalePage> {
         return BlocProvider(
             create: (_) => ProductsBloc(ProductRepository()),
             child: ListViewProducts());
-
       case 1:
-        return ReturnProduct();
-      case 2:
         return TotalSale();
     }
   }

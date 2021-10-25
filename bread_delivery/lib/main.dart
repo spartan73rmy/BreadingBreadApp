@@ -1,6 +1,7 @@
 import 'package:bread_delivery/BLOC/Login/bloc/login_bloc.dart';
 import 'package:bread_delivery/Entities/product.dart';
 import 'package:bread_delivery/Entities/promotionViewParams.dart';
+import 'package:bread_delivery/Entities/store.dart';
 import 'package:bread_delivery/Entities/storeViewParams.dart';
 import 'package:bread_delivery/Enums/Routes.dart';
 import 'package:bread_delivery/Services/Cuenta/accountRepository.dart';
@@ -9,7 +10,7 @@ import 'package:bread_delivery/Views/CommonUser/usersPage.dart';
 import 'package:bread_delivery/Views/Products/productPage.dart';
 import 'package:bread_delivery/Views/Promotions/promotionPage.dart';
 import 'package:bread_delivery/Views/Qr/qrPage.dart';
-import 'package:bread_delivery/Views/UserSales/userSalePageExample.dart';
+import 'package:bread_delivery/Views/UserSalesExample/userSalePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'Entities/storePoint.dart';
@@ -91,8 +92,9 @@ class MyApp extends StatelessWidget {
                   builder: (context) => UserPage("Usuarios"));
               break;
             case Routes.Qr:
+              List<Store> storesInRoute = settings.arguments;
               return MaterialPageRoute(
-                  builder: (context) => QrPage("Lector QR"));
+                  builder: (context) => QrPage("Lector QR", storesInRoute));
               break;
             case Routes.Product:
               bool isAdmin = settings.arguments;

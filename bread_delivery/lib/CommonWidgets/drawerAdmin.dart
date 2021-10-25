@@ -1,5 +1,5 @@
 import 'package:bread_delivery/Entities/storeViewParams.dart';
-import 'package:bread_delivery/Views/UserSales/userSalePageExample.dart';
+import 'package:bread_delivery/Views/UserSalesExample/userSalePage.dart';
 import 'package:flutter/material.dart';
 import 'package:bread_delivery/CommonWidgets/cardHome.dart';
 import 'package:bread_delivery/Enums/Routes.dart';
@@ -67,8 +67,8 @@ class _DrawerAdminState extends State<DrawerAdmin> {
                           Navigator.pushNamed(context, Routes.Stores,
                               arguments: StoreViewParams(null, isAdmin));
                         }),
-                        CardHome('assets/icons/qr-code.png', "Escanear",
-                            () => {Navigator.of(context).pushNamed(Routes.Qr)})
+                        // CardHome('assets/icons/qr-code.png', "Escanear",
+                        //     () => {Navigator.of(context).pushNamed(Routes.Qr)})
                       ],
                     ),
                     Column(

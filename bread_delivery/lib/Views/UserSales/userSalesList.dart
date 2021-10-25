@@ -1,6 +1,6 @@
 import 'package:bread_delivery/BLOC/UserSale/bloc/usersales_bloc.dart';
 import 'package:bread_delivery/CommonWidgets/deleteDialog.dart';
-import 'package:bread_delivery/CommonWidgets/loadingScreen.dart';
+import 'package:bread_delivery/CommonWidgets/messageScreen.dart';
 import 'package:bread_delivery/CommonWidgets/snackBar.dart';
 import 'package:bread_delivery/Entities/path.dart';
 import 'package:bread_delivery/Enums/Routes.dart';
@@ -91,7 +91,7 @@ class _UserSaleListState extends State<UserSaleList> {
                               ),
                               child: PathCard(state.paths[index], isAdmin));
                         }));
-              return LoadingScreen();
+              return MessageScreen();
             })));
   }
 

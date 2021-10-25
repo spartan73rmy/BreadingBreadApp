@@ -16,6 +16,8 @@ dependencies:
   share: ^2.0.4
   equatable: ^2.0.3
   flutter_bloc: ^7.1.0
+  hydrated_bloc: ^7.0.1
+  bloc_test: ^8.1.0
   freezed: ^0.14.2
   geolocator: ^7.4.0
   get_it: ^7.2.0
@@ -27,8 +29,8 @@ dependencies:
   zsdk: ^2.0.0+11
   charts_flutter: ^0.11.0
   google_fonts: ^2.1.0
-  font_awesome_flutter: ^9.1.0
   fluttertoast: ^8.0.8
+  sqflite: ^2.0.0+4
   flutter_map: any
   flutter_map_location_marker: any
   flutter_map_marker_cluster: any

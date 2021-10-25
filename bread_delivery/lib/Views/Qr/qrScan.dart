@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bread_delivery/CommonWidgets/alert.dart';
+import 'package:bread_delivery/Entities/store.dart';
 import 'package:bread_delivery/Entities/storeQr.dart';
 import 'package:bread_delivery/Enums/Routes.dart';
 import 'package:flutter/material.dart';
@@ -9,13 +10,15 @@ import 'package:permission_handler/permission_handler.dart';
 
 class QrScan extends StatefulWidget {
   final String title;
-  QrScan(this.title, {Key key}) : super(key: key);
+  final List<Store> stores;
+  QrScan(this.title, this.stores, {Key key}) : super(key: key);
 
   @override
   _QrScanState createState() => _QrScanState();
 }
 
 class _QrScanState extends State<QrScan> {
+  bool scanned = true;
   bool _checkConfiguration() => true;
 
   @override
@@ -55,13 +58,19 @@ class _QrScanState extends State<QrScan> {
     }
 
     String barcode = await scanner.scan();
-    if (barcode != null) {
-      //TODO add idStore to start sale process
-      var store = StoreQr.fromJson(jsonDecode(barcode));
-      if (store != null) Navigator.pushNamed(context, Routes.Sale);
+    if (barcode == null) {
+      await alertDiag(context, "Esto no es un QR de una tienda", 'QR Invalido');
+      return;
+    }
 
-      await alertDiag(
-          context, "El codigo Qr no es un codigo valido", 'QR Invalido');
+    var store = StoreQr.fromJson(jsonDecode(barcode));
+    if (widget.stores.any((el) => el.id == store.id))
+      Navigator.pushNamed(context, Routes.SalePage);
+    else if (scanned) {
+      await alertDiag(context, "La tienda no esta en su ruta", 'Tienda ');
+      setState(() {
+        scanned = false;
+      });
     }
   }
 }

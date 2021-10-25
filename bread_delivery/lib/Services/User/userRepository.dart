@@ -9,6 +9,7 @@ abstract class UserLogic {
   Future<dynamic> addUser(UserCreate user);
   Future<void> editUser(int id, String name);
   Future<void> deleteUser(String userName);
+  Future<void> approveUser(String userName);
 }
 
 class UserRepository extends UserLogic {
@@ -41,6 +42,15 @@ class UserRepository extends UserLogic {
   Future<void> deleteUser(String userName) async {
     try {
       await http.post(url + "Delete", data: jsonEncode({'userName': userName}));
+    } catch (e) {
+      throw NetworkError.handleResponse(e);
+    }
+  }
+
+  @override
+  Future<void> approveUser(String userName) async {
+    try {
+      await http.post(url + "Aprove", data: jsonEncode({'userName': userName}));
     } catch (e) {
       throw NetworkError.handleResponse(e);
     }

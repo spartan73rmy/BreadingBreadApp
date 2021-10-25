@@ -2,7 +2,7 @@ import 'package:bread_delivery/BLOC/Store/bloc/store_bloc.dart';
 import 'package:bread_delivery/CommonWidgets/alertInput.dart';
 import 'package:bread_delivery/CommonWidgets/deleteDialog.dart';
 import 'package:bread_delivery/CommonWidgets/drawerContent.dart';
-import 'package:bread_delivery/CommonWidgets/loadingScreen.dart';
+import 'package:bread_delivery/CommonWidgets/messageScreen.dart';
 import 'package:bread_delivery/CommonWidgets/snackBar.dart';
 import 'package:bread_delivery/Entities/store.dart';
 import 'package:bread_delivery/Entities/storePoint.dart';
@@ -117,7 +117,7 @@ class _StoreListState extends State<StoreList> {
                               : StoreCard(state.stores[index], isAdmin, idPath);
                         }));
               }
-              return LoadingScreen();
+              return MessageScreen();
             })),
         floatingActionButton: Container(child:
             BlocBuilder<StoreBloc, StoreState>(builder: (context, state) {
@@ -157,7 +157,8 @@ class _StoreListState extends State<StoreList> {
                     icon: Icon(Icons.qr_code_scanner),
                     backgroundColor: Theme.of(context).primaryColor,
                     onPressed: () async {
-                      Navigator.of(context).pushNamed(Routes.Qr);
+                      Navigator.of(context).pushNamed(Routes.Qr,
+                          arguments: state.storesAvailable);
                     },
                     label: Text("Escanear"));
           } else

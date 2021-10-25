@@ -31,5 +31,6 @@ class DeleteUser extends UserEvent {
 }
 
 class ApproveUser extends UserEvent {
-  ApproveUser() : super([]);
+  final String userName;
+  ApproveUser(this.userName) : super([userName]);
 }

@@ -1,7 +1,7 @@
 import 'package:bread_delivery/BLOC/Paths/bloc/paths_bloc.dart';
 import 'package:bread_delivery/CommonWidgets/alertInput.dart';
 import 'package:bread_delivery/CommonWidgets/deleteDialog.dart';
-import 'package:bread_delivery/CommonWidgets/loadingScreen.dart';
+import 'package:bread_delivery/CommonWidgets/messageScreen.dart';
 import 'package:bread_delivery/CommonWidgets/snackBar.dart';
 import 'package:bread_delivery/Entities/path.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -86,7 +86,7 @@ class _PathListState extends State<PathList> {
                               ),
                               child: PathCard(state.paths[index], isAdmin));
                         }));
-              return LoadingScreen();
+              return MessageScreen();
             })),
         floatingActionButton: isAdmin
             ? FloatingActionButton.extended(
