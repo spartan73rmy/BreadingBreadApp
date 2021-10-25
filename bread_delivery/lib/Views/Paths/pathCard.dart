@@ -54,7 +54,7 @@ class _PathCardState extends State<PathCard> {
           if (isAdmin) {
             //Si es admin ver tiendas
             Navigator.pushNamed(context, Routes.Stores,
-                arguments: StoreViewParams(data.id, isAdmin));
+                arguments: StoreViewParams(data.id, data.name, isAdmin));
           } else {
             //TODO si es usuario enviar como seleccionado y redirigir a home
             // Navigator.pushNamed(context, "/Home",

@@ -23,7 +23,8 @@ class ProductRepository extends ProductsLogic {
   @override
   Future<void> addProduct(String name, double price) async {
     try {
-      await http.post(url + "Add", data: jsonEncode({'name': name, 'price':price}));
+      await http.post(url + "Add",
+          data: jsonEncode({'name': name, 'price': price}));
     } catch (e) {
       throw NetworkError.handleResponse(e);
     }
@@ -32,7 +33,8 @@ class ProductRepository extends ProductsLogic {
   @override
   Future<void> editProduct(int id, String name, double price) async {
     try {
-      await http.post(url + "Edit", data: jsonEncode({'id': id, 'name': name, 'price': price}));
+      await http.post(url + "Edit",
+          data: jsonEncode({'id': id, 'name': name, 'price': price}));
     } catch (e) {
       throw NetworkError.handleResponse(e);
     }

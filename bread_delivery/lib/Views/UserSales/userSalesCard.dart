@@ -48,7 +48,7 @@ class _PathCardState extends State<PathCard> {
               fontWeight: FontWeight.bold, color: Color(Colors.black45.value)),
         )),
         onTap: () async {
-          _addUserSale(widget.data.id);
+          _addUserSale(widget.data.id, widget.data.name);
         },
       ),
       new Divider(
@@ -57,8 +57,8 @@ class _PathCardState extends State<PathCard> {
     ])));
   }
 
-  _addUserSale(int idPath) async {
-    BlocProvider.of<UserSalesBloc>(context).add(AddUserSale(idPath));
+  _addUserSale(int idPath, String name) async {
+    BlocProvider.of<UserSalesBloc>(context).add(AddUserSale(idPath, name));
     BlocProvider.of<UserSalesBloc>(context).add(GetUserSales());
   }
 }

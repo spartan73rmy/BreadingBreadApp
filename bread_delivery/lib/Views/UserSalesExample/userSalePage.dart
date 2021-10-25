@@ -1,3 +1,4 @@
+import 'package:bread_delivery/Entities/userSaleViewParams.dart';
 import 'package:flutter/material.dart';
 import 'package:bread_delivery/CommonWidgets/background.dart';
 import 'package:bread_delivery/BLOC/Products/bloc/products_bloc.dart';
@@ -8,6 +9,9 @@ import 'package:bread_delivery/Views/UserSalesExample/userSaleListProducts.dart'
 import 'package:bread_delivery/Views/UserSalesExample/userSaleListTotalSale.dart';
 
 class SalePage extends StatefulWidget {
+  final UserSaleViewParams currentSale;
+  const SalePage(this.currentSale, {Key key}) : super(key: key);
+
   _SalePage createState() => _SalePage();
 }
 
@@ -25,12 +29,12 @@ class _SalePage extends State<SalePage> {
               centerTitle: true,
               title: Column(children: [
                 Text(
-                  "Ruta 1",
+                  widget.currentSale.selectedPath.pathName ?? "Ruta",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
                   textAlign: TextAlign.center,
                 ),
                 Text(
-                  "Tienda San Nicolas",
+                  widget.currentSale.selectedStore.name ?? "Tienda",
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
                   textAlign: TextAlign.center,
                 )

@@ -65,7 +65,7 @@ class _DrawerAdminState extends State<DrawerAdmin> {
                       children: [
                         CardHome('assets/icons/store.png', "Tiendas", () {
                           Navigator.pushNamed(context, Routes.Stores,
-                              arguments: StoreViewParams(null, isAdmin));
+                              arguments: StoreViewParams(null, null, isAdmin));
                         }),
                         // CardHome('assets/icons/qr-code.png', "Escanear",
                         //     () => {Navigator.of(context).pushNamed(Routes.Qr)})
