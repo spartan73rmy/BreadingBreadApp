@@ -25,8 +25,10 @@ class UserSalesBloc extends Bloc<UserSalesEvent, UserSalesState> {
       try {
         //Si ya fue seleccionada una ruta se pasa a las tiendas
         var idPath = Auth.getCurrentPath(await SharedPreferences.getInstance());
-        if (idPath != null)
-          yield UserSaleAssigned(StoreViewParams(idPath, false));
+        var pathName =
+            Auth.getCurrentPathName(await SharedPreferences.getInstance());
+        if (idPath != null && pathName != null)
+          yield UserSaleAssigned(StoreViewParams(idPath, pathName, false));
 
         var paths = await logic.fetchPathsList();
         if (paths != null) {
@@ -46,8 +48,9 @@ class UserSalesBloc extends Bloc<UserSalesEvent, UserSalesState> {
         int idUser = Auth.getIdUser(preferences);
         int idUserSale = await logic.addUserSale(event.idPath, idUser);
         Auth.setIdUserSale(preferences, idUserSale);
-        Auth.setIdPath(preferences, event.idPath);
-        yield UserSaleAssigned(StoreViewParams(event.idPath, false));
+        Auth.setIdPath(preferences, event.idPath, event.name);
+        yield UserSaleAssigned(
+            StoreViewParams(event.idPath, event.name, false));
       } catch (e) {
         if (e is MyException && e != null) yield UserSalesError(e);
         yield UserSalesLoaded(<Path>[]);

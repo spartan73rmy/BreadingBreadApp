@@ -13,8 +13,8 @@ class GetUserSales extends UserSalesEvent {
 
 class AddUserSale extends UserSalesEvent {
   final int idPath;
-
-  AddUserSale(this.idPath) : super([idPath]);
+  final String name;
+  AddUserSale(this.idPath, this.name) : super([idPath]);
 }
 
 class DeleteUserSale extends UserSalesEvent {

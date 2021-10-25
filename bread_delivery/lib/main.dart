@@ -3,6 +3,7 @@ import 'package:bread_delivery/Entities/product.dart';
 import 'package:bread_delivery/Entities/promotionViewParams.dart';
 import 'package:bread_delivery/Entities/store.dart';
 import 'package:bread_delivery/Entities/storeViewParams.dart';
+import 'package:bread_delivery/Entities/userSaleViewParams.dart';
 import 'package:bread_delivery/Enums/Routes.dart';
 import 'package:bread_delivery/Services/Cuenta/accountRepository.dart';
 import 'package:bread_delivery/Views/CommonUser/registerPage.dart';
@@ -57,23 +58,23 @@ class MyApp extends StatelessWidget {
               bool isAdmin = settings.arguments;
               return MaterialPageRoute(
                   builder: (context) => PathsPage("Rutas", isAdmin));
-              break;
+
             case Routes.UserSales:
               bool isAdmin = settings.arguments;
               return MaterialPageRoute(
                   builder: (context) =>
                       UserSalesPage("Rutas de venta", isAdmin));
               break;
-            //TODO definir proceso de venta, se manda llamar desde QRScan
-            case Routes.Sale:
-              bool isAdmin = settings.arguments;
-              return MaterialPageRoute(
-                  builder: (context) =>
-                      UserSalesPage("Rutas de venta", isAdmin));
-              break;
-            //TODO Este proceso es de ventas de prueba
+            // case Routes.Sale:
+            //   bool isAdmin = settings.arguments;
+            //   return MaterialPageRoute(
+            //       builder: (context) =>
+            //           UserSalesPage("Rutas de venta", isAdmin));
+            //   break;
             case Routes.SalePage:
-              return MaterialPageRoute(builder: (context) => SalePage());
+              UserSaleViewParams params = settings.arguments;
+              return MaterialPageRoute(builder: (context) => SalePage(params));
+
             case Routes.Stores:
               StoreViewParams params = settings.arguments;
               return MaterialPageRoute(
@@ -92,7 +93,7 @@ class MyApp extends StatelessWidget {
                   builder: (context) => UserPage("Usuarios"));
               break;
             case Routes.Qr:
-              List<Store> storesInRoute = settings.arguments;
+              UserSaleViewParams storesInRoute = settings.arguments;
               return MaterialPageRoute(
                   builder: (context) => QrPage("Lector QR", storesInRoute));
               break;

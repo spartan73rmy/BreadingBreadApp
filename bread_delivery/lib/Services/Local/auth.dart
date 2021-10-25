@@ -13,6 +13,7 @@ class Auth {
   static final String roleKey = 'tipoUsuario';
   static final String userSale = 'idUserSale';
   static final String idCurrentPath = 'idPath';
+  static final String currentPathName = 'pathName';
 
   static String getToken(SharedPreferences prefs) {
     return prefs.getString(authTokenKey);
@@ -32,6 +33,10 @@ class Auth {
 
   static getCurrentPath(SharedPreferences prefs) {
     return prefs.getInt(idCurrentPath);
+  }
+
+  static getCurrentPathName(SharedPreferences prefs) {
+    return prefs.getString(currentPathName);
   }
 
   static bool isAdmin(SharedPreferences prefs) {
@@ -64,8 +69,9 @@ class Auth {
     prefs.setInt(userSale, idUserSale);
   }
 
-  static setIdPath(SharedPreferences prefs, int idPath) {
+  static setIdPath(SharedPreferences prefs, int idPath, String pathName) {
     prefs.setInt(idCurrentPath, idPath);
+    prefs.setString(currentPathName, pathName);
   }
 
   static setUserToket(SharedPreferences prefs, UserToken token) {

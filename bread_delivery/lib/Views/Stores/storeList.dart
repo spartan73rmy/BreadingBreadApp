@@ -7,6 +7,7 @@ import 'package:bread_delivery/CommonWidgets/snackBar.dart';
 import 'package:bread_delivery/Entities/store.dart';
 import 'package:bread_delivery/Entities/storePoint.dart';
 import 'package:bread_delivery/Entities/storeViewParams.dart';
+import 'package:bread_delivery/Entities/userSaleViewParams.dart';
 import 'package:bread_delivery/Enums/Routes.dart';
 import 'package:bread_delivery/Views/Stores/selectStoreByPath.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -158,7 +159,10 @@ class _StoreListState extends State<StoreList> {
                     backgroundColor: Theme.of(context).primaryColor,
                     onPressed: () async {
                       Navigator.of(context).pushNamed(Routes.Qr,
-                          arguments: state.storesAvailable);
+                          arguments: UserSaleViewParams(widget.params,
+                              selectedStore: null,
+                              stores: state.storesAvailable,
+                              products: null));
                     },
                     label: Text("Escanear"));
           } else
