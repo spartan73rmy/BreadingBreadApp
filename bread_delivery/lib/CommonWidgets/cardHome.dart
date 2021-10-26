@@ -54,7 +54,7 @@ class CardHome extends StatelessWidget {
               children: [
                 ImageIcon(
                   AssetImage(pathIcon),
-                  size: 80,
+                  size: (cardBoxSize >= 150)? 80 : 40,
                   color: Colors.white,
                 )
               ],
