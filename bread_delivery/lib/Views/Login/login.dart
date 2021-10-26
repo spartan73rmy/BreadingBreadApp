@@ -111,6 +111,7 @@ class _LoginState extends State<Login> {
                               children: [
                                 Container(
                                   height: 300,
+                                  margin: EdgeInsets.all(30),
                                   decoration: BoxDecoration(
                                       image: DecorationImage(
                                     image: AssetImage('assets/images/logo.png'),
