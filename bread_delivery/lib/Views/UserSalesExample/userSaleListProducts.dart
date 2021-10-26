@@ -1,12 +1,16 @@
 import 'package:bread_delivery/BLOC/Products/bloc/products_bloc.dart';
 import 'package:bread_delivery/CommonWidgets/messageScreen.dart';
 import 'package:bread_delivery/CommonWidgets/snackBar.dart';
+import 'package:bread_delivery/Entities/userSaleViewParams.dart';
 import 'package:flutter/material.dart';
 import 'package:bread_delivery/Entities/product.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'userSaleCard.dart';
 
 class ListViewProducts extends StatefulWidget {
+  UserSaleViewParams currentSale;
+  ListViewProducts(this.currentSale, {Key key}) : super(key: key);
+
   @override
   _ListViewProducts createState() => _ListViewProducts();
 }
@@ -34,7 +38,9 @@ class _ListViewProducts extends State<ListViewProducts> {
             if (state is ProductsLoading) {
               return MessageScreen();
             }
-            if (state is ProductsLoaded) {
+            if (state is ProductsForSaleLoaded) {
+              widget.currentSale.products = state.products;
+
               return RefreshIndicator(
                   key: _refreshIndicatorKey,
                   onRefresh: () async {
@@ -52,7 +58,8 @@ class _ListViewProducts extends State<ListViewProducts> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                              ProductCard(data: state.products[index])
+                              ProductCard(
+                                  data: widget.currentSale.products[index])
                             ]));
                       }));
             } else {
@@ -64,6 +71,6 @@ class _ListViewProducts extends State<ListViewProducts> {
 
   _getData() async {
     _refreshIndicatorKey.currentState?.show();
-    BlocProvider.of<ProductsBloc>(context).add(GetProducts());
+    BlocProvider.of<ProductsBloc>(context).add(GetProductForSale());
   }
 }

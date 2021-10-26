@@ -131,7 +131,6 @@ class _StoreListState extends State<StoreList> {
                       if (idPath != null) {
                         addStoresToPath(context, state.storesAvailable)
                             .then((value) {
-                          print(value.length);
                           if (value == null) return;
                           _assignStoresToPath(value, idPath);
                         });
@@ -161,7 +160,7 @@ class _StoreListState extends State<StoreList> {
                       Navigator.of(context).pushNamed(Routes.Qr,
                           arguments: UserSaleViewParams(widget.params,
                               selectedStore: null,
-                              stores: state.storesAvailable,
+                              stores: state.stores,
                               products: null));
                     },
                     label: Text("Escanear"));

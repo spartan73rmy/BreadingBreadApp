@@ -1,17 +1,10 @@
-import 'package:bread_delivery/Services/UserSale/userSaleDatabase.dart';
+import 'package:bread_delivery/Entities/productSale.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProductCardTotal extends StatelessWidget {
-  PriorSale data;
+  ProductSale data;
   ProductCardTotal(this.data);
-
-  _getTotalSaleProduct() {
-    int total = int.parse(data.saleQuantity) - int.parse(data.refundAmount);
-    double totalSale =
-        double.parse(total.toString()) * double.parse(data.priceProduct);
-    return totalSale.toString();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +41,7 @@ class ProductCardTotal extends StatelessWidget {
                     //NAME PRODUCT
                     Container(
                       child: Text(
-                        data.nameProduct,
+                        data.name,
                         style: GoogleFonts.lora(
                             color: Colors.white,
                             fontSize: 20,
@@ -62,7 +55,7 @@ class ProductCardTotal extends StatelessWidget {
                         children: [
                           Container(
                             child: Text(
-                              "Precio\n \$" + data.priceProduct,
+                              'Precio\n \$ ${data.prize}',
                               style: GoogleFonts.lora(
                                   color: Colors.white,
                                   fontSize: 16,
@@ -71,10 +64,8 @@ class ProductCardTotal extends StatelessWidget {
                           ),
                           Container(
                               child: Text(
-                            "Cantidad: " +
-                                data.saleQuantity +
-                                "\nDevolucion: " +
-                                data.refundAmount,
+                            'Cantidad: ${data.cantity}' +
+                                '\nDevolucion: ${data.returns}',
                             style: GoogleFonts.lora(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -88,7 +79,7 @@ class ProductCardTotal extends StatelessWidget {
                                 color: Colors.black.withOpacity(.5),
                                 border:
                                     Border.all(width: 1, color: Colors.white)),
-                            child: Text("Total\n\$" + _getTotalSaleProduct(),
+                            child: Text('Total\n\$ ${data.total()}',
                                 style: GoogleFonts.lora(
                                     color: Colors.white,
                                     fontSize: 20,

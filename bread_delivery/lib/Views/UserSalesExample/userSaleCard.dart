@@ -1,11 +1,10 @@
+import 'package:bread_delivery/Entities/productSale.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:bread_delivery/Entities/product.dart';
 import 'showDialogAdd.dart';
-import 'package:bread_delivery/Services/UserSale/userSaleDatabase.dart';
 
 class ProductCard extends StatefulWidget {
-  final Product data;
+  final ProductSale data;
 
   ProductCard({this.data});
 
@@ -13,23 +12,11 @@ class ProductCard extends StatefulWidget {
 }
 
 class _ProductCard extends State<ProductCard> {
-  PriorSaleDatabase db = PriorSaleDatabase();
   TextStyle styleTextSale = GoogleFonts.lora(color: Colors.white, fontSize: 16);
   TextStyle styleTextNameProduct = GoogleFonts.lora(
       color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold);
   Color colorBrown = Color(0XFF674023);
   var resultsvaluesTextInput = {0: "0", 1: "0"};
-
-  void _saveResultDatabase() async {
-    PriorSale salePreview = PriorSale(
-        indexProduct: this.widget.data.id,
-        nameProduct: this.widget.data.name,
-        priceProduct: this.widget.data.price.toString(),
-        saleQuantity: resultsvaluesTextInput[0],
-        refundAmount: resultsvaluesTextInput[1]);
-    await db.init();
-    await db.insert(salePreview);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,13 +84,12 @@ class _ProductCard extends State<ProductCard> {
                                     children: [
                                       Container(
                                         child: Text(
-                                            "Venta: " +
-                                                resultsvaluesTextInput[0],
+                                            'Venta: ${widget.data.returns}',
                                             style: styleTextSale),
                                       ),
                                       Container(
                                         child: Text(
-                                            "Dev: " + resultsvaluesTextInput[1],
+                                            'Dev: ${widget.data.cantity}',
                                             style: styleTextSale),
                                       )
                                     ],
@@ -126,9 +112,13 @@ class _ProductCard extends State<ProductCard> {
                                     await _displayTextInputDialog(context);
                                 if (resultsvaluesTextInput[0] != 0 &&
                                     resultsvaluesTextInput[1] != 0) {
-                                  _saveResultDatabase();
+                                  setState(() {
+                                    widget.data.cantity = double.tryParse(
+                                        resultsvaluesTextInput[0]);
+                                    widget.data.returns = double.tryParse(
+                                        resultsvaluesTextInput[1]);
+                                  });
                                 }
-                                setState(() {});
                               },
                             ),
                           )
