@@ -83,9 +83,9 @@ class _SalePage extends State<SalePage> {
       case 0:
         return BlocProvider(
             create: (_) => ProductsBloc(ProductRepository()),
-            child: ListViewProducts());
+            child: ListViewProducts(widget.currentSale));
       case 1:
-        return TotalSale();
+        return TotalSale(widget.currentSale);
     }
   }
 }

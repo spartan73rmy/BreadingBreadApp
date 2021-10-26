@@ -11,6 +11,10 @@ class GetProducts extends ProductsEvent {
   GetProducts() : super([]);
 }
 
+class GetProductForSale extends ProductsEvent {
+  GetProductForSale() : super([]);
+}
+
 class AddProduct extends ProductsEvent {
   final String name;
   final double price;

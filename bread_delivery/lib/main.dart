@@ -1,7 +1,6 @@
 import 'package:bread_delivery/BLOC/Login/bloc/login_bloc.dart';
 import 'package:bread_delivery/Entities/product.dart';
 import 'package:bread_delivery/Entities/promotionViewParams.dart';
-import 'package:bread_delivery/Entities/store.dart';
 import 'package:bread_delivery/Entities/storeViewParams.dart';
 import 'package:bread_delivery/Entities/userSaleViewParams.dart';
 import 'package:bread_delivery/Enums/Routes.dart';

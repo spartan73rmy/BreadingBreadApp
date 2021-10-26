@@ -28,4 +28,10 @@ class ProductsLoaded extends ProductsState {
   ProductsLoaded(this.products);
 }
 
+class ProductsForSaleLoaded extends ProductsState {
+  final List<ProductSale> products;
+
+  ProductsForSaleLoaded(this.products);
+}
+
 class ProductOperationCompleted extends ProductsState {}

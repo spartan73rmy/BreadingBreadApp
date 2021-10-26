@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:bread_delivery/Entities/product.dart';
+import 'package:bread_delivery/Entities/productSale.dart';
 import 'package:bread_delivery/Services/Http/networkError.dart';
 import 'package:bread_delivery/Services/Product/productRepository.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
@@ -29,6 +30,21 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       } catch (e) {
         if (e is MyException && e != null) yield ProductsError(e);
         yield ProductsLoaded(<Product>[]);
+      }
+    }
+
+    if (event is GetProductForSale) {
+      yield ProductsLoading();
+      try {
+        var products = await logic.fetchProductsList();
+        if (products != null) {
+          yield ProductsForSaleLoaded(
+              products.map((e) => ProductSale(e.id, e.name, e.price)));
+        }
+        yield ProductsForSaleLoaded(<ProductSale>[]);
+      } catch (e) {
+        if (e is MyException && e != null) yield ProductsError(e);
+        yield ProductsForSaleLoaded(<ProductSale>[]);
       }
     }
 
