@@ -31,7 +31,7 @@ class _TotalSale extends State<TotalSale> {
                 children: [
                   Container(
                     child: Text(
-                      'Total: \$ ${widget.currentSale.products.fold(0, (value, element) => value + element ?? 0)}',
+                      'Total: \$ ${widget.currentSale.products.fold(0, (value, element) => value + element.cantity ?? 0)}',
                       style: GoogleFonts.lora(
                           color: Colors.white,
                           fontSize: 24,

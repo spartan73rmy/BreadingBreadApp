@@ -7,7 +7,7 @@ class ProductSale {
   double cantity;
   double returns;
 
-  ProductSale(this.id, this.name, this.prize);
+  ProductSale(this.id, this.name, this.prize, {this.cantity, this.returns});
 
   double total() => prize * (cantity - returns);
 

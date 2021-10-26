@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'userSaleCard.dart';
 
 class ListViewProducts extends StatefulWidget {
-  UserSaleViewParams currentSale;
+  final UserSaleViewParams currentSale;
   ListViewProducts(this.currentSale, {Key key}) : super(key: key);
 
   @override

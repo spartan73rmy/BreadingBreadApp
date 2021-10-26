@@ -63,6 +63,8 @@ class Auth {
     prefs.setString(Auth.userIdKey, "");
     prefs.setString(Auth.nameKey, "");
     prefs.setString(Auth.roleKey, "");
+    prefs.setString(Auth.idCurrentPath, "");
+    prefs.setString(Auth.currentPathName, "");
   }
 
   static setIdUserSale(SharedPreferences prefs, int idUserSale) {
