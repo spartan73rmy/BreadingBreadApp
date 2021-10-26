@@ -5,17 +5,37 @@ class CardHome extends StatelessWidget {
   final String pathIcon;
   final String nameTitle;
   final VoidCallback onPressCallBack;
+  
+  MediaQueryData _mqd;
+  double totalWidth;
+  // double totalheight;
+  double cardBoxSize;
+  double cardMarginVSize;
+  double cardMarginHSize;
 
   CardHome(this.pathIcon, this.nameTitle, this.onPressCallBack);
   @override
   Widget build(BuildContext context) {
+    _mqd = MediaQuery.of(context);
+    totalWidth = _mqd.size.width;
+    // totalheight = _mqd.size.height;
+    cardBoxSize = totalWidth / 4;
+    cardMarginVSize = totalWidth / 36;
+    cardMarginHSize = totalWidth / 18;
+
+    // print(totalWidth);
+    // print(cardMarginVSize);
+    // print(cardMarginHSize);
+    // print(cardBoxSize);
+
     return GestureDetector(
         onTap: onPressCallBack,
         child: Column(children: [
           Container(
-            width: 150,
-            height: 150,
-            margin: EdgeInsets.all(10),
+            width: cardBoxSize,
+            height: cardBoxSize,
+            // margin: EdgeInsets.all(cardMarginSize), //prev 10
+            margin: EdgeInsets.symmetric(vertical: cardMarginVSize,horizontal:cardMarginHSize),
             decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
@@ -44,7 +64,7 @@ class CardHome extends StatelessWidget {
               child: Text(
             nameTitle,
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.white, fontSize: 15),
+            style: TextStyle(color: Colors.white, fontSize: (cardBoxSize >= 150)? 24:15 ),//prev 15
           ))
         ]));
   }

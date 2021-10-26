@@ -46,7 +46,7 @@ class _DrawerAdminState extends State<DrawerAdmin> {
       Column(children: [
         SafeArea(
             child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
+                scrollDirection: Axis.horizontal, //tampoco se porque pero si quitas esto se descuadra - Eson (tambien lo puso originalmente el JSON)
                 child: Column(
                   children: [
                     if (isAdmin)
@@ -95,11 +95,11 @@ class _DrawerAdminState extends State<DrawerAdmin> {
                     ),
                   ],
                 ))),
-        Container(
-          //Para que o como se va a definir
-          child: Text("Ventas de hoy"),
-        ),
-        Container(
+        // Container(
+        //   //Para que o como se va a definir
+        //   child: Text("Ventas de hoy"),
+        // ),
+        Container( //no se porque pero si quitas esto se descuadra todo :) - Eson ( originalmente lo puso el JSON)
           child: Container(),
         )
       ])
