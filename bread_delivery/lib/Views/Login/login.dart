@@ -134,21 +134,7 @@ class _LoginState extends State<Login> {
                                       _togglePassword),
                                 ),
                                 Container(
-                                    padding:
-                                        EdgeInsets.only(left: 130, bottom: 50),
-                                    child: TextButton(
-                                      style: TextButton.styleFrom(
-                                          primary: Colors.white),
-                                      onPressed: () {},
-                                      child: Text(
-                                        '¿Olvidaste tu contraseña?',
-                                        style: TextStyle(
-                                            decoration:
-                                                TextDecoration.underline),
-                                      ),
-                                    )),
-                                Container(
-                                  margin: EdgeInsets.only(bottom: 20),
+                                  margin: EdgeInsets.only(top: 35,bottom: 20),
                                   child: ButtonPrimary(
                                       "Iniciar Sesión",
                                       'assets/icons/access_icon.png',

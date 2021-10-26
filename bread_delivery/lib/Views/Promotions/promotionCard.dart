@@ -19,23 +19,35 @@ class _PromotionCardState extends State<PromotionCard> {
   _PromotionCardState(this.data, this.isAdmin);
   GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
+  String cardText(Promotion d) {
+    String t1 = (d.cantitySaleMin != 0)
+      ? "en la compra de ${d.cantitySaleMin} panes "
+      : "a partir de \$${d.saleMin} ";
+    
+    String t2 = (d.cantityFree != 0) 
+      ? "se lleva ${d.cantityFree} gratis"
+      : "se descuenta un %${d.discount}";
+
+      return t1 + t2;
+    }
+
   @override
   Widget build(BuildContext context) {
     return Container(
         child: Card(
             child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
       ListTile(
-        leading: Icon(Icons.event_available),
+        leading: Icon(Icons.verified, color: Colors.amber[900]), //TODO: Verificar si esta activa la promo o no y cambiar el color en base a eso
         title: RichText(
             text: TextSpan(
-                text: 'Nombre: ',
+                text: 'Promo: ',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                     color: Color(Colors.black.value)),
                 children: <TextSpan>[
               TextSpan(
-                  text: '${data.idPromo}',
+                  text: '${data.idPromo} - ${cardText(data)}',
                   style: TextStyle(
                       fontWeight: FontWeight.normal,
                       fontSize: 18,
@@ -78,7 +90,7 @@ class _PromotionCardState extends State<PromotionCard> {
 
           return StatefulBuilder(builder: (context, setState) {
             return AlertDialog(
-              title: Text('Nueva Promocion'),
+              title: Text('Editar Promocion'),
               content: Form(
                   key: _formkey,
                   child: Column(
