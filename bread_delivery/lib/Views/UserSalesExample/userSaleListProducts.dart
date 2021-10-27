@@ -1,9 +1,9 @@
 import 'package:bread_delivery/BLOC/Products/bloc/products_bloc.dart';
 import 'package:bread_delivery/CommonWidgets/messageScreen.dart';
 import 'package:bread_delivery/CommonWidgets/snackBar.dart';
+import 'package:bread_delivery/Entities/productSale.dart';
 import 'package:bread_delivery/Entities/userSaleViewParams.dart';
 import 'package:flutter/material.dart';
-import 'package:bread_delivery/Entities/product.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'userSaleCard.dart';
 
@@ -16,7 +16,6 @@ class ListViewProducts extends StatefulWidget {
 }
 
 class _ListViewProducts extends State<ListViewProducts> {
-  Future<List<Products>> data;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
 
@@ -39,15 +38,17 @@ class _ListViewProducts extends State<ListViewProducts> {
               return MessageScreen();
             }
             if (state is ProductsForSaleLoaded) {
-              widget.currentSale.products = state.products;
+              if (widget.currentSale.products?.isEmpty ?? true)
+                widget.currentSale.products = state.products;
 
               return RefreshIndicator(
                   key: _refreshIndicatorKey,
                   onRefresh: () async {
-                    _getData();
+                    if (widget.currentSale.products?.isEmpty ?? true)
+                      _getData();
                   },
                   child: ListView.builder(
-                      itemCount: state.products.length,
+                      itemCount: widget.currentSale.products.length,
                       padding: EdgeInsets.only(bottom: 60),
                       //TODO Change the value of cacheExtent!!
                       cacheExtent: 100000,
@@ -62,15 +63,18 @@ class _ListViewProducts extends State<ListViewProducts> {
                                   data: widget.currentSale.products[index])
                             ]));
                       }));
-            } else {
-              return MessageScreen.message("No hay datos");
             }
+            return Container();
           },
         ));
   }
 
   _getData() async {
     _refreshIndicatorKey.currentState?.show();
-    BlocProvider.of<ProductsBloc>(context).add(GetProductForSale());
+    if (widget.currentSale.products?.isEmpty ?? true)
+      BlocProvider.of<ProductsBloc>(context).add(GetProductForSale());
+    else
+      BlocProvider.of<ProductsBloc>(context)
+          .emit(ProductsForSaleLoaded(<ProductSale>[]));
   }
 }

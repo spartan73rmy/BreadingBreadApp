@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bread_delivery/Views/UserSalesExample/userSaleBottomNavBar.dart';
 import 'package:bread_delivery/Views/UserSalesExample/userSaleListProducts.dart';
 import 'package:bread_delivery/Views/UserSalesExample/userSaleListTotalSale.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SalePage extends StatefulWidget {
   final UserSaleViewParams currentSale;
@@ -17,6 +18,13 @@ class SalePage extends StatefulWidget {
 
 class _SalePage extends State<SalePage> {
   int indexScreen = 0;
+  UserSaleViewParams currentSale;
+
+  @override
+  void initState() {
+    super.initState();
+    currentSale = widget.currentSale;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +37,12 @@ class _SalePage extends State<SalePage> {
               centerTitle: true,
               title: Column(children: [
                 Text(
-                  widget.currentSale.selectedPath.pathName ?? "Ruta",
+                  currentSale.selectedPath.pathName ?? "Ruta",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
                   textAlign: TextAlign.center,
                 ),
                 Text(
-                  widget.currentSale.selectedStore.name ?? "Tienda",
+                  currentSale.selectedStore.name ?? "Tienda",
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
                   textAlign: TextAlign.center,
                 )
@@ -53,7 +61,50 @@ class _SalePage extends State<SalePage> {
               ),
             ),
             backgroundColor: Colors.transparent,
-            body: _setSectionBody(indexScreen)),
+            body: _setSectionBody(indexScreen),
+            bottomSheet: (indexScreen == 0)
+                ? null
+                : Container(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: <Color>[
+                          Color(0XFF674023),
+                          Color(0XFF9E5F32)
+                        ])),
+                    width: MediaQuery.of(context).size.width,
+                    height: 110,
+                    padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            child: Text(
+                              'Total: \$ ${widget.currentSale.products.fold(0, (value, element) => value + element.total())}',
+                              style: GoogleFonts.lora(
+                                  color: Colors.white,
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Container(
+                            child: ElevatedButton(
+                              child: Text("Cobrar",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20)),
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Color(0xFF1E9431))),
+                              onPressed: () {},
+                            ),
+                          )
+                        ],
+                      ),
+                    ))),
         Stack(children: <Widget>[
           new Positioned(
             child: Align(
@@ -83,9 +134,9 @@ class _SalePage extends State<SalePage> {
       case 0:
         return BlocProvider(
             create: (_) => ProductsBloc(ProductRepository()),
-            child: ListViewProducts(widget.currentSale));
+            child: ListViewProducts(currentSale));
       case 1:
-        return TotalSale(widget.currentSale);
+        return TotalSale(currentSale);
     }
   }
 }
