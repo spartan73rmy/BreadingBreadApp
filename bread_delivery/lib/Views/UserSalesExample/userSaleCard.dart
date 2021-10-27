@@ -84,12 +84,12 @@ class _ProductCard extends State<ProductCard> {
                                     children: [
                                       Container(
                                         child: Text(
-                                            'Venta: ${widget.data.returns}',
+                                            'Venta: ${widget.data.cantity}',
                                             style: styleTextSale),
                                       ),
                                       Container(
                                         child: Text(
-                                            'Dev: ${widget.data.cantity}',
+                                            'Dev: ${widget.data.returns}',
                                             style: styleTextSale),
                                       )
                                     ],

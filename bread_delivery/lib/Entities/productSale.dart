@@ -11,5 +11,6 @@ class ProductSale {
 
   double total() => prize * (cantity - returns);
 
+  bool inSale() => (cantity != 0) || (returns != 0);
   List<Promotion> promotion;
 }

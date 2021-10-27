@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProductCardTotal extends StatelessWidget {
-  ProductSale data;
+  final ProductSale data;
   ProductCardTotal(this.data);
 
   @override
