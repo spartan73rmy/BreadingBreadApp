@@ -209,7 +209,7 @@ class _PromotionListState extends State<PromotionList> {
                     if (_formkey.currentState.validate()) {
                       var Type = TypeController.text;
                       var Discount = DiscountController.text;
-                      int idProducto = 0;
+                      int idProducto = widget._product.id;
                       int cantitySaleMin =
                           (isPerQuantity) ? int.parse(Type) : 0;
                       double saleMin = (!isPerQuantity) ? double.parse(Type) : 0;

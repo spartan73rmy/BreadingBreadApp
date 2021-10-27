@@ -20,6 +20,7 @@ class _ProductListState extends State<ProductList> {
   Future<List<Products>> data;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
+  GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   bool isAdmin;
 
   _isAdmin() {
@@ -96,35 +97,7 @@ class _ProductListState extends State<ProductList> {
                 icon: Icon(Icons.add),
                 backgroundColor: Theme.of(context).primaryColor,
                 onPressed: () {
-                  String nameValue;
-                  double priceValue;
-                  alertInputDiag(context, "Agregar Producto",
-                          "Nombre del producto", "", "Nombre para el producto",
-                          keyboard: TextInputType.text)
-                      .then((value) {
-                    if (value == null)
-                      return;
-                    else
-                      nameValue = value;
-
-                    alertInputDiag(
-                            context,
-                            "Agregar Producto",
-                            "Precio del producto",
-                            "",
-                            "Precio para el producto",
-                            keyboard: TextInputType.number)
-                        .then((value) {
-                      if (value == null)
-                        return;
-                      else
-                        priceValue = double.parse(value);
-                      // print(nameValue);
-                      // print(priceValue);
-                      if (nameValue != null && priceValue != null)
-                        _addProduct(nameValue, priceValue);
-                    });
-                  });
+                  showDialogWithFields(context);
                 },
                 label: Text("Producto"))
             : Container());
@@ -143,5 +116,77 @@ class _ProductListState extends State<ProductList> {
   _getData() async {
     _refreshIndicatorKey.currentState?.show();
     BlocProvider.of<ProductsBloc>(context).add(GetProducts());
+  }
+
+  Future<void> showDialogWithFields(
+    BuildContext context,
+  ) async {
+    return await showDialog(
+        context: context,
+        builder: (context) {
+          var NameController = TextEditingController();
+          var PriceController = TextEditingController();
+
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              title: Text('Agregar Producto', textAlign: TextAlign.center,),
+              content: Form(
+                  key: _formkey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Nombre',
+                        style: const TextStyle(fontWeight: FontWeight.bold,height: 1),),
+                      TextFormField(
+                        controller: NameController,
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration( 
+                          hintText: "Nombre",
+                          icon: Icon(Icons.mode_edit), ),
+                        validator: (value) {
+                          return value.isNotEmpty
+                              ? null
+                              : "El campo no puede estar vacio";
+                        },
+                      ),
+                      Divider(),
+                      Text(
+                        'Precio',
+                        style: const TextStyle(fontWeight: FontWeight.bold,height: 2),),
+                      TextFormField(
+                        controller: PriceController,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                            hintText: "Precio",
+                            icon: Icon(Icons.attach_money)),
+                        validator: (value) {
+                          return value.isNotEmpty
+                              ? null
+                              : "El campo no puede estar vacio";
+                        },
+                      ),
+                    ],
+                  )),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text('Cancelar'),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    if (_formkey.currentState.validate()) {
+                      var NewName = NameController.text;
+                      var NewPrice = double.parse(PriceController.text);
+                      _addProduct(NewName, NewPrice);
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: Text('Guardar'),
+                ),
+              ],
+            );
+          });
+        });
   }
 }

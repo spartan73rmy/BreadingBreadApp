@@ -37,9 +37,11 @@ class _PromotionCardState extends State<PromotionCard> {
         child: Card(
             child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
       ListTile(
-        leading: Icon(Icons.verified,
-            color: Colors.amber[
-                900]), //TODO: Verificar si esta activa la promo o no y cambiar el color en base a eso
+        leading: 
+          Icon(Icons.verified,
+              color:(data.active)
+                ? Colors.amber[900]
+                :Colors.blueGrey[300]),
         title: RichText(
             text: TextSpan(
                 text: 'Promo: ',
@@ -75,7 +77,7 @@ class _PromotionCardState extends State<PromotionCard> {
       double saleMin, int cantityFree, int discount, bool active) async {
     BlocProvider.of<PromotionsBloc>(context).add(EditPromotion(idPromo,
         idProducto, cantitySaleMin, saleMin, cantityFree, discount, active));
-    BlocProvider.of<PromotionsBloc>(context).add(GetPromotions());
+    BlocProvider.of<PromotionsBloc>(context).add(GetPromotionsByProduct(idProducto));
   }
 
   Future<void> showDialogWithFields(
@@ -88,7 +90,7 @@ class _PromotionCardState extends State<PromotionCard> {
           var TypeController = TextEditingController();
           bool isDiscount = (data.discount != 0);
           bool isPerQuantity = (data.cantitySaleMin != 0);
-          bool isActive = true;
+          bool isActive = data.active;
           DiscountController.text = (isDiscount)
               ? data.discount.toString()
               : data.cantityFree.toString();
@@ -184,7 +186,7 @@ class _PromotionCardState extends State<PromotionCard> {
                       var Type = TypeController.text;
                       var Discount = DiscountController.text;
                       int idPromo = data.idPromo;
-                      int idProducto = data.idProduct;
+                      int idProducto = data.idProducto;
                       int cantitySaleMin =
                           (isPerQuantity) ? int.parse(Type) : 0;
                       double saleMin =

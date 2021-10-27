@@ -19,6 +19,7 @@ class _ProductCardState extends State<ProductCard> {
   final Product data;
   final bool isAdmin;
   _ProductCardState(this.data, this.isAdmin);
+  GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -47,29 +48,8 @@ class _ProductCardState extends State<ProductCard> {
           }
         },
         onLongPress: () async {
-          String nameValue;
-          double priceValue;
           if (isAdmin) {
-            alertInputDiag(context, "Editar Producto", "Nombre del producto",
-                    data.name, "Nombre para el producto",
-                    keyboard: TextInputType.text)
-                .then((value) {
-                  if (value == null) return;
-                  else nameValue = value;
-                  
-                  alertInputDiag(context, "Editar Producto", "Precio del producto",
-                          data.name, "Precio para el producto",
-                          keyboard: TextInputType.number)
-                      .then((value) {
-                        if (value == null) return;
-                        else priceValue = double.parse(value);
-
-                        if(nameValue != null && priceValue != null)
-                          _editProduct(widget.data.id, nameValue, priceValue);
-                      });
-                  
-                });
-                
+            showDialogWithFields(context);
           }
         },
       ),
@@ -82,5 +62,79 @@ class _ProductCardState extends State<ProductCard> {
   _editProduct(int id, String name, double price) async {
     BlocProvider.of<ProductsBloc>(context).add(EditProduct(id, name, price));
     BlocProvider.of<ProductsBloc>(context).add(GetProducts());
+  }
+
+  Future<void> showDialogWithFields(
+    BuildContext context,
+  ) async {
+    return await showDialog(
+        context: context,
+        builder: (context) {
+          var NameController = TextEditingController();
+          var PriceController = TextEditingController();
+          NameController.text = data.name;
+          PriceController.text = data.price.toString();
+
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              title: Text('Editar Producto', textAlign: TextAlign.center,),
+              content: Form(
+                  key: _formkey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Nombre',
+                        style: const TextStyle(fontWeight: FontWeight.bold,height: 1),),
+                      TextFormField(
+                        controller: NameController,
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration( 
+                          hintText: "Nombre",
+                          icon: Icon(Icons.mode_edit), ),
+                        validator: (value) {
+                          return value.isNotEmpty
+                              ? null
+                              : "El campo no puede estar vacio";
+                        },
+                      ),
+                      Divider(),
+                      Text(
+                        'Precio',
+                        style: const TextStyle(fontWeight: FontWeight.bold,height: 2),),
+                      TextFormField(
+                        controller: PriceController,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                            hintText: "Precio",
+                            icon: Icon(Icons.attach_money)),
+                        validator: (value) {
+                          return value.isNotEmpty
+                              ? null
+                              : "El campo no puede estar vacio";
+                        },
+                      ),
+                    ],
+                  )),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text('Cancelar'),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    if (_formkey.currentState.validate()) {
+                      var NewName = NameController.text;
+                      var NewPrice = double.parse(PriceController.text);
+                      _editProduct(data.id, NewName, NewPrice);
+                      Navigator.pop(context);
+                    }
+                  },
+                  child: Text('Guardar'),
+                ),
+              ],
+            );
+          });
+        });
   }
 }
