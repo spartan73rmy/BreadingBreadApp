@@ -32,10 +32,12 @@ class Auth {
   }
 
   static getCurrentPath(SharedPreferences prefs) {
+    if (!prefs.containsKey(idCurrentPath)) return null;
     return prefs.getInt(idCurrentPath);
   }
 
   static getCurrentPathName(SharedPreferences prefs) {
+    if (!prefs.containsKey(currentPathName)) return null;
     return prefs.getString(currentPathName);
   }
 
@@ -71,7 +73,7 @@ class Auth {
     prefs.setInt(userSale, idUserSale);
   }
 
-  static setIdPath(SharedPreferences prefs, int idPath, String pathName) {
+  static setPath(SharedPreferences prefs, int idPath, String pathName) {
     prefs.setInt(idCurrentPath, idPath);
     prefs.setString(currentPathName, pathName);
   }

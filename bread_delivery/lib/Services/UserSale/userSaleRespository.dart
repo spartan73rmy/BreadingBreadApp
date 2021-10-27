@@ -5,6 +5,7 @@ import 'package:bread_delivery/Services/Http/networkError.dart';
 import '../../Services/Http/dioClient.dart';
 
 abstract class UserSalesLogic {
+  Future<Path> getSelectedPath();
   Future<List<Path>> fetchPathsList();
   Future<int> addUserSale(int idPath, int idUser);
   Future<void> deleteUserSale(int id);
@@ -39,5 +40,11 @@ class UserSalesRepository extends UserSalesLogic {
     } catch (e) {
       throw NetworkError.handleResponse(e);
     }
+  }
+
+  @override
+  Future<Path> getSelectedPath() async {
+    final response = await http.get(url + "GetPathByUser");
+    return Path.fromJson(response);
   }
 }

@@ -23,9 +23,8 @@ class QrScan extends StatefulWidget {
 }
 
 class _QrScanState extends State<QrScan> {
-  bool scanned = true;
   bool _checkConfiguration() => true;
-
+  String message = '';
   @override
   void initState() {
     super.initState();
@@ -54,7 +53,18 @@ class _QrScanState extends State<QrScan> {
         }, child: BlocBuilder<QrBloc, QrState>(builder: (context, state) {
           if (state is QrLoading) return MessageScreen();
 
-          return Container();
+          return Container(
+            child: Center(
+                child: Padding(
+                    child: Text(
+                      message,
+                      style: TextStyle(
+                        fontSize: 24,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    padding: EdgeInsets.all(20))),
+          );
         })),
         floatingActionButton: FloatingActionButton.extended(
             onPressed: () {
@@ -65,6 +75,9 @@ class _QrScanState extends State<QrScan> {
   }
 
   _scan(BuildContext context) async {
+    setState(() {
+      message = "";
+    });
     Permission.camera.request();
     // Permission.storage.request();
     var status = await Permission.camera.status;
@@ -76,27 +89,32 @@ class _QrScanState extends State<QrScan> {
 
     String barcode = await scanner.scan();
     if (barcode == null) {
-      await alertDiag(context, "Esto no es un QR de una tienda", 'QR Invalido');
+      setState(() {
+        message = "Esto no es un QR valido";
+      });
       return;
     }
 
     var scannedStore = StoreQr.fromJson(jsonDecode(barcode));
-    var store =
-        widget.currentSale.stores.singleWhere((el) => el.id == scannedStore.id);
 
-    if (store != null) {
-      await _determinePosition()
-          .then((value) => _setCoordsStore(store.id, value))
-          .onError((error, stackTrace) => snackBar(context, error));
+    var store =
+        widget.currentSale.stores.where((el) => el.id == scannedStore?.id);
+
+    if (store.isEmpty) {
       setState(() {
-        widget.currentSale.selectedStore = store;
+        message = 'La tienda no esta en su ruta' +
+            '\n\nSi necesita realizar una entrega pida al administrador asignar la tienda a la ruta: ${widget.currentSale.selectedPath.pathName}';
       });
-    } else if (scanned) {
-      await alertDiag(context, "La tienda no esta en su ruta", 'Tienda ');
-      setState(() {
-        scanned = false;
-      });
+      return;
     }
+
+    var currentStore = store?.first;
+    await _determinePosition()
+        .then((value) => _setCoordsStore(currentStore.id, value))
+        .onError((error, stackTrace) => snackBar(context, error));
+    setState(() {
+      widget.currentSale.selectedStore = currentStore;
+    });
   }
 
   Future<Position> _determinePosition() async {
