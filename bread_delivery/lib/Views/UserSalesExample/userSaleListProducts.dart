@@ -1,4 +1,4 @@
-import 'package:bread_delivery/BLOC/Products/bloc/products_bloc.dart';
+import 'package:bread_delivery/BLOC/Sale/bloc/sale_bloc.dart';
 import 'package:bread_delivery/CommonWidgets/messageScreen.dart';
 import 'package:bread_delivery/CommonWidgets/snackBar.dart';
 import 'package:bread_delivery/Entities/productSale.dart';
@@ -29,12 +29,12 @@ class _ListViewProducts extends State<ListViewProducts> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.transparent,
-        body: BlocConsumer<ProductsBloc, ProductsState>(
+        body: BlocConsumer<SaleBloc, SaleState>(
           listener: (context, state) {
-            if (state is ProductsError) snackBar(context, state.toString());
+            if (state is SaleError) snackBar(context, state.toString());
           },
           builder: (context, state) {
-            if (state is ProductsLoading) {
+            if (state is SaleLoading) {
               return MessageScreen();
             }
             if (state is ProductsForSaleLoaded) {
@@ -72,9 +72,9 @@ class _ListViewProducts extends State<ListViewProducts> {
   _getData() async {
     _refreshIndicatorKey.currentState?.show();
     if (widget.currentSale.products?.isEmpty ?? true)
-      BlocProvider.of<ProductsBloc>(context).add(GetProductForSale());
+      BlocProvider.of<SaleBloc>(context).add(GetProductForSale());
     else
-      BlocProvider.of<ProductsBloc>(context)
+      BlocProvider.of<SaleBloc>(context)
           .emit(ProductsForSaleLoaded(<ProductSale>[]));
   }
 }

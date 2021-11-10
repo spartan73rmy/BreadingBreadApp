@@ -107,8 +107,16 @@ class _QrScanState extends State<QrScan> {
       });
       return;
     }
-
     var currentStore = store?.first;
+
+    if (currentStore.visited) {
+      setState(() {
+        message = 'La tienda ya fue visitada' +
+            '\n\nYa se realizo una venta en esta tienda';
+      });
+      return;
+    }
+
     await _determinePosition()
         .then((value) => _setCoordsStore(currentStore.id, value))
         .onError((error, stackTrace) => snackBar(context, error));

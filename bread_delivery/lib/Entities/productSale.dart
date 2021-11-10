@@ -6,11 +6,14 @@ class ProductSale {
   String name;
   double cantity;
   double returns;
+  Promotion promotionApplied;
 
-  ProductSale(this.id, this.name, this.prize, {this.cantity, this.returns});
+  ProductSale(this.id, this.name, this.prize, this.promotions,
+      {this.cantity, this.returns});
 
   double total() => prize * (cantity - returns);
 
   bool inSale() => (cantity != 0) || (returns != 0);
-  List<Promotion> promotion;
+
+  List<Promotion> promotions;
 }

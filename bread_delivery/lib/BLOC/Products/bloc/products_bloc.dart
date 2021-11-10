@@ -33,23 +33,6 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       }
     }
 
-    if (event is GetProductForSale) {
-      yield ProductsLoading();
-      try {
-        var products = await logic.fetchProductsList();
-        if (products != null) {
-          yield ProductsForSaleLoaded(products
-              .map((e) =>
-                  ProductSale(e.id, e.name, e.price, cantity: 0, returns: 0))
-              .toList());
-        }
-        yield ProductsForSaleLoaded(<ProductSale>[]);
-      } catch (e) {
-        if (e is MyException && e != null) yield ProductsError(e);
-        yield ProductsForSaleLoaded(<ProductSale>[]);
-      }
-    }
-
     if (event is AddProduct) {
       yield ProductsLoading();
       try {

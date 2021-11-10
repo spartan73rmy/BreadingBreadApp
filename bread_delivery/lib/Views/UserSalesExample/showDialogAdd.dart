@@ -136,7 +136,7 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
                         ),
                         Container(
                           child: ElevatedButton(
-                            child: Text('Ok'),
+                            child: Text('Aceptar'),
                             style: styleAdd,
                             onPressed: () {
                               _getResultsInputText();

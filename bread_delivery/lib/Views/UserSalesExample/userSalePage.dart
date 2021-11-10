@@ -1,8 +1,11 @@
+import 'package:bread_delivery/BLOC/Sale/bloc/sale_bloc.dart';
+import 'package:bread_delivery/CommonWidgets/messageScreen.dart';
+import 'package:bread_delivery/Entities/sale.dart';
 import 'package:bread_delivery/Entities/userSaleViewParams.dart';
+import 'package:bread_delivery/Enums/Routes.dart';
+import 'package:bread_delivery/Services/Sale/SaleRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:bread_delivery/CommonWidgets/background.dart';
-import 'package:bread_delivery/BLOC/Products/bloc/products_bloc.dart';
-import 'package:bread_delivery/Services/Product/productRepository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bread_delivery/Views/UserSalesExample/userSaleBottomNavBar.dart';
 import 'package:bread_delivery/Views/UserSalesExample/userSaleListProducts.dart';
@@ -61,7 +64,13 @@ class _SalePage extends State<SalePage> {
               ),
             ),
             backgroundColor: Colors.transparent,
-            body: _setSectionBody(indexScreen),
+            body: BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
+              if (state is SaleLoading) MessageScreen();
+              if (state is SaleOperationCompleted)
+                Navigator.of(context)
+                    .popUntil(ModalRoute.withName(Routes.Stores));
+              return _setSectionBody(indexScreen);
+            }),
             bottomSheet: (indexScreen == 0)
                 ? null
                 : Container(
@@ -99,7 +108,7 @@ class _SalePage extends State<SalePage> {
                                   backgroundColor:
                                       MaterialStateProperty.all<Color>(
                                           Color(0xFF1E9431))),
-                              onPressed: () {},
+                              onPressed: _sale,
                             ),
                           )
                         ],
@@ -133,10 +142,21 @@ class _SalePage extends State<SalePage> {
     switch (value) {
       case 0:
         return BlocProvider(
-            create: (_) => ProductsBloc(ProductRepository()),
+            create: (_) => SaleBloc(SaleRepository()),
             child: ListViewProducts(currentSale));
       case 1:
         return TotalSale(currentSale);
     }
+  }
+
+  _sale() async {
+    var total = widget.currentSale.products
+        .fold(0, (value, element) => value + element.total());
+    var idPath = currentSale.selectedPath.idPath;
+    var idStore = currentSale.selectedStore.id;
+
+    var sale = Sale(idPath, idStore, total, currentSale.products, "");
+
+    BlocProvider.of<SaleBloc>(context).add(AddSale(sale));
   }
 }

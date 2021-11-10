@@ -40,13 +40,24 @@ class ProductCardTotal extends StatelessWidget {
                   children: [
                     //NAME PRODUCT
                     Container(
-                      child: Text(
-                        data.name,
-                        style: GoogleFonts.lora(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              data.name,
+                              style: GoogleFonts.lora(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            if (data.promotions.length > 0)
+                              Icon(
+                                Icons.star,
+                                color: Colors.amberAccent,
+                              )
+                            else
+                              Container()
+                          ]),
                     ),
                     //INVENTORY
                     Container(
