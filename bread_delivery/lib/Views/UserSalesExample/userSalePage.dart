@@ -1,5 +1,7 @@
 import 'package:bread_delivery/BLOC/Sale/bloc/sale_bloc.dart';
+import 'package:bread_delivery/CommonWidgets/alertInput.dart';
 import 'package:bread_delivery/CommonWidgets/messageScreen.dart';
+import 'package:bread_delivery/CommonWidgets/snackBar.dart';
 import 'package:bread_delivery/Entities/sale.dart';
 import 'package:bread_delivery/Entities/userSaleViewParams.dart';
 import 'package:bread_delivery/Enums/Routes.dart';
@@ -64,13 +66,20 @@ class _SalePage extends State<SalePage> {
               ),
             ),
             backgroundColor: Colors.transparent,
-            body: BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-              if (state is SaleLoading) MessageScreen();
-              if (state is SaleOperationCompleted)
-                Navigator.of(context)
-                    .popUntil(ModalRoute.withName(Routes.Stores));
-              return _setSectionBody(indexScreen);
-            }),
+            body: BlocListener<SaleBloc, SaleState>(
+              listener: (context, state) {
+                if (state is SaleError) snackBar(context, state.toString());
+              },
+              child:
+                  BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
+                if (state is SaleLoading) MessageScreen();
+                if (state is SaleOperationCompleted)
+                  Navigator.pushReplacementNamed(context, Routes.Stores,
+                      arguments: widget.currentSale.selectedPath);
+
+                return _setSectionBody(indexScreen);
+              }),
+            ),
             bottomSheet: (indexScreen == 0)
                 ? null
                 : Container(
@@ -108,7 +117,7 @@ class _SalePage extends State<SalePage> {
                                   backgroundColor:
                                       MaterialStateProperty.all<Color>(
                                           Color(0xFF1E9431))),
-                              onPressed: _sale,
+                              onPressed: () async => await _sale(context),
                             ),
                           )
                         ],
@@ -141,21 +150,37 @@ class _SalePage extends State<SalePage> {
   _setSectionBody(value) {
     switch (value) {
       case 0:
-        return BlocProvider(
-            create: (_) => SaleBloc(SaleRepository()),
-            child: ListViewProducts(currentSale));
+        return ListViewProducts(currentSale);
       case 1:
         return TotalSale(currentSale);
     }
   }
 
-  _sale() async {
+  _sale(BuildContext context) async {
     var total = widget.currentSale.products
         .fold(0, (value, element) => value + element.total());
     var idPath = currentSale.selectedPath.idPath;
     var idStore = currentSale.selectedStore.id;
+    var products =
+        currentSale.products.where((element) => element.inSale()).toList();
+    var commentary = "";
 
-    var sale = Sale(idPath, idStore, total, currentSale.products, "");
+    if (products.isEmpty && total <= 0)
+      commentary = await alertInputDiag(
+          context,
+          "Comentario de Venta",
+          "La tienda ...",
+          "Comentaro de la tienda",
+          "Es necesario introducir la razon porque no se realizo la venta",
+          keyboard: TextInputType.text,
+          icon: Icon(Icons.store));
+
+    if (commentary == null) {
+      await _sale(context);
+      return;
+    }
+
+    var sale = Sale(idPath, idStore, total, products, commentary);
 
     BlocProvider.of<SaleBloc>(context).add(AddSale(sale));
   }

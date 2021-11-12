@@ -12,7 +12,7 @@ class GetProductForSale extends SaleEvent {
 }
 
 class AddSale extends SaleEvent {
-  Sale sale;
+  final Sale sale;
 
   AddSale(this.sale) : super([sale]);
 }
