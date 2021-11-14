@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:bread_delivery/BLOC/Qr/bloc/qr_bloc.dart';
-import 'package:bread_delivery/CommonWidgets/alert.dart';
 import 'package:bread_delivery/CommonWidgets/messageScreen.dart';
 import 'package:bread_delivery/CommonWidgets/snackBar.dart';
 import 'package:bread_delivery/Entities/storeQr.dart';

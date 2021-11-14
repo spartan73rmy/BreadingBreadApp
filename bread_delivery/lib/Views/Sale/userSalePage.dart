@@ -8,6 +8,7 @@ import 'package:bread_delivery/Enums/Routes.dart';
 import 'package:flutter/material.dart';
 import 'package:bread_delivery/CommonWidgets/background.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'userSaleBottomNavBar.dart';
@@ -73,9 +74,7 @@ class _SalePage extends State<SalePage> {
               child:
                   BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
                 if (state is SaleLoading) MessageScreen();
-                if (state is SaleOperationCompleted)
-                  Navigator.pushReplacementNamed(context, Routes.Stores,
-                      arguments: widget.currentSale.selectedPath);
+                if (state is SaleOperationCompleted) _navigate();
 
                 return _setSectionBody(indexScreen);
               }),
@@ -156,6 +155,13 @@ class _SalePage extends State<SalePage> {
     }
   }
 
+  _navigate() async {
+    Future.delayed(
+        Duration(microseconds: 500),
+        () => Navigator.pushReplacementNamed(context, Routes.Stores,
+            arguments: widget.currentSale.selectedPath));
+  }
+
   _sale(BuildContext context) async {
     var total = widget.currentSale.products
         .fold(0, (value, element) => value + element.total());
@@ -179,9 +185,41 @@ class _SalePage extends State<SalePage> {
       await _sale(context);
       return;
     }
+    var coordsSale = await _determinePosition();
 
-    var sale = Sale(idPath, idStore, total, products, commentary);
+    var sale = Sale(idPath, idStore, total, products, commentary,
+        lat: coordsSale.latitude, lon: coordsSale.longitude);
 
     BlocProvider.of<SaleBloc>(context).add(AddSale(sale));
+  }
+
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error(
+          'El servicio de GPS esta desactivado, activelo por favor');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('El permiso fue denegado');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Permiso denegado por siempre, permita el permiso en la configuracion');
+    }
+
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best,
+        forceAndroidLocationManager: false,
+        timeLimit: Duration(seconds: 30));
   }
 }
