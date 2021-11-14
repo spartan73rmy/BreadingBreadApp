@@ -5,14 +5,14 @@ import 'package:bread_delivery/CommonWidgets/snackBar.dart';
 import 'package:bread_delivery/Entities/sale.dart';
 import 'package:bread_delivery/Entities/userSaleViewParams.dart';
 import 'package:bread_delivery/Enums/Routes.dart';
-import 'package:bread_delivery/Services/Sale/SaleRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:bread_delivery/CommonWidgets/background.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:bread_delivery/Views/UserSalesExample/userSaleBottomNavBar.dart';
-import 'package:bread_delivery/Views/UserSalesExample/userSaleListProducts.dart';
-import 'package:bread_delivery/Views/UserSalesExample/userSaleListTotalSale.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'userSaleBottomNavBar.dart';
+import 'userSaleListProducts.dart';
+import 'userSaleListTotalSale.dart';
 
 class SalePage extends StatefulWidget {
   final UserSaleViewParams currentSale;

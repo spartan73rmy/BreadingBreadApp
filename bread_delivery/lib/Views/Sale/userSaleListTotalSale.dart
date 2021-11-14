@@ -1,6 +1,7 @@
 import 'package:bread_delivery/Entities/userSaleViewParams.dart';
-import 'package:bread_delivery/Views/UserSalesExample/userSaleCardTotal.dart';
 import 'package:flutter/material.dart';
+
+import 'userSaleCardTotal.dart';
 
 class TotalSale extends StatefulWidget {
   final UserSaleViewParams currentSale;

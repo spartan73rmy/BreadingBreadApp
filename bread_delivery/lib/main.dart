@@ -17,9 +17,9 @@ import 'Views/Home/homePage.dart';
 import 'Views/Login/login.dart';
 import 'Views/Map/map.dart';
 import 'Views/Paths/pathPage.dart';
+import 'Views/Sale/userSaleRootPage.dart';
 import 'Views/Stores/storesPage.dart';
 import 'Views/UserSales/userSalesPage.dart';
-import 'Views/UserSalesExample/userSaleRootPage.dart';
 
 void main() {
   runApp(MyApp());
