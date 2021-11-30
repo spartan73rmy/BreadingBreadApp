@@ -89,10 +89,17 @@ class _LoginState extends State<Login> {
                             //snackBar(context, state.toString()),
                           }
                         else if (state is SuccessLogin)
+                          //ADMIN
                           if (state.token.user.userType == UserType.adminT)
                             Navigator.pushReplacementNamed(context, Routes.Home,
                                 arguments: state.token.user.userType ==
                                     UserType.adminT)
+                           //OTRO
+                           else if (state.token.user.userType == UserType.otherT)
+                           Navigator.pushReplacementNamed(context, Routes.ActivePaths,
+                           arguments: state.token.user.userType ==
+                                    UserType.adminT)
+                          //VENDEDOR
                           else
                             Navigator.pushNamed(context, Routes.UserSales,
                                 arguments: state.token.user.userType ==

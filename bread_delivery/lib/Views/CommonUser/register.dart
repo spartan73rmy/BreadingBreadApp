@@ -128,7 +128,7 @@ class _RegisterState extends State<Register> {
                     isExpanded: true,
                     iconSize: 30.0,
                     style: TextStyle(color: Colors.brown, fontSize: 20),
-                    items: [UserType.admin, UserType.user].map(
+                    items: [UserType.admin, UserType.user, UserType.other].map(
                       (val) {
                         return DropdownMenuItem<String>(
                           value: val,
@@ -214,9 +214,13 @@ class _RegisterState extends State<Register> {
         userName: _userNameController.text,
         password: _passwordController.text,
         name: _nombreController.text,
-        userType: (_selectedPermission == UserType.admin)
+        userType: 
+          (_selectedPermission == UserType.admin)
             ? UserType.adminT
-            : UserType.userT);
+            : (_selectedPermission == UserType.other)
+              ? UserType.otherT
+              : UserType.userT
+          );
     BlocProvider.of<UserBloc>(context).add(AddUser(user));
   }
 }
