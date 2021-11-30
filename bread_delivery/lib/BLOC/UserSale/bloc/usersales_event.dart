@@ -22,3 +22,7 @@ class DeleteUserSale extends UserSalesEvent {
 
   DeleteUserSale(this.id) : super([id]);
 }
+
+class GetActivePaths extends UserSalesEvent{
+  GetActivePaths() : super([]);
+}

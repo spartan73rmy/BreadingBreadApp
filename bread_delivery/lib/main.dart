@@ -1,12 +1,15 @@
 import 'package:bread_delivery/BLOC/Login/bloc/login_bloc.dart';
+import 'package:bread_delivery/Entities/activePath.dart';
 import 'package:bread_delivery/Entities/product.dart';
 import 'package:bread_delivery/Entities/promotionViewParams.dart';
+import 'package:bread_delivery/Entities/InventoryViewParams.dart';
 import 'package:bread_delivery/Entities/storeViewParams.dart';
 import 'package:bread_delivery/Entities/userSaleViewParams.dart';
 import 'package:bread_delivery/Enums/Routes.dart';
 import 'package:bread_delivery/Services/Cuenta/accountRepository.dart';
 import 'package:bread_delivery/Views/CommonUser/registerPage.dart';
 import 'package:bread_delivery/Views/CommonUser/usersPage.dart';
+import 'package:bread_delivery/Views/Inventory/inventoryPage.dart';
 import 'package:bread_delivery/Views/Products/productPage.dart';
 import 'package:bread_delivery/Views/Promotions/promotionPage.dart';
 import 'package:bread_delivery/Views/Qr/qrPage.dart';
@@ -20,6 +23,7 @@ import 'Views/Paths/pathPage.dart';
 import 'Views/Stores/storesPage.dart';
 import 'Views/UserSales/userSalesPage.dart';
 import 'Views/UserSalesExample/userSaleRootPage.dart';
+import 'Views/ActivePaths/activePathsPage.dart';
 
 void main() {
   runApp(MyApp());
@@ -125,6 +129,22 @@ class MyApp extends StatelessWidget {
                   settings: RouteSettings(name: Routes.Promotions),
                   builder: (context) =>
                       PromotionsPage('Promociones', isAdmin, product));
+              break;
+            case Routes.ActivePaths:
+              bool isAdmin = settings.arguments;
+              return MaterialPageRoute(
+                  settings: RouteSettings(name: Routes.ActivePaths),
+                  builder: (context) =>
+                      ActivePathsPage("Rutas activas", isAdmin));
+              break;
+            case Routes.Inventory:
+              InventoryViewParams ivp = settings.arguments;
+              bool isAdmin = ivp.isAdmin;
+              ActivePath path = ivp.activePath;
+              return MaterialPageRoute(
+                  settings: RouteSettings(name: Routes.Inventory),
+                  builder: (context) =>
+                      InventoryPage(path, isAdmin));
               break;
           }
 

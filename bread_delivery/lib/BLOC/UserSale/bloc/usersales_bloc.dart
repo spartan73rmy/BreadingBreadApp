@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:bread_delivery/Entities/activePath.dart';
 import 'package:bread_delivery/Entities/path.dart';
 import 'package:bread_delivery/Entities/storeViewParams.dart';
 import 'package:bread_delivery/Services/Http/networkError.dart';
@@ -73,6 +74,20 @@ class UserSalesBloc extends Bloc<UserSalesEvent, UserSalesState> {
       } catch (e) {
         if (e is MyException && e != null) yield UserSalesError(e);
         yield UserSalesLoaded(<Path>[]);
+      }
+    }
+    
+    if(event is GetActivePaths){
+      yield UserSalesLoading();
+      try {
+        var activePaths = await logic.getActivePaths();
+        if (activePaths != null) {
+          yield ActivePathsLoaded(activePaths);
+        }
+        yield ActivePathsLoaded(<ActivePath>[]);
+      } catch (e) {
+        if (e is MyException && e != null) yield UserSalesError(e);
+        yield ActivePathsLoaded(<ActivePath>[]);
       }
     }
   }

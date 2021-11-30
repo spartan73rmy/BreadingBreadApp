@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:bread_delivery/Entities/activePath.dart';
 import 'package:bread_delivery/Entities/path.dart';
 import 'package:bread_delivery/Entities/userSaleId.dart';
 import 'package:bread_delivery/Services/Http/networkError.dart';
@@ -9,6 +10,7 @@ abstract class UserSalesLogic {
   Future<List<Path>> fetchPathsList();
   Future<int> addUserSale(int idPath, int idUser);
   Future<void> deleteUserSale(int id);
+  Future<List<ActivePath>> getActivePaths();
 }
 
 class UserSalesRepository extends UserSalesLogic {
@@ -46,5 +48,11 @@ class UserSalesRepository extends UserSalesLogic {
   Future<Path> getSelectedPath() async {
     final response = await http.get(url + "GetPathByUser");
     return Path.fromJson(response);
+  }
+  
+  @override
+  Future<List<ActivePath>> getActivePaths() async{
+    final response = await http.get(url + "GetActivePaths");
+    return ActivePaths.fromJson(response).activePaths;
   }
 }

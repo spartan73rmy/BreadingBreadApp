@@ -28,6 +28,12 @@ class UserSalesLoaded extends UserSalesState {
   UserSalesLoaded(this.paths);
 }
 
+class ActivePathsLoaded extends UserSalesState {
+  final List<ActivePath> paths;
+
+  ActivePathsLoaded(this.paths);
+}
+
 class UserSaleAssigned extends UserSalesState {
   final StoreViewParams store;
   UserSaleAssigned(this.store);

@@ -13,4 +13,6 @@ class Routes {
   static const String Sale = "UserSales";
   static const String Map = "Map";
   static const String SalePage = "SalePage";
+  static const String ActivePaths = "ActivePaths";
+  static const String Inventory = "Inventory";
 }
