@@ -1,16 +1,19 @@
 import 'package:bread_delivery/BLOC/Sale/bloc/sale_bloc.dart';
+import 'package:bread_delivery/CommonWidgets/alertInput.dart';
 import 'package:bread_delivery/CommonWidgets/messageScreen.dart';
+import 'package:bread_delivery/CommonWidgets/snackBar.dart';
 import 'package:bread_delivery/Entities/sale.dart';
 import 'package:bread_delivery/Entities/userSaleViewParams.dart';
 import 'package:bread_delivery/Enums/Routes.dart';
-import 'package:bread_delivery/Services/Sale/SaleRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:bread_delivery/CommonWidgets/background.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:bread_delivery/Views/UserSalesExample/userSaleBottomNavBar.dart';
-import 'package:bread_delivery/Views/UserSalesExample/userSaleListProducts.dart';
-import 'package:bread_delivery/Views/UserSalesExample/userSaleListTotalSale.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'userSaleBottomNavBar.dart';
+import 'userSaleListProducts.dart';
+import 'userSaleListTotalSale.dart';
 
 class SalePage extends StatefulWidget {
   final UserSaleViewParams currentSale;
@@ -64,13 +67,18 @@ class _SalePage extends State<SalePage> {
               ),
             ),
             backgroundColor: Colors.transparent,
-            body: BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
-              if (state is SaleLoading) MessageScreen();
-              if (state is SaleOperationCompleted)
-                Navigator.of(context)
-                    .popUntil(ModalRoute.withName(Routes.Stores));
-              return _setSectionBody(indexScreen);
-            }),
+            body: BlocListener<SaleBloc, SaleState>(
+              listener: (context, state) {
+                if (state is SaleError) snackBar(context, state.toString());
+              },
+              child:
+                  BlocBuilder<SaleBloc, SaleState>(builder: (context, state) {
+                if (state is SaleLoading) MessageScreen();
+                if (state is SaleOperationCompleted) _navigate();
+
+                return _setSectionBody(indexScreen);
+              }),
+            ),
             bottomSheet: (indexScreen == 0)
                 ? null
                 : Container(
@@ -108,7 +116,7 @@ class _SalePage extends State<SalePage> {
                                   backgroundColor:
                                       MaterialStateProperty.all<Color>(
                                           Color(0xFF1E9431))),
-                              onPressed: _sale,
+                              onPressed: () async => await _sale(context),
                             ),
                           )
                         ],
@@ -141,22 +149,77 @@ class _SalePage extends State<SalePage> {
   _setSectionBody(value) {
     switch (value) {
       case 0:
-        return BlocProvider(
-            create: (_) => SaleBloc(SaleRepository()),
-            child: ListViewProducts(currentSale));
+        return ListViewProducts(currentSale);
       case 1:
         return TotalSale(currentSale);
     }
   }
 
-  _sale() async {
+  _navigate() async {
+    Future.delayed(
+        Duration(microseconds: 500),
+        () => Navigator.pushReplacementNamed(context, Routes.Stores,
+            arguments: widget.currentSale.selectedPath));
+  }
+
+  _sale(BuildContext context) async {
     var total = widget.currentSale.products
         .fold(0, (value, element) => value + element.total());
     var idPath = currentSale.selectedPath.idPath;
     var idStore = currentSale.selectedStore.id;
+    var products =
+        currentSale.products.where((element) => element.inSale()).toList();
+    var commentary = "";
 
-    var sale = Sale(idPath, idStore, total, currentSale.products, "");
+    if (products.isEmpty && total <= 0)
+      commentary = await alertInputDiag(
+          context,
+          "Comentario de Venta",
+          "La tienda ...",
+          "Comentaro de la tienda",
+          "Es necesario introducir la razon porque no se realizo la venta",
+          keyboard: TextInputType.text,
+          icon: Icon(Icons.store));
+
+    if (commentary == null) {
+      await _sale(context);
+      return;
+    }
+    var coordsSale = await _determinePosition();
+
+    var sale = Sale(idPath, idStore, total, products, commentary,
+        lat: coordsSale.latitude, lon: coordsSale.longitude);
 
     BlocProvider.of<SaleBloc>(context).add(AddSale(sale));
+  }
+
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error(
+          'El servicio de GPS esta desactivado, activelo por favor');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('El permiso fue denegado');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Permiso denegado por siempre, permita el permiso en la configuracion');
+    }
+
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best,
+        forceAndroidLocationManager: false,
+        timeLimit: Duration(seconds: 30));
   }
 }

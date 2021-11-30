@@ -20,9 +20,9 @@ import 'Views/Home/homePage.dart';
 import 'Views/Login/login.dart';
 import 'Views/Map/map.dart';
 import 'Views/Paths/pathPage.dart';
+import 'Views/Sale/userSaleRootPage.dart';
 import 'Views/Stores/storesPage.dart';
 import 'Views/UserSales/userSalesPage.dart';
-import 'Views/UserSalesExample/userSaleRootPage.dart';
 import 'Views/ActivePaths/activePathsPage.dart';
 
 void main() {
@@ -75,12 +75,6 @@ class MyApp extends StatelessWidget {
                   builder: (context) =>
                       UserSalesPage("Rutas de venta", isAdmin));
               break;
-            // case Routes.Sale:
-            //   bool isAdmin = settings.arguments;
-            //   return MaterialPageRoute(
-            //       builder: (context) =>
-            //           UserSalesPage("Rutas de venta", isAdmin));
-            //   break;
             case Routes.SalePage:
               UserSaleViewParams params = settings.arguments;
               return MaterialPageRoute(

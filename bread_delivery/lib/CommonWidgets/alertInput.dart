@@ -24,8 +24,8 @@ Future<String> alertInputDiag(
                             TextFormField(
                               controller: _controller,
                               keyboardType: keyboard,
-                              autocorrect: false,
-                              maxLines: 1,
+                              autocorrect: true,
+                              maxLines: 4,
                               onSaved: (String value) {
                                 result = value;
                               },
@@ -36,7 +36,7 @@ Future<String> alertInputDiag(
                                 return null;
                               },
                               decoration: InputDecoration(
-                                  labelText: hint,
+                                  labelText: text,
                                   hintText: hint,
                                   icon: icon,
                                   labelStyle: TextStyle(

@@ -110,13 +110,15 @@ class _ProductCard extends State<ProductCard> {
                               onPressed: () async {
                                 resultsvaluesTextInput =
                                     await _displayTextInputDialog(context);
-                                if (resultsvaluesTextInput[0] != 0 &&
-                                    resultsvaluesTextInput[1] != 0) {
+                                if (resultsvaluesTextInput[0] != "0" ||
+                                    resultsvaluesTextInput[1] != "0") {
                                   setState(() {
-                                    widget.data.cantity = double.tryParse(
-                                        resultsvaluesTextInput[0]);
-                                    widget.data.returns = double.tryParse(
-                                        resultsvaluesTextInput[1]);
+                                    widget.data.cantity = int.tryParse(
+                                            resultsvaluesTextInput[0]) ??
+                                        0;
+                                    widget.data.returns = int.tryParse(
+                                            resultsvaluesTextInput[1]) ??
+                                        0;
                                   });
                                 }
                               },

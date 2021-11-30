@@ -48,11 +48,13 @@ class SaleBloc extends Bloc<SaleEvent, SaleState> {
     if (event is AddSale) {
       yield SaleLoading();
       try {
-        await logic.addSale(event.sale);
-        yield SaleOperationCompleted();
+        int id = await logic.addSale(event.sale);
+        if (id >= 0) yield SaleOperationCompleted();
       } catch (e) {
-        if (e is MyException && e != null) yield SaleError(e);
-        yield SaleOperationCompleted();
+        if (e is MyException && e != null)
+          yield SaleError(e);
+        else
+          yield SaleOperationCompleted();
       }
     }
   }

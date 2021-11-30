@@ -1,5 +1,4 @@
 import 'package:bread_delivery/Entities/storeViewParams.dart';
-import 'package:bread_delivery/Views/UserSalesExample/userSalePage.dart';
 import 'package:flutter/material.dart';
 import 'package:bread_delivery/CommonWidgets/cardHome.dart';
 import 'package:bread_delivery/Enums/Routes.dart';
@@ -46,7 +45,8 @@ class _DrawerAdminState extends State<DrawerAdmin> {
       Column(children: [
         SafeArea(
             child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal, //tampoco se porque pero si quitas esto se descuadra - Eson (tambien lo puso originalmente el JSON)
+                scrollDirection: Axis
+                    .horizontal, //tampoco se porque pero si quitas esto se descuadra - Eson (tambien lo puso originalmente el JSON)
                 child: Column(
                   children: [
                     if (isAdmin)
@@ -99,7 +99,8 @@ class _DrawerAdminState extends State<DrawerAdmin> {
         //   //Para que o como se va a definir
         //   child: Text("Ventas de hoy"),
         // ),
-        Container( //no se porque pero si quitas esto se descuadra todo :) - Eson ( originalmente lo puso el JSON)
+        Container(
+          //no se porque pero si quitas esto se descuadra todo :) - Eson ( originalmente lo puso el JSON)
           child: Container(),
         )
       ])

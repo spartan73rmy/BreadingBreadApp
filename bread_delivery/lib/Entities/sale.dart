@@ -1,4 +1,4 @@
-import 'package:bread_delivery/Entities/productSale.dart';
+import "package:bread_delivery/Entities/productSale.dart";
 
 class Sale {
   int idPath;
@@ -12,4 +12,16 @@ class Sale {
 
   Sale(this.idPath, this.idStore, this.total, this.products, this.commentary,
       {this.lat, this.lon});
+
+  Map<String, dynamic> toJson() {
+    return {
+      "idPath": this.idPath,
+      "idStore": this.idStore,
+      "lat": this.lat,
+      "lon": this.lon,
+      "total": 12.5,
+      "commentary": this.commentary,
+      "products": this.products
+    };
+  }
 }
