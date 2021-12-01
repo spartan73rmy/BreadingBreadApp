@@ -5,7 +5,7 @@ class ActivePaths {
 
   ActivePaths.fromJson(Map<String, dynamic> json) {
     if (json['activePaths'] != null) {
-      activePaths = new List<ActivePath>();
+      activePaths = <ActivePath>[];
       json['activePaths'].forEach((v) {
         activePaths.add(new ActivePath.fromJson(v));
       });
