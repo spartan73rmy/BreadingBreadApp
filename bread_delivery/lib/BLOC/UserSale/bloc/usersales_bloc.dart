@@ -24,20 +24,22 @@ class UserSalesBloc extends Bloc<UserSalesEvent, UserSalesState> {
     if (event is GetUserSales) {
       yield UserSalesLoading();
       try {
+        var idPath=0;
+        var pathName = null;
+
         //Obtenemos el estado la ruta asignada al usuario
         var currentPath = await logic.getSelectedPath();
-        if (currentPath != null)
+        if (currentPath.id != 0){
           Auth.setPath(await SharedPreferences.getInstance(), currentPath.id,
               currentPath.name);
 
-        var idPath = Auth.getCurrentPath(await SharedPreferences.getInstance());
-        var pathName =
-            Auth.getCurrentPathName(await SharedPreferences.getInstance());
-
-        //Si ya fue seleccionada una ruta se pasa a las tiendas
-        if (idPath != null && pathName != null)
+          idPath = Auth.getCurrentPath(await SharedPreferences.getInstance());
+          pathName = Auth.getCurrentPathName(await SharedPreferences.getInstance());
+        }
+          //Si ya fue seleccionada una ruta se pasa a las tiendas
+        if (idPath != 0 && pathName != null)
           yield UserSaleAssigned(StoreViewParams(idPath, pathName, false));
-
+        
         //De lo contrario muestra las rutas para seleccionar
         var paths = await logic.fetchPathsList();
         if (paths != null) {
