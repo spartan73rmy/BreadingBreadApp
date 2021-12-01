@@ -1,4 +1,5 @@
 import 'package:bread_delivery/BLOC/Inventory/bloc/inventory_bloc.dart';
+import 'package:bread_delivery/CommonWidgets/background.dart';
 import 'package:bread_delivery/CommonWidgets/messageScreen.dart';
 import 'package:bread_delivery/CommonWidgets/snackBar.dart';
 import 'package:bread_delivery/Entities/activePath.dart';
@@ -32,58 +33,63 @@ class _InventoryListState extends State<InventoryList> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(widget._activePath.name)),
-      body: BlocListener<InventoryBloc, InventoryState>(
-        listener: (context, state) =>
-            {if (state is InventoryError) snackBar(context, state.toString())},
-        child: BlocBuilder<InventoryBloc, InventoryState>(
-          builder: (context, state) {
-            if (state is ProductsLoaded)
-              return RefreshIndicator(
-                  key: _refreshIndicatorKey,
-                  onRefresh: () async {
-                    _getData();
-                  },
-                  child: Column(children: [
-                    //LISTA
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: state.products.length,
-                        scrollDirection: Axis.vertical,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Container(
-                              child: inventoryCard(state.products[index]));
-                        },
-                      ),
-                    ),
-
-                    //BOTTOM BUTTON
-                    Container(
-                        padding: EdgeInsets.only(top: 20, bottom: 20),
-                        child: ElevatedButton(
-                          child: Text(
-                            'Guardar inventario',
-                            style: styleTextButton,
+    return Stack( 
+      children: [
+        Background(),
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(title: Text(widget._activePath.name)),
+          body: BlocListener<InventoryBloc, InventoryState>(
+            listener: (context, state) =>
+                {if (state is InventoryError) snackBar(context, state.toString())},
+            child: BlocBuilder<InventoryBloc, InventoryState>(
+              builder: (context, state) {
+                if (state is ProductsLoaded)
+                  return RefreshIndicator(
+                      key: _refreshIndicatorKey,
+                      onRefresh: () async {
+                        _getData();
+                      },
+                      child: Column(children: [
+                        //LISTA
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: state.products.length,
+                            scrollDirection: Axis.vertical,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Container(
+                                  child: inventoryCard(state.products[index]));
+                            },
                           ),
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.resolveWith(
-                                (states) => Colors.brown),
-                          ),
-                          onPressed: () async {
-                            //TODO: CHECK PERMISSION BLUETOOTH
-                            //TODO:IMPLEMENT FUNCITON TO GET MAC PRINTER
-                            String MAC = _getBluetoothDevices();
+                        ),
 
-                            _saveInventory(
-                                state.products, widget._activePath, MAC);
-                          },
-                        ))
-                  ]));
-            return MessageScreen();
-          },
-        ),
-      ),
+                        //BOTTOM BUTTON
+                        Container(
+                          width: 500,
+                          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+                          child: ElevatedButton.icon(
+                            icon: Icon(Icons.local_shipping,size: 35,),
+                            label: Text("Guardar",style: styleTextButton,),
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.resolveWith((states) => Color(0XFF674023)),
+                              padding: MaterialStateProperty.resolveWith((states) => EdgeInsets.symmetric(vertical: 15)),
+                            ),
+                            onPressed: () async {
+                              //TODO: CHECK PERMISSION BLUETOOTH
+                              //TODO:IMPLEMENT FUNCITON TO GET MAC PRINTER
+                              String MAC = _getBluetoothDevices();
+
+                              _saveInventory(
+                                  state.products, widget._activePath, MAC);
+                            },
+                          ))
+                      ]));
+                return MessageScreen();
+              },
+            ),
+          ),
+        )
+      ],
     );
   }
 

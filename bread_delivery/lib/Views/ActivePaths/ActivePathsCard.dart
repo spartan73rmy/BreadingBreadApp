@@ -23,6 +23,7 @@ class _ActivePathState extends State<ActivePathCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Card(
+        color: Colors.transparent,
         child: Container(
           width: MediaQuery.of(context).size.width,
           height: 75,
@@ -54,7 +55,7 @@ class _ActivePathState extends State<ActivePathCard> {
               Container(
                 padding: EdgeInsets.only(top: 3),
                 child: Text(
-                  'Vendedor: ${data.id}',
+                  'Vendedor: ${data.vendorName}',
                   style: GoogleFonts.lora(
                     color: Colors.white,
                     fontSize: 20,

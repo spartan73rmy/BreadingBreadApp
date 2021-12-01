@@ -24,18 +24,21 @@ class ActivePaths {
 class ActivePath {
   int id;
   String name;
+  String vendorName;
 
-  ActivePath({this.id, this.name});
+  ActivePath({this.id, this.name, this.vendorName});
 
   ActivePath.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
+    vendorName = json['vendorName'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
+    data['vendorName'] = this.vendorName;
     return data;
   }
 }

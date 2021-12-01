@@ -7,12 +7,12 @@ abstract class InventoryEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class AddProducts extends InventoryEvent {
+class AddInventoryProducts extends InventoryEvent {
   final List<Product> products;
   final ActivePath activePath;
   final String btMAC;
 
-  AddProducts(this.products, this.activePath, this.btMAC)
+  AddInventoryProducts(this.products, this.activePath, this.btMAC)
       : super([products, activePath, btMAC]);
 }
 

@@ -20,15 +20,16 @@ class _inventoryCardState extends State<inventoryCard> {
   TextStyle styleTextNormal = GoogleFonts.lora(
       color: Colors.white, fontSize: 18, fontWeight: FontWeight.normal);
   TextStyle styleTextQuantity = GoogleFonts.lora(
-      color: Colors.white, fontSize: 25, fontWeight: FontWeight.normal);
+      color: Colors.white, fontSize: 20, fontWeight: FontWeight.normal);
   
   
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.transparent,
       child: Container(
         width: MediaQuery.of(context).size.width,
-        height: 120,
+        height: 90,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
           gradient: LinearGradient(
@@ -75,6 +76,7 @@ class _inventoryCardState extends State<inventoryCard> {
                     keyboardType: TextInputType.number,
                     style: styleTextQuantity,
                     decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(vertical: 5),
                       border: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.white30),
                         borderRadius: BorderRadius.circular(10.0)
