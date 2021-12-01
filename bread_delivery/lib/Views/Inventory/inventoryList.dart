@@ -1,5 +1,3 @@
-
-
 import 'package:bread_delivery/BLOC/Products/bloc/products_bloc.dart';
 import 'package:bread_delivery/CommonWidgets/messageScreen.dart';
 import 'package:bread_delivery/CommonWidgets/snackBar.dart';
@@ -25,7 +23,7 @@ class _InventoryListState extends State<InventoryList> {
 
       
   TextStyle styleTextButton = GoogleFonts.lora(
-      color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold);
+      color: Colors.white, fontSize: 35, fontWeight: FontWeight.bold);
 
   @override
   void initState(){
@@ -36,7 +34,6 @@ class _InventoryListState extends State<InventoryList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
       appBar: AppBar(title: Text(widget._activePath.name)),
       body: BlocListener<ProductsBloc,ProductsState>(
         listener: (context,state) => {
@@ -50,42 +47,39 @@ class _InventoryListState extends State<InventoryList> {
               onRefresh: () async {
                 _getData();
               },
-              child: Row(
+              child: Column(
                 children:[
+
                   //LISTA
-                  ListView.builder(
-                    itemCount: state.products.length,
-                    padding: EdgeInsets.only(bottom: 60),
-                    cacheExtent: 100000,
-                    addAutomaticKeepAlives: true,
-                    itemBuilder: (BuildContext context, int index){
-                      return Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            inventoryCard(state.products[index])
-                          ],
-                        ),
-                      );
-                    },
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: state.products.length,
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (BuildContext context, int index){
+                        return Container(
+                          child: inventoryCard(state.products[index])
+                        );
+                      },
+                    ),
                   ),
 
-
                   //BOTTOM BUTTON
-                  Align(
-                    alignment: Alignment.bottomCenter,
+                  Container(
+                    padding: EdgeInsets.only(top: 20,bottom: 20),
                     child: ElevatedButton(
                       child: Text(
                         'Guardar inventario',
                         style: styleTextButton,
                       ),
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.brown)
+                        backgroundColor: MaterialStateProperty.resolveWith((states) => Colors.brown),
                       ),
-                      onPressed: () {}, //TODO: ADD FUNCITON TO PRINT TICKET
+                      onPressed: () {
+                        //no se me ocurre como acceder a los datos de la lista :V
+                        //TODO: ADD FUNCITON TO PRINT TICKET
+                      }, 
                     )
                   )
-
                 ]
               ) 
             );

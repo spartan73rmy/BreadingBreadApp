@@ -1,5 +1,3 @@
-
-
 import 'package:bread_delivery/Entities/product.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,19 +16,21 @@ class _inventoryCardState extends State<inventoryCard> {
   var _quantity = TextEditingController.fromValue(TextEditingValue(text: '0'));
 
   TextStyle styleTextNameProduct = GoogleFonts.lora(
-      color: Colors.white, fontSize: 26, fontWeight: FontWeight.bold);
+      color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold);
   TextStyle styleTextNormal = GoogleFonts.lora(
-      color: Colors.white, fontSize: 14, fontWeight: FontWeight.normal);
+      color: Colors.white, fontSize: 18, fontWeight: FontWeight.normal);
+  TextStyle styleTextQuantity = GoogleFonts.lora(
+      color: Colors.white, fontSize: 25, fontWeight: FontWeight.normal);
   
   
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(top: 5),
+    return Card(
       child: Container(
         width: MediaQuery.of(context).size.width,
-        height: 100,
+        height: 120,
         decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.0),
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -39,53 +39,52 @@ class _inventoryCardState extends State<inventoryCard> {
         ),
         child: Row(
           children: [
-            
-            //PRODUCT IMAGE
-            Container(
-              width: 75,
-              height: 100,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                image:DecorationImage(
-                  image: AssetImage('assets/images/cuerno.png'),
-                  fit: BoxFit.scaleDown,
-                ),
-              ),
-            ),
+
+            //PRODUCT IMAGE ??
 
             //PRODUCT NAME
             Container(
-              width: MediaQuery.of(context).size.width - 75,
+              padding: EdgeInsets.only(left: 10),
+              width: (MediaQuery.of(context).size.width * 2) / 3,
               child: Text(
                   widget.data.name,
                   style: styleTextNameProduct,
-                ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+              )
             ),
 
-            //QUANTITY DISPLAY
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  'Cantidad',
-                  style: styleTextNormal,
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 3),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.black.withOpacity(.5),
-                    border: Border.all(width: 1, color: Colors.white)
+            // QUANTITY
+            Container(
+              width: ((MediaQuery.of(context).size.width) / 3) - 10,
+              height: (MediaQuery.of(context).size.height),
+              padding: EdgeInsets.only(top: 5,right: 10,left: 10),
+              alignment: Alignment.centerRight,
+              child: Column(
+                children: [
+                  Container(
+                    child:Text("Cantidad:", style: styleTextNormal,),
+                    padding: EdgeInsets.only(bottom: 5),
                   ),
-
-                  child: TextField(
-                    controller: _quantity,
-                    keyboardType: TextInputType.number,
-                    style: styleTextNormal,
+                  TextField(
                     textAlign: TextAlign.center,
-                  ),
-                ),
-              ],
+                    controller: _quantity,
+                    onTap: () => 
+                      _quantity.selection = TextSelection(baseOffset: 0, extentOffset: _quantity.value.text.length),
+                    autofocus: false,
+                    keyboardType: TextInputType.number,
+                    style: styleTextQuantity,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white30),
+                        borderRadius: BorderRadius.circular(10.0)
+                      ),
+                      filled: true,
+                      fillColor: Color(0XFF674023)
+                    ),
+                  )
+                ],
+              )
             )
           ],
         ),
