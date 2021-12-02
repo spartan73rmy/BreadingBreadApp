@@ -1,15 +1,14 @@
-import 'dart:convert';
 import 'package:bread_delivery/Entities/productInventory.dart';
 import 'package:bread_delivery/Services/Http/networkError.dart';
 import '../../Services/Http/dioClient.dart';
 
 abstract class InventoryLogic {
   Future<List<ProductInventory>> fetchProductsList();
-  Future<void> addProduct(String name, double price);
+  Future<void> SetInventoryToPath(int idUserSale, List<ProductInventory> Inventory);
 }
 
 class InventoryRepository extends InventoryLogic {
-  static const String url = "Product/";
+  static const String url = "Inventory/";
   DioClient http = DioClient();
 
   Future<List<ProductInventory>> fetchProductsList() async {
@@ -18,10 +17,10 @@ class InventoryRepository extends InventoryLogic {
   }
 
   @override
-  Future<void> addProduct(String name, double price) async {
+  Future<void> SetInventoryToPath(int idUserSale, List<ProductInventory> Inventory) async {
     try {
-      await http.post(url + "Add",
-          data: jsonEncode({'name': name, 'price': price}));
+      await http.post(url + "Set",
+          data: Inventario(idSaleUser: idUserSale, inventory: Inventory).toJson());
     } catch (e) {
       throw NetworkError.handleResponse(e);
     }

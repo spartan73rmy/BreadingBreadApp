@@ -21,6 +21,32 @@ class ProductsInventory {
   }
 }
 
+class Inventario {
+  int idSaleUser;
+  List<ProductInventory>inventory;
+
+  Inventario({this.idSaleUser, this.inventory});
+
+  Inventario.fromJson(Map<String, dynamic> json) {
+    idSaleUser = json['idSaleUser'];
+    if (json['inventory'] != null) {
+      inventory = <ProductInventory>[];
+      json['inventory'].forEach((v) {
+        inventory.add(new ProductInventory.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['idSaleUser'] = this.idSaleUser;
+    if (this.inventory != null) {
+      data['inventory'] = this.inventory.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
 class ProductInventory {
   int id;
   String name;

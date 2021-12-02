@@ -113,7 +113,7 @@ class PrinterServiceImpl extends PrinterService {
     detailProducts = format(detailProducts);
 
     inventory.forEach((detail) {
-      detailProducts += formatoArtic(detail.name, detail.cantity);
+      detailProducts += formatoArtic(detail.name, detail.quantity);
     });
 
     return detailProducts;
