@@ -24,21 +24,21 @@ class ProductsInventory {
 class ProductInventory {
   int id;
   String name;
-  int cantity;
+  int quantity;
 
-  ProductInventory({this.id, this.name, this.cantity});
+  ProductInventory({this.id, this.name, this.quantity});
 
   ProductInventory.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    cantity = json['cantity'];
+    quantity = json['quantity'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
-    data['cantity'] = this.cantity;
+    data['quantity'] = this.quantity;
     return data;
   }
 }

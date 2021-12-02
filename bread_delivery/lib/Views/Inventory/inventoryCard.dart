@@ -81,7 +81,7 @@ class _InventoryCardState extends State<InventoryCard> {
                           filled: true,
                           fillColor: Color(0XFF674023)),
                       onChanged: (text) {
-                        widget.data.cantity = int.tryParse(text);
+                        widget.data.quantity = int.tryParse(text);
                       },
                     )
                   ],
