@@ -8,7 +8,7 @@ abstract class InventoryEvent extends Equatable {
 }
 
 class AddInventoryProducts extends InventoryEvent {
-  final List<Product> products;
+  final List<ProductInventory> products;
   final ActivePath activePath;
   final String btMAC;
 

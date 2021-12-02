@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:bread_delivery/Entities/activePath.dart';
 import 'package:bread_delivery/Entities/product.dart';
+import 'package:bread_delivery/Entities/productInventory.dart';
 import 'package:bread_delivery/Services/Http/networkError.dart';
 import 'package:bread_delivery/Services/Inventory/inventoryRepository.dart';
 import 'package:bread_delivery/Services/Printer/printerService.dart';
@@ -26,10 +27,10 @@ class InventoryBloc extends Bloc<InventoryEvent, InventoryState> {
         if (products != null) {
           yield ProductsLoaded(products);
         }
-        yield ProductsLoaded(<Product>[]);
+        yield ProductsLoaded(<ProductInventory>[]);
       } catch (e) {
         if (e is MyException && e != null) yield InventoryError(e);
-        yield ProductsLoaded(<Product>[]);
+        yield ProductsLoaded(<ProductInventory>[]);
       }
     }
 

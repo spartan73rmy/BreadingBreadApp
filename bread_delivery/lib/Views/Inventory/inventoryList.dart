@@ -4,6 +4,7 @@ import 'package:bread_delivery/CommonWidgets/messageScreen.dart';
 import 'package:bread_delivery/CommonWidgets/snackBar.dart';
 import 'package:bread_delivery/Entities/activePath.dart';
 import 'package:bread_delivery/Entities/product.dart';
+import 'package:bread_delivery/Entities/productInventory.dart';
 import 'package:bread_delivery/Views/Inventory/inventoryCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,15 +34,16 @@ class _InventoryListState extends State<InventoryList> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack( 
+    return Stack(
       children: [
         Background(),
         Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(title: Text(widget._activePath.name)),
           body: BlocListener<InventoryBloc, InventoryState>(
-            listener: (context, state) =>
-                {if (state is InventoryError) snackBar(context, state.toString())},
+            listener: (context, state) => {
+              if (state is InventoryError) snackBar(context, state.toString())
+            },
             child: BlocBuilder<InventoryBloc, InventoryState>(
               builder: (context, state) {
                 if (state is ProductsLoaded)
@@ -58,31 +60,42 @@ class _InventoryListState extends State<InventoryList> {
                             scrollDirection: Axis.vertical,
                             itemBuilder: (BuildContext context, int index) {
                               return Container(
-                                  child: inventoryCard(state.products[index]));
+                                  child: InventoryCard(state.products[index]));
                             },
                           ),
                         ),
 
                         //BOTTOM BUTTON
                         Container(
-                          width: 500,
-                          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-                          child: ElevatedButton.icon(
-                            icon: Icon(Icons.local_shipping,size: 35,),
-                            label: Text("Guardar",style: styleTextButton,),
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.resolveWith((states) => Color(0XFF674023)),
-                              padding: MaterialStateProperty.resolveWith((states) => EdgeInsets.symmetric(vertical: 15)),
-                            ),
-                            onPressed: () async {
-                              //TODO: CHECK PERMISSION BLUETOOTH
-                              //TODO:IMPLEMENT FUNCITON TO GET MAC PRINTER
-                              String MAC = _getBluetoothDevices();
+                            width: 500,
+                            padding: EdgeInsets.symmetric(
+                                vertical: 20, horizontal: 30),
+                            child: ElevatedButton.icon(
+                              icon: Icon(
+                                Icons.local_shipping,
+                                size: 35,
+                              ),
+                              label: Text(
+                                "Guardar",
+                                style: styleTextButton,
+                              ),
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.resolveWith(
+                                        (states) => Color(0XFF674023)),
+                                padding: MaterialStateProperty.resolveWith(
+                                    (states) =>
+                                        EdgeInsets.symmetric(vertical: 15)),
+                              ),
+                              onPressed: () async {
+                                //TODO: CHECK PERMISSION BLUETOOTH
+                                //TODO:IMPLEMENT FUNCITON TO GET MAC PRINTER
+                                String MAC = _getBluetoothDevices();
 
-                              _saveInventory(
-                                  state.products, widget._activePath, MAC);
-                            },
-                          ))
+                                _saveInventory(
+                                    state.products, widget._activePath, MAC);
+                              },
+                            ))
                       ]));
                 return MessageScreen();
               },
@@ -103,8 +116,8 @@ class _InventoryListState extends State<InventoryList> {
     return "MAC";
   }
 
-  _saveInventory(
-      List<Product> products, ActivePath currentPath, String MAC) async {
+  _saveInventory(List<ProductInventory> products, ActivePath currentPath,
+      String MAC) async {
     //TODO: CREATE FUNCTION TO PRINT TICKET
 
     BlocProvider.of<InventoryBloc>(context)

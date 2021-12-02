@@ -23,7 +23,7 @@ class InventoryError extends InventoryState {
 }
 
 class ProductsLoaded extends InventoryState {
-  final List<Product> products;
+  final List<ProductInventory> products;
 
   ProductsLoaded(this.products);
 }
